@@ -8,13 +8,15 @@
     android:orientation="vertical"
     android:weightSum="100"
     tools:context=".MainActivity">
+
+    //Header(로고, 게시물 필터)
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/Logo"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -24,22 +26,24 @@
             android:scaleType="fitCenter"
             android:src="@drawable/logo"/>
         <ImageButton
-            android:id="@+id/searchHeaderBtn"
+            android:id="@+id/HeaderBtnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="10dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:src="@drawable/search"/>
 
     </RelativeLayout>
 
+    //Main(게시물)
     <FrameLayout
-        android:id="@+id/main"
+        android:id="@+id/MainWindow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="84">
+        //게시물 슬라이드
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/sliderViewPager"
             android:layout_width="match_parent"
@@ -57,31 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="@drawable/gradient_2"/>
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:columnCount="2"
-            android:paddingTop="20dp">
-            <ImageButton
-                android:id="@+id/saveMainBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_gravity="center"
-                android:src="@drawable/save"
-                android:background="@android:color/transparent"/>
-            <ImageButton
-                android:id="@+id/bookmarkMainBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:src="@drawable/bookmark"
-                android:background="@android:color/transparent"/>
-        </GridLayout>
-
+        //게시물 제목/부제목/유저명 텍스트
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -89,7 +69,7 @@
             android:orientation="vertical"
             android:background="@drawable/gradient_1">
             <TextView
-                android:id="@+id/postMainText"
+                android:id="@+id/MainTextPost_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -99,7 +79,7 @@
                 android:textSize="12pt"
                 android:textColor="@android:color/white"/>
             <TextView
-                android:id="@+id/postSubText"
+                android:id="@+id/MainTextPost_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
@@ -108,7 +88,7 @@
                 android:textSize="8pt"
                 android:textColor="@android:color/white"/>
             <TextView
-                android:id="@+id/postUserText"
+                android:id="@+id/MainTextPost_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -118,19 +98,150 @@
                 android:textColor="@android:color/white"/>
         </LinearLayout>
 
+        //게시물 스크롤 버튼
         <ImageButton
-            android:id="@+id/moreMainBtn"
+            android:id="@+id/MainBtnMore"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_gravity="center|bottom"
             android:src="@drawable/more"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:scaleType="fitXY"/>
+
+        //게시물 버튼
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:columnCount="2"
+            android:paddingTop="20dp">
+            <ImageButton
+                android:id="@+id/MainBtnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:src="@drawable/save"
+                android:background="?attr/selectableItemBackground"/>
+            <ImageButton
+                android:id="@+id/MainBtnBookmark"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:src="@drawable/bookmark"
+                android:background="?attr/selectableItemBackground"/>
+        </GridLayout>
+
+        //돋보기 버튼 서치창
+        <RelativeLayout
+            android:id="@+id/BtnSearchWindow"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:padding="20dp"
+            android:background="@drawable/gradient_2">
+            <TextView
+                android:id="@+id/SearchWindowText1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:text="지역을 선택하세요"
+                android:textColor="@android:color/white"/>
+            <ImageView
+                android:id="@+id/regionA"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:paddingTop="40dp"
+                android:src="@drawable/region_a_up"
+                android:scaleType="fitXY"
+                android:onClick="regionAClicked"/>
+            <ImageView
+                android:id="@+id/regionB"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_below="@+id/regionA"
+                android:layout_centerHorizontal="true"
+                android:paddingEnd="10dp"
+                android:src="@drawable/region_b"
+                android:scaleType="fitXY"
+                android:onClick="regionBClicked"/>
+            <ImageView
+                android:id="@+id/regionA_down"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_below="@+id/regionA"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/region_a_down"
+                android:scaleType="fitXY"
+                android:onClick="regionAClicked"/>
+            <TextView
+                android:id="@+id/regionAText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="북 부"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/regionA_down"
+                android:paddingStart="20dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/regionBText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남 부"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@+id/regionB"
+                android:layout_marginBottom="25dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/SearchWindowText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/regionB"
+                android:layout_margin="15dp"
+                android:paddingTop="25dp"
+                android:text="장소를 선택하세요"
+                android:textColor="@android:color/white"/>
+            <CheckBox
+                android:id="@+id/checkPlace1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/SearchWindowText2"
+                android:layout_marginStart="25dp"
+                android:text="맛집"
+                android:textColor="@android:color/white"/>
+            <CheckBox
+                android:id="@+id/checkPlace2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/checkPlace1"
+                android:layout_alignBaseline="@+id/checkPlace1"
+                android:layout_marginStart="25dp"
+                android:text="카페"
+                android:textColor="@android:color/white"/>
+            <CheckBox
+                android:id="@+id/checkPlace3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/checkPlace2"
+                android:layout_alignBaseline="@+id/checkPlace2"
+                android:layout_marginStart="25dp"
+                android:text="명소"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
     </FrameLayout>
 
+    //Footer(메뉴)
     <LinearLayout
-        android:id="@+id/menu"
+        android:id="@+id/FooterWindow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
@@ -141,10 +252,10 @@
             android:layout_weight="1"/>
 
         <ImageButton
-            android:id="@+id/homeMenuBtn"
+            android:id="@+id/FooterBtnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:src="@drawable/home"/>
         <Space
             android:layout_width="wrap_content"
@@ -152,10 +263,10 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/addMenuBtn"
+            android:id="@+id/FooterBtnAddPlan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:src="@drawable/plus"/>
         <Space
             android:layout_width="wrap_content"
@@ -163,10 +274,10 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/storageMenuBtn"
+            android:id="@+id/FooterBtnStorage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:src="@drawable/storage"/>
         <Space
             android:layout_width="wrap_content"
@@ -174,16 +285,15 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/mypageMenuBtn"
+            android:id="@+id/FooterBtnMyPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/selector_view"
             android:src="@drawable/mypage"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-
     </LinearLayout>
 
 </LinearLayout>
