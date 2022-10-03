@@ -12,7 +12,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="13">
+        android:layout_weight="8">
         <ImageView
             android:id="@+id/logo"
             android:layout_width="250dp"
@@ -20,7 +20,7 @@
             android:adjustViewBounds="true"
             android:paddingLeft="10dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:scaleType="fitCenter"
             android:src="@drawable/logo"/>
         <ImageButton
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="10dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
             android:src="@drawable/search"/>
 
@@ -39,18 +39,31 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="77">
-        <ImageView
-            android:id="@+id/postMainImg"
+        android:layout_weight="84">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/sliderViewPager"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/layoutIndicators"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cafe_1"/>
+            android:orientation="horizontal"
+            android:layout_gravity="top|center"
+            android:gravity="center"
+            android:paddingTop="30dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/gradient_2"/>
 
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:columnCount="2">
+            android:columnCount="2"
+            android:paddingTop="20dp">
             <ImageButton
                 android:id="@+id/saveMainBtn"
                 android:layout_width="wrap_content"
@@ -69,25 +82,58 @@
                 android:background="@android:color/transparent"/>
         </GridLayout>
 
-
-        <TextView
-            android:id="@+id/postMainText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/gradient_1"
-            android:padding="20dp"
-            android:text="성수동 감성 카페 여행\n지친 일상으로부터 탈출"
-            android:textSize="10pt"
-            android:textColor="@android:color/white"/>
+            android:orientation="vertical"
+            android:background="@drawable/gradient_1">
+            <TextView
+                android:id="@+id/postMainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingTop="80dp"
+                android:text="성수동 감성 카페 여행"
+                android:textSize="12pt"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:id="@+id/postSubText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:text="지친 일상으로부터 탈출"
+                android:textSize="8pt"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:id="@+id/postUserText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingRight="20dp"
+                android:text="traveler 님"
+                android:textSize="5pt"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/moreMainBtn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center|bottom"
+            android:src="@drawable/more"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"/>
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="8"
         android:gravity="center">
         <Space
             android:layout_width="wrap_content"
