@@ -9,7 +9,7 @@
     android:weightSum="100"
     tools:context=".MainActivity">
 
-    //Header(로고, 게시물 필터)
+    <!-- Header(로고, 게시물 필터) -->
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -37,13 +37,13 @@
 
     </RelativeLayout>
 
-    //Main(게시물)
+<!--    Main(게시물)-->
     <FrameLayout
         android:id="@+id/MainWindow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="84">
-        //게시물 슬라이드
+<!--        게시물 슬라이드-->
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/sliderViewPager"
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="@drawable/gradient_2"/>
-        //게시물 제목/부제목/유저명 텍스트
+<!--        게시물 제목/부제목/유저명 텍스트-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -98,7 +98,7 @@
                 android:textColor="@android:color/white"/>
         </LinearLayout>
 
-        //게시물 스크롤 버튼
+<!--        게시물 스크롤 버튼-->
         <ImageButton
             android:id="@+id/MainBtnMore"
             android:layout_width="80dp"
@@ -109,7 +109,7 @@
             android:background="@drawable/selector_view"
             android:scaleType="fitXY"/>
 
-        //게시물 버튼
+<!--        게시물 버튼-->
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:background="?attr/selectableItemBackground"/>
         </GridLayout>
 
-        //돋보기 버튼 서치창
+<!--        돋보기 버튼 서치창-->
         <RelativeLayout
             android:id="@+id/BtnSearchWindow"
             android:visibility="invisible"
@@ -239,7 +239,7 @@
         </RelativeLayout>
     </FrameLayout>
 
-    //Footer(메뉴)
+<!--    Footer(메뉴)-->
     <LinearLayout
         android:id="@+id/FooterWindow"
         android:layout_width="match_parent"
