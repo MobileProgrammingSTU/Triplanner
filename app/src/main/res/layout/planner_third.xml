@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="24dp"
+        android:textColor="@android:color/white"
+        android:text="1일차 활동을 선택하세요" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearAttraction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageAtt"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/attraction" />
+
+            <TextView
+                android:id="@+id/textViewAtt"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:text="명소" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageRes"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/restaurant" />
+
+            <TextView
+                android:id="@+id/textViewRes"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:text="맛집" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearCafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageCafe"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/cafe" />
+
+            <TextView
+                android:id="@+id/textViewCafe"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:text="카페" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/cafeView1"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:alpha="0.7"
+            app:srcCompat="@drawable/cafe1" />
+        <TextView
+            android:id="@+id/cafeText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/cafeView1"
+            android:layout_alignLeft="@id/cafeView1"
+            android:layout_alignTop="@id/cafeView1"
+            android:gravity="center"
+            android:text="여기는 카페입니다."
+            android:textSize="30dp"
+            android:textColor="#F4F0F0"
+            />
+        <TextView
+            android:id="@+id/cafeTag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/cafeView1"
+            android:layout_alignTop="@id/cafeView1"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#4CAF50"
+            android:text="카페"
+            android:textSize="15dp"
+            android:textColor="#F4F0F0"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
