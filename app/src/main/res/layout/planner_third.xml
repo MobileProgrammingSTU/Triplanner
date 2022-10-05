@@ -6,132 +6,161 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
-
-    <TextView
-        android:id="@+id/textView"
+    //Header
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="10dp"
-        android:textSize="24dp"
-        android:textColor="@android:color/white"
-        android:text="1일차 활동을 선택하세요" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/linearAttraction"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="#5B4FBB">
+        <ImageButton
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/arrow_back_ios_white_24dp"
+            android:scaleType="fitXY"
+            android:background="?attr/selectableItemBackground"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_centerInParent="true"
+            android:text="플랜추가"
+            android:textSize="10pt"
+            android:textColor="@android:color/white"/>
 
-            <ImageView
+    </RelativeLayout>
+
+    //Main
+    <LinearLayout
+        android:id="@+id/MainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="92"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/white"
+            android:text="1일차 활동을 선택하세요" />
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="3"
+            android:layout_gravity="center">
+
+            <ImageButton
                 android:id="@+id/imageAtt"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/attraction" />
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/castle_white_48dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/selector_view"/>
 
             <TextView
                 android:id="@+id/textViewAtt"
-                android:layout_width="100dp"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="20dp"
-                android:text="명소" />
-        </LinearLayout>
+                android:textSize="8pt"
+                android:text="명소"/>
 
-        <LinearLayout
-            android:id="@+id/linearRestaurant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <ImageView
+            <ImageButton
                 android:id="@+id/imageRes"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/restaurant" />
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/food_white_48dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/selector_view"/>
 
             <TextView
                 android:id="@+id/textViewRes"
-                android:layout_width="100dp"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="20dp"
-                android:text="맛집" />
+                android:textSize="8pt"
+                android:text="맛집"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearCafe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:orientation="vertical">
-            <ImageView
+            <ImageButton
                 android:id="@+id/imageCafe"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@drawable/cafe" />
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/cafe_white_48dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/selector_view"/>
 
             <TextView
                 android:id="@+id/textViewCafe"
-                android:layout_width="100dp"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="20dp"
-                android:text="카페" />
-        </LinearLayout>
-    </LinearLayout>
+                android:textSize="8pt"
+                android:text="카페"/>
+        </GridLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/cafeView1"
-            android:scaleType="fitXY"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:alpha="0.7"
-            app:srcCompat="@drawable/cafe1" />
-        <TextView
-            android:id="@+id/cafeText1"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/cafeView1"
-            android:layout_alignLeft="@id/cafeView1"
-            android:layout_alignTop="@id/cafeView1"
-            android:gravity="center"
-            android:text="여기는 카페입니다."
-            android:textSize="30dp"
-            android:textColor="#F4F0F0"
-            />
-        <TextView
-            android:id="@+id/cafeTag1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/cafeView1"
-            android:layout_alignTop="@id/cafeView1"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="#4CAF50"
-            android:text="카페"
-            android:textSize="15dp"
-            android:textColor="#F4F0F0"
-            />
-    </RelativeLayout>
-
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+            <ImageView
+                android:id="@+id/cafeView1"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:alpha="0.7"
+                app:srcCompat="@drawable/cafe1" />
+            <TextView
+                android:id="@+id/cafeText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:text="카페이름"
+                android:textSize="14pt"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/cafeTag1"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/cafeView1"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:clickable="false"
+                android:background="@drawable/cafe_tag_shape"
+                android:text="카페"
+                android:textSize="6pt"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
