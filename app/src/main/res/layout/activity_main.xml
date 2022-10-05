@@ -33,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/selector_view"
-            android:src="@drawable/search"/>
+            android:src="@drawable/ic_search"/>
 
     </RelativeLayout>
 
