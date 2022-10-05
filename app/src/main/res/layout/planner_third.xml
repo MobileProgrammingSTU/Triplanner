@@ -56,7 +56,7 @@
             android:columnCount="3"
             android:layout_gravity="center">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageAtt"
                 android:layout_row="0"
                 android:layout_column="0"
@@ -78,7 +78,7 @@
                 android:textSize="8pt"
                 android:text="명소"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageRes"
                 android:layout_row="0"
                 android:layout_column="1"
@@ -102,7 +102,7 @@
                 android:textSize="8pt"
                 android:text="맛집"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageCafe"
                 android:layout_row="0"
                 android:layout_column="2"
