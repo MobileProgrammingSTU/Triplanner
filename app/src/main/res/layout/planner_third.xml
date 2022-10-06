@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
+    android:weightSum="100"
     android:orientation="vertical">
 
     <!--Header-->
@@ -107,13 +108,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="15dp"
-                android:text="카페이름"
-                android:textSize="12pt"
+                android:layout_margin="20dp"
+                android:text="카페 이름"
+                android:textSize="11pt"
                 android:textColor="@android:color/white"/>
             <Button
                 android:id="@+id/cafeTag1"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="24dp"
                 android:layout_alignEnd="@id/cafeView1"
                 android:layout_centerVertical="true"
@@ -121,7 +122,7 @@
                 android:clickable="false"
                 android:background="@drawable/tag_shape"
                 android:backgroundTint="#6CE4B4"
-                android:text="카페"
+                android:text="카 페"
                 android:textSize="6pt"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"/>
@@ -145,13 +146,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="15dp"
-                android:text="명소이름"
-                android:textSize="12pt"
+                android:layout_margin="20dp"
+                android:text="명소 이름"
+                android:textSize="11pt"
                 android:textColor="@android:color/white"/>
             <Button
                 android:id="@+id/attTag1"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="24dp"
                 android:layout_alignEnd="@id/attView1"
                 android:layout_centerVertical="true"
@@ -159,7 +160,7 @@
                 android:clickable="false"
                 android:background="@drawable/tag_shape"
                 android:backgroundTint="#FFD37A"
-                android:text="명소"
+                android:text="명 소"
                 android:textSize="6pt"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"/>
@@ -183,13 +184,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="15dp"
-                android:text="맛집이름"
-                android:textSize="12pt"
+                android:layout_margin="20dp"
+                android:text="맛집 이름"
+                android:textSize="11pt"
                 android:textColor="@android:color/white"/>
             <Button
                 android:id="@+id/restTag1"
-                android:layout_width="40dp"
+                android:layout_width="60dp"
                 android:layout_height="24dp"
                 android:layout_alignEnd="@id/restView1"
                 android:layout_centerVertical="true"
@@ -197,7 +198,7 @@
                 android:clickable="false"
                 android:background="@drawable/tag_shape"
                 android:backgroundTint="#F26C73"
-                android:text="맛집"
+                android:text="맛 집"
                 android:textSize="6pt"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"/>
