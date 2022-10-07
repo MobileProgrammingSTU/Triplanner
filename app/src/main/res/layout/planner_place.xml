@@ -16,6 +16,7 @@
         android:layout_weight="8"
         android:background="#5B4FBB">
         <ImageButton
+            android:id="@+id/imgBtnBack"
             android:layout_width="28dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
