@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DateActivity extends AppCompatActivity {
+public class DatePlanner extends AppCompatActivity {
 
     CalendarView calendarView;
     TextView textViewStartDate, textViewEndDate;
@@ -27,7 +27,7 @@ public class DateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_date);
+        setContentView(R.layout.planner_date);
 
         calendarView = (CalendarView) findViewById(R.id.calendarView);
 
@@ -108,7 +108,7 @@ public class DateActivity extends AppCompatActivity {
                             "일정 선택 버튼을 클릭해서 일정을 등록해 주세요!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intent = new Intent(DateActivity.this, MainActivity.class);
+                    Intent intent = new Intent(DatePlanner.this, MainActivity.class);
                     startActivity(intent);  // Activity 이동
                 }
             }

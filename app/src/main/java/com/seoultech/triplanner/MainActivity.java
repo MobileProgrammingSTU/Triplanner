@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         FooterBtnAddPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DateActivity.class);
+                Intent intent = new Intent(MainActivity.this, DatePlanner.class);
                 startActivity(intent);  // Activity 이동
             }
         });

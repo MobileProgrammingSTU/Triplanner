@@ -19,7 +19,7 @@ public class PlannerThirdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.planner_third);
+        setContentView(R.layout.planner_place);
 
         btnAttraction = (Button) findViewById(R.id.imageAtt);
         btnRestaurant = (Button) findViewById(R.id.imageRes);
