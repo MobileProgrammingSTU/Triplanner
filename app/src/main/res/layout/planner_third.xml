@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:weightSum="100"
+    android:orientation="vertical">
+
+    <!--Header-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="#5B4FBB">
+        <ImageButton
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/arrow_back_ios_white_24dp"
+            android:scaleType="fitXY"
+            android:background="?attr/selectableItemBackground"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="플랜추가"
+            android:textSize="10pt"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
+    <!--Main-->
+    <LinearLayout
+        android:id="@+id/MainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="84"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/white"
+            android:text="1일차 활동을 선택하세요"/>
+
+        <!--버튼그룹(명소,맛집,카페)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/imageAtt"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="명 소"
+                android:textColor="@android:color/white"
+                android:textSize="8pt"
+                android:background="@drawable/planner_third_btn"/>
+
+            <Button
+                android:id="@+id/imageRes"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="맛 집"
+                android:textColor="@android:color/white"
+                android:textSize="8pt"
+                android:background="@drawable/planner_third_btn_middle"/>
+
+            <Button
+                android:id="@+id/imageCafe"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="카 페"
+                android:textColor="@android:color/white"
+                android:textSize="8pt"
+                android:background="@drawable/planner_third_btn_end"/>
+        </LinearLayout>
+
+        <!--목록-->
+        <RelativeLayout
+            android:id="@+id/cafe1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/cafeView1"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:alpha="0.7"
+                android:src="@drawable/cafe1"/>
+            <TextView
+                android:id="@+id/cafeText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:text="카페 이름"
+                android:textSize="11pt"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/cafeTag1"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/cafeView1"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:clickable="false"
+                android:background="@drawable/tag_shape"
+                android:backgroundTint="#6CE4B4"
+                android:text="카 페"
+                android:textSize="6pt"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/att1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/attView1"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:alpha="0.7"
+                android:src="@drawable/attraction1"/>
+            <TextView
+                android:id="@+id/attText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:text="명소 이름"
+                android:textSize="11pt"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/attTag1"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/attView1"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:clickable="false"
+                android:background="@drawable/tag_shape"
+                android:backgroundTint="#FFD37A"
+                android:text="명 소"
+                android:textSize="6pt"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rest1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/restView1"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:alpha="0.7"
+                android:src="@drawable/restaurant1"/>
+            <TextView
+                android:id="@+id/restText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:text="맛집 이름"
+                android:textSize="11pt"
+                android:textColor="@android:color/white"/>
+            <Button
+                android:id="@+id/restTag1"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/restView1"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:clickable="false"
+                android:background="@drawable/tag_shape"
+                android:backgroundTint="#F26C73"
+                android:text="맛 집"
+                android:textSize="6pt"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--Footer(메뉴)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="right">
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="15dp"
+            android:drawableEnd="@drawable/ic_next"
+            android:text="다음"
+            android:textColor="@android:color/white"
+            android:background="@drawable/selector_view"/>
+    </LinearLayout>
+
+</LinearLayout>
