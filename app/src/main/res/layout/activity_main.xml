@@ -25,15 +25,16 @@
             android:layout_alignParentBottom="true"
             android:scaleType="fitCenter"
             android:src="@drawable/logo"/>
+
         <ImageButton
             android:id="@+id/HeaderBtnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
             android:background="@drawable/selector_view"
-            android:src="@drawable/search"/>
+            android:src="@drawable/search" />
 
     </RelativeLayout>
 
@@ -294,6 +295,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+
     </LinearLayout>
 
 </LinearLayout>

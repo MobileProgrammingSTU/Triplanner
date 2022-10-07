@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <!--Header-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="#5B4FBB">
+        <ImageButton
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/arrow_back_ios_white_24dp"
+            android:scaleType="fitXY"
+            android:background="?attr/selectableItemBackground"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="날짜 선택"
+            android:textColor="@android:color/white"
+            android:textSize="10pt" />
+
+    </RelativeLayout>
+
+    <!--Main-->
+    <LinearLayout
+        android:id="@+id/MainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="84"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="일정을 선택하세요"
+            android:textColor="@android:color/white"
+            android:textSize="24dp" />
+
+        <!-- 달력 -->
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#B4F4EFEF"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="여행 시작일: "
+                android:textSize="25dp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/textViewEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="여행 종료일: "
+                android:textSize="25dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="일정 초기화"/>
+
+            <!-- 이 버튼을 누르면, 여행 시작
+            및 종료일의 데이터를 전송할 수 있도록 하기 위해 -->
+            <Button
+                android:id="@+id/btnSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="일정 선택"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--Footer(메뉴)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="right">
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="15dp"
+            android:drawableEnd="@drawable/ic_next"
+            android:text="다음"
+            android:textColor="@android:color/white"
+            android:background="@drawable/selector_view"/>
+    </LinearLayout>
+
+</LinearLayout>

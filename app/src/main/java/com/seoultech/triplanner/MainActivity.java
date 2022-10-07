@@ -1,5 +1,6 @@
 package com.seoultech.triplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton saveBtn;
     ImageButton bookmarkBtn;
+    ImageButton FooterBtnAddPlan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupIndicators(images.length);
+
+        FooterBtnAddPlan = (ImageButton) findViewById(R.id.FooterBtnAddPlan);
 
         //돋보기 버튼 클릭
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"게시물을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
                 }
                 bookmarkBtn.setSelected(!bookmarkBtn.isSelected());
+            }
+        });
+
+        FooterBtnAddPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DateActivity.class);
+                startActivity(intent);  // Activity 이동
             }
         });
     }
@@ -194,4 +206,5 @@ public class MainActivity extends AppCompatActivity {
         }
         regionB.setSelected(!regionB.isSelected());
     }
+
 }
