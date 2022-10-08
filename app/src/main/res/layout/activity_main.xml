@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/img_activity_main_logo"/>
 
         <ImageButton
             android:id="@+id/HeaderBtnSearch"
@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/selector_view"
+            android:background="@drawable/btn_background_click_effect"
 
             android:src="@drawable/ic_search"/>
 
@@ -64,15 +64,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="@drawable/gradient_2"/>
+            android:background="@drawable/activity_main_view_bg_gradient_black_top"/>
 
         <!--게시물 제목/부제목/유저명 텍스트-->
         <LinearLayout
+            android:id="@+id/MainTextPost"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="bottom"
             android:orientation="vertical"
-            android:background="@drawable/gradient_1">
+            android:background="@drawable/activity_main_view_bg_gradient_black_bottom">
             <TextView
                 android:id="@+id/MainTextPost_main"
                 android:layout_width="match_parent"
@@ -110,8 +111,8 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_gravity="center|bottom"
-            android:src="@drawable/more"
-            android:background="@drawable/selector_view"
+            android:src="@drawable/ic_more_post"
+            android:background="@drawable/btn_background_click_effect"
             android:scaleType="fitXY"/>
 
 
@@ -128,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_gravity="center"
-                android:src="@drawable/save"
+                android:src="@drawable/ic_save"
                 android:background="?attr/selectableItemBackground"/>
             <ImageButton
                 android:id="@+id/MainBtnBookmark"
@@ -136,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:layout_gravity="center"
-                android:src="@drawable/bookmark"
+                android:src="@drawable/ic_bookmark"
                 android:background="?attr/selectableItemBackground"/>
         </GridLayout>
 
@@ -147,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="800dp"
             android:padding="20dp"
-            android:background="@drawable/gradient_2">
+            android:background="@drawable/activity_main_view_bg_gradient_black_top">
             <TextView
                 android:id="@+id/SearchWindowText1"
                 android:layout_width="wrap_content"
@@ -163,7 +164,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:paddingTop="40dp"
-                android:src="@drawable/region_a_up"
+                android:src="@drawable/img_region_a_up"
                 android:scaleType="fitXY"
                 android:onClick="regionAClicked"/>
             <ImageView
@@ -174,7 +175,7 @@
                 android:layout_below="@+id/regionA"
                 android:layout_centerHorizontal="true"
                 android:paddingEnd="10dp"
-                android:src="@drawable/region_b"
+                android:src="@drawable/img_region_b"
                 android:scaleType="fitXY"
                 android:onClick="regionBClicked"/>
             <ImageView
@@ -184,7 +185,7 @@
                 android:adjustViewBounds="true"
                 android:layout_below="@+id/regionA"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/region_a_down"
+                android:src="@drawable/img_region_a_down"
                 android:scaleType="fitXY"
                 android:onClick="regionAClicked"/>
             <TextView
@@ -261,8 +262,8 @@
             android:id="@+id/FooterBtnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_view"
-            android:src="@drawable/home"/>
+            android:background="@drawable/btn_background_click_effect"
+            android:src="@drawable/ic_home"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -272,8 +273,8 @@
             android:id="@+id/FooterBtnAddPlan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_view"
-            android:src="@drawable/plus"/>
+            android:background="@drawable/btn_background_click_effect"
+            android:src="@drawable/ic_plus"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -283,8 +284,8 @@
             android:id="@+id/FooterBtnStorage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_view"
-            android:src="@drawable/storage"/>
+            android:background="@drawable/btn_background_click_effect"
+            android:src="@drawable/ic_storage"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -294,8 +295,8 @@
             android:id="@+id/FooterBtnMyPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_view"
-            android:src="@drawable/mypage"/>
+            android:background="@drawable/btn_background_click_effect"
+            android:src="@drawable/ic_mypage"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

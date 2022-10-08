@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--바탕이 투명한 버튼(or 이미지 버튼)의 백그라운드 속성으로 클릭효과를 부여합니다-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/btn_background_click_effect_true_color"/>
+    <item android:state_focused="true" android:drawable="@drawable/btn_background_click_effect_true_color"/>
+    <item android:drawable="@drawable/btn_background_click_effect_false_color"/>
+</selector>

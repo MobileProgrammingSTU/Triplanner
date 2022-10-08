@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <!-- "@style/AppTheme" -->
-        <activity android:name=".PlacePlanner">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".DatePlanner"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".PlacePlanner"></activity>
+        <activity android:name=".PostMain"></activity>
+        <activity android:name=".RegionPlanner"></activity>
     </application>
 
 </manifest>

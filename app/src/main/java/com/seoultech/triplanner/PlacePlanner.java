@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PlacePlanner extends AppCompatActivity {
@@ -27,9 +25,9 @@ public class PlacePlanner extends AppCompatActivity {
 
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
-        btnAttraction = (Button) findViewById(R.id.imageAtt);
-        btnRestaurant = (Button) findViewById(R.id.imageRes);
-        btnCafe = (Button) findViewById(R.id.imageCafe);
+        btnAttraction = (Button) findViewById(R.id.btnAtt);
+        btnRestaurant = (Button) findViewById(R.id.btnRes);
+        btnCafe = (Button) findViewById(R.id.btnCafe);
 
         att1 = (RelativeLayout) findViewById(R.id.att1);
         rest1 = (RelativeLayout) findViewById(R.id.rest1);

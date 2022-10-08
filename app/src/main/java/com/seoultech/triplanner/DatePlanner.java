@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DatePlanner extends AppCompatActivity {
+    ImageButton btnBack;
 
     CalendarView calendarView;
     TextView textViewStartDate, textViewEndDate;
@@ -29,6 +31,8 @@ public class DatePlanner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planner_date);
 
+        btnBack = (ImageButton) findViewById(R.id.imgBtnBack);
+
         calendarView = (CalendarView) findViewById(R.id.calendarView);
 
         textViewStartDate = (TextView) findViewById(R.id.textViewStartDate);
@@ -37,6 +41,15 @@ public class DatePlanner extends AppCompatActivity {
         btnSelect = (Button) findViewById(R.id.btnSelect);
 
         btnNext = (Button) findViewById(R.id.btnNext);
+
+        //뒤로가기 버튼
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DatePlanner.this, RegionPlanner.class);
+                startActivity(intent);
+            }
+        });
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

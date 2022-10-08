@@ -21,21 +21,20 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutIndicator;
 
     private Integer[] images = {
-            R.drawable.cafe_1, R.drawable.cafe_1_bw
+            R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw
     };
 
     ImageView logo;
     ImageButton searchBtn;
     RelativeLayout searchWindow;
-    ImageView regionA;
-    ImageView regionA_down;
-    TextView regionAText;
+    ImageView regionA, regionA_down, regionB;
+    TextView regionAText, regionBText;
     Boolean regionAChecked = false;
-    ImageView regionB;
-    TextView regionBText;
 
-    ImageButton saveBtn;
-    ImageButton bookmarkBtn;
+    ImageButton saveBtn, bookmarkBtn;
+
+    LinearLayout MainPost;
+
     ImageButton FooterBtnAddPlan;
 
     @Override
@@ -67,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 setCurrentIndicator(position);
             }
         });
-
         setupIndicators(images.length);
+
+        MainPost = (LinearLayout) findViewById(R.id.MainTextPost);
 
         FooterBtnAddPlan = (ImageButton) findViewById(R.id.FooterBtnAddPlan);
 
@@ -88,40 +88,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //게시물 클릭
+        MainPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostMain.class);
+                startActivity(intent);  // main_post(게시물글) 이동
+            }
+        });
+
         //게시물 플랜 저장 버튼 클릭
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(saveBtn.isSelected()) {
-                    saveBtn.setImageResource(R.drawable.save);
+                    saveBtn.setImageResource(R.drawable.ic_save);
                 }
                 else {
-                    saveBtn.setImageResource(R.drawable.save_selected);
+                    saveBtn.setImageResource(R.drawable.ic_save_selected);
                     Toast.makeText(getApplicationContext(),"플랜을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
                 }
                 saveBtn.setSelected(!saveBtn.isSelected());
             }
         });
-
         //북마크 버튼 클릭
         bookmarkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(bookmarkBtn.isSelected()) {
-                    bookmarkBtn.setImageResource(R.drawable.bookmark);
+                    bookmarkBtn.setImageResource(R.drawable.ic_bookmark);
                 }
                 else {
-                    bookmarkBtn.setImageResource(R.drawable.bookmark_selected);
+                    bookmarkBtn.setImageResource(R.drawable.ic_bookmark_selected);
                     Toast.makeText(getApplicationContext(),"게시물을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
                 }
                 bookmarkBtn.setSelected(!bookmarkBtn.isSelected());
             }
         });
 
+        //플러스 버튼 클릭
         FooterBtnAddPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DatePlanner.class);
+                Intent intent = new Intent(MainActivity.this, RegionPlanner.class);
                 startActivity(intent);  // Activity 이동
             }
         });
@@ -138,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < indicators.length; i++) {
             indicators[i] = new ImageView(this);
             indicators[i].setImageDrawable(ContextCompat.getDrawable(this,
-                    R.drawable.bg_indicator_inactive));
+                    R.drawable.activity_main_layoutindicators_inactive));
             indicators[i].setLayoutParams(params);
             layoutIndicator.addView(indicators[i]);
         }
@@ -152,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
             if (i == position) {
                 imageView.setImageDrawable(ContextCompat.getDrawable(
                         this,
-                        R.drawable.bg_indicator_active
+                        R.drawable.activity_main_layoutindicators_active
                 ));
             } else {
                 imageView.setImageDrawable(ContextCompat.getDrawable(
                         this,
-                        R.drawable.bg_indicator_inactive
+                        R.drawable.activity_main_layoutindicators_inactive
                 ));
             }
         }
@@ -168,10 +177,10 @@ public class MainActivity extends AppCompatActivity {
         if(regionAChecked) {
             regionAChecked = false;
 
-            regionA.setImageResource(R.drawable.region_a_up);
+            regionA.setImageResource(R.drawable.img_region_a_up);
             regionA.setScaleX(1);
             regionA.setScaleY(1);
-            regionA_down.setImageResource(R.drawable.region_a_down);
+            regionA_down.setImageResource(R.drawable.img_region_a_down);
             regionA_down.setScaleX(1);
             regionA_down.setScaleY(1);
             regionA_down.setTranslationY(0);
@@ -180,10 +189,10 @@ public class MainActivity extends AppCompatActivity {
         else {
             regionAChecked = true;
 
-            regionA.setImageResource(R.drawable.region_a_up_selected);
+            regionA.setImageResource(R.drawable.img_region_a_up_selected);
             regionA.setScaleX((float) 1.2);
             regionA.setScaleY((float) 1.2);
-            regionA_down.setImageResource(R.drawable.region_a_down_selected);
+            regionA_down.setImageResource(R.drawable.img_region_a_down_selected);
             regionA_down.setScaleX((float) 1.2);
             regionA_down.setScaleY((float) 1.2);
             regionA_down.setTranslationY((float) 47.35);
@@ -193,13 +202,13 @@ public class MainActivity extends AppCompatActivity {
     //필터에서 남부 지역 선택
     public void regionBClicked(View view) {
         if(regionB.isSelected()) {
-            regionB.setImageResource(R.drawable.region_b);
+            regionB.setImageResource(R.drawable.img_region_b);
             regionB.setScaleX(1);
             regionB.setScaleY(1);
             regionBText.setVisibility(View.GONE);
         }
         else {
-            regionB.setImageResource(R.drawable.region_b_selected);
+            regionB.setImageResource(R.drawable.img_region_b_selected);
             regionB.setScaleX((float) 1.2);
             regionB.setScaleY((float) 1.2);
             regionBText.setVisibility(android.view.View.VISIBLE);

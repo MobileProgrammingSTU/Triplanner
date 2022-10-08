@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--태그버튼(비활성) 스타일-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
+    <!--기본색상 회색, setbackgroundtint 색 조정-->
     <solid android:color="#595959" />
     <corners
         android:bottomLeftRadius="5dp"

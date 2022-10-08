@@ -22,14 +22,14 @@
             android:adjustViewBounds="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/arrow_back_ios_white_24dp"
+            android:src="@drawable/ic_arrow_back_ios_white_24dp"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackground"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="플랜추가"
+            android:text="플랜 추가"
             android:textSize="10pt"
             android:textColor="@android:color/white"/>
 
@@ -60,34 +60,34 @@
             android:layout_marginBottom="30dp"
             android:gravity="center">
             <Button
-                android:id="@+id/imageAtt"
+                android:id="@+id/btnAtt"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="명 소"
                 android:textColor="@android:color/white"
                 android:textSize="8pt"
-                android:background="@drawable/planner_third_btn"/>
+                android:background="@drawable/planner_place_btnatt_round"/>
 
             <Button
-                android:id="@+id/imageRes"
+                android:id="@+id/btnRes"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="맛 집"
                 android:textColor="@android:color/white"
                 android:textSize="8pt"
-                android:background="@drawable/planner_third_btn_middle"/>
+                android:background="@drawable/planner_place_btnres_color"/>
 
             <Button
-                android:id="@+id/imageCafe"
+                android:id="@+id/btnCafe"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="카 페"
                 android:textColor="@android:color/white"
                 android:textSize="8pt"
-                android:background="@drawable/planner_third_btn_end"/>
+                android:background="@drawable/planner_place_btncafe_round"/>
         </LinearLayout>
 
         <!--목록-->
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:alpha="0.7"
-                android:src="@drawable/cafe1"/>
+                android:src="@drawable/img_planner_place_cafe_1"/>
             <TextView
                 android:id="@+id/cafeText1"
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="20dp"
                 android:clickable="false"
-                android:background="@drawable/tag_shape"
+                android:background="@drawable/main_post_postplacetag_tagstyle"
                 android:backgroundTint="#6CE4B4"
                 android:text="카 페"
                 android:textSize="6pt"
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:alpha="0.7"
-                android:src="@drawable/attraction1"/>
+                android:src="@drawable/img_planner_place_attraction_1"/>
             <TextView
                 android:id="@+id/attText1"
                 android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="20dp"
                 android:clickable="false"
-                android:background="@drawable/tag_shape"
+                android:background="@drawable/main_post_postplacetag_tagstyle"
                 android:backgroundTint="#FFD37A"
                 android:text="명 소"
                 android:textSize="6pt"
@@ -179,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:alpha="0.7"
-                android:src="@drawable/restaurant1"/>
+                android:src="@drawable/img_planner_place_restaurant_1"/>
             <TextView
                 android:id="@+id/restText1"
                 android:layout_width="wrap_content"
@@ -197,7 +197,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="20dp"
                 android:clickable="false"
-                android:background="@drawable/tag_shape"
+                android:background="@drawable/main_post_postplacetag_tagstyle"
                 android:backgroundTint="#F26C73"
                 android:text="맛 집"
                 android:textSize="6pt"
@@ -222,7 +222,7 @@
             android:drawableEnd="@drawable/ic_next"
             android:text="다음"
             android:textColor="@android:color/white"
-            android:background="@drawable/selector_view"/>
+            android:background="@drawable/btn_background_click_effect"/>
     </LinearLayout>
 
 </LinearLayout>
