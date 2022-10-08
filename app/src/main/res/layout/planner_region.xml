@@ -13,12 +13,11 @@
         android:background="#5B4FBB">
         <ImageButton
             android:id="@+id/imgBtnBack"
-            android:layout_width="28dp"
+            android:layout_width="38dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_arrow_back_ios_white_24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_back"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackground"/>
 

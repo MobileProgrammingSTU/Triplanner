@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
     <!--게시물 슬라이드-->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/sliderViewPager"
         android:layout_width="match_parent"
-        android:layout_height="460dp" />
+        android:layout_height="560dp" />
     <LinearLayout
         android:id="@+id/layoutIndicators"
         android:layout_width="wrap_content"
@@ -20,15 +21,14 @@
     <!--뒤로가기 버튼-->
     <ImageButton
         android:id="@+id/imgBtnBack"
-        android:layout_width="28dp"
+        android:layout_width="38dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_alignTop="@+id/sliderViewPager"
         android:layout_marginStart="10dp"
-        android:src="@drawable/ic_arrow_back_ios_white_24dp"
+        android:src="@drawable/ic_back"
         android:scaleType="fitXY"
-        android:background="?attr/selectableItemBackground"
-        android:paddingTop="10dp"/>
+        android:background="?attr/selectableItemBackground"/>
 
     <!--게시물 버튼모음-->
     <GridLayout
@@ -55,105 +55,119 @@
             android:background="?attr/selectableItemBackground"/>
     </GridLayout>
 
-    <LinearLayout
-        android:id="@+id/TextLayout"
+    <SlidingDrawer
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="@android:color/black"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-        <RelativeLayout
+        android:layout_height="wrap_content"
+        android:topOffset="270dp"
+        android:content="@id/content"
+        android:handle="@id/handle"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/handle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/postTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="성수동 감성 카페 여행"
-                android:textColor="@android:color/white"
-                android:textSize="10pt"/>
-            <TextView
-                android:id="@+id/postWriterID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="traveler 님"
-                android:textColor="@android:color/white"
-                android:textSize="5pt"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="카페 할아버지 공장"
-                android:textColor="#4B4B4B"
-                android:drawableStart="@drawable/ic_gps"
-                android:background="@drawable/btn_background_click_effect"/>
-            <!--태그-->
-            <Button
-                android:id="@+id/postPlaceTag"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:clickable="false"
-                android:background="@drawable/main_post_postplacetag_tagstyle"
-                android:backgroundTint="#6CE4B4"
-                android:text="카 페"
-                android:textSize="5pt"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="10dp"/>
-            <Button
-                android:id="@+id/postRegionTag"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/postPlaceTag"
-                android:clickable="false"
-                android:background="@drawable/main_post_postplacetag_tagstyle"
-                android:backgroundTint="#5B4FBB"
-                android:text="북 부"
-                android:textSize="5pt"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"/>
-        </RelativeLayout>
-        <ScrollView
-            android:id="@+id/postTextScroll"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/activity_main_view_bg_gradient_black_bottom"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@android:color/black">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/postTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="성수동 감성 카페 여행"
+                        android:textColor="@android:color/white"
+                        android:textSize="10pt"/>
+                    <TextView
+                        android:id="@+id/postWriterID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="traveler 님"
+                        android:textColor="@android:color/white"
+                        android:textSize="5pt"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="카페 할아버지 공장"
+                        android:textColor="#4B4B4B"
+                        android:drawableStart="@drawable/ic_gps"
+                        android:background="@drawable/btn_background_click_effect"/>
+                    <!--태그-->
+                    <Button
+                        android:id="@+id/postPlaceTag"
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:clickable="false"
+                        android:background="@drawable/main_post_postplacetag_tagstyle"
+                        android:backgroundTint="#6CE4B4"
+                        android:text="카 페"
+                        android:textSize="5pt"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:layout_marginLeft="10dp"/>
+                    <Button
+                        android:id="@+id/postRegionTag"
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/postPlaceTag"
+                        android:clickable="false"
+                        android:background="@drawable/main_post_postplacetag_tagstyle"
+                        android:backgroundTint="#5B4FBB"
+                        android:text="북 부"
+                        android:textSize="5pt"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"/>
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/postTextSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="지친 일상으로부터 탈출"
                     android:textSize="8pt"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@android:color/black">
+            <ScrollView
+                android:id="@+id/postTextScroll"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent">
                 <TextView
                     android:id="@+id/postTextContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="\n오랜 고민 끝에 드디어 여행을 떠나기로 했다\n\n나는 원래 여행도 일정을 빡빡하게 하고 많이 돌아다니는 편이었지만\n이번에는 정말로 편하게 쉬는 것을 목적으로 여유를 가지고 돌아다니려고 한다\n\ntest"
+                    android:text="오랜 고민 끝에 드디어 여행을 떠나기로 했다\n\n나는 원래 여행도 일정을 빡빡하게 하고 많이 돌아다니는 편이었지만\n이번에는 정말로 편하게 쉬는 것을 목적으로 여유를 가지고 돌아다니려고 한다\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest"
                     android:textSize="6pt"
                     android:textColor="@android:color/white"/>
-            </LinearLayout>
-        </ScrollView>
-
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_above="@+id/TextLayout"
-        android:background="@drawable/activity_main_view_bg_gradient_black_bottom"/>
+            </ScrollView>
+        </LinearLayout>
+    </SlidingDrawer>
 
 </RelativeLayout>
