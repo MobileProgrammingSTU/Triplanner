@@ -103,7 +103,7 @@
             android:drawableEnd="@drawable/ic_next"
             android:text="다음"
             android:textColor="@android:color/white"
-            android:background="@drawable/selector_view"/>
+            android:background="@drawable/btn_background_click_effect"/>
     </LinearLayout>
 
 </LinearLayout>

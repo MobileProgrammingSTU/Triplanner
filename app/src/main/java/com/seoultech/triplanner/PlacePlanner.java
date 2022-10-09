@@ -100,19 +100,19 @@ public class PlacePlanner extends AppCompatActivity {
         att1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("att1", R.drawable.attraction1);
+                intent.putExtra("att1", R.drawable.img_planner_place_attraction_1);
             }
         });
         rest1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("rest1", R.drawable.restaurant1);
+                intent.putExtra("rest1", R.drawable.img_planner_place_restaurant_1);
             }
         });
         cafe1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("cafe1", R.drawable.cafe1);
+                intent.putExtra("cafe1", R.drawable.img_planner_place_cafe_1);
             }
         });
 
