@@ -66,6 +66,8 @@
                 android:orientation="vertical">
 
 
+
+
 <!--            <ImageView-->
 <!--                android:id="@+id/attView1"-->
 <!--                android:scaleType="centerCrop"-->
@@ -84,7 +86,19 @@
 
 
             </LinearLayout>
+
+            <!-- 이 코드 삽입하면 오류 발생 -->
+            <!--
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="+"
+                android:background="#2196F3"/> -->
+
+
         </ScrollView>
+
+
 
     </LinearLayout>
 

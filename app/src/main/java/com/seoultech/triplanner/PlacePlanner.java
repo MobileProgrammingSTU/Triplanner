@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlacePlanner extends AppCompatActivity {
 
@@ -100,22 +103,35 @@ public class PlacePlanner extends AppCompatActivity {
         att1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("att1", R.drawable.img_planner_place_attraction_1);
+                //intent.putExtra("att1", R.drawable.img_planner_place_attraction_1);
+                //relativeLayoutList.add(att));
+
+                intent.putExtra("att1Img", R.drawable.img_planner_place_attraction_1);
+              //  intent.putExtra("att1Text", "명소 이름");
+                startActivity(intent);
             }
         });
         rest1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("rest1", R.drawable.img_planner_place_restaurant_1);
+                intent.putExtra("rest1Img", R.drawable.img_planner_place_restaurant_1);
+                //intent.putExtra("res1Text", "맛집 이름");
+                startActivity(intent);
+
+                // intent.putExtra("rest1", (Parcelable) relativeLayoutList);
             }
         });
         cafe1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("cafe1", R.drawable.img_planner_place_cafe_1);
+                intent.putExtra("cafe1Img", R.drawable.img_planner_place_cafe_1);
+              //  intent.putExtra("cafe1Text", "카페 이름");
+                startActivity(intent);
             }
         });
 
+        /*
+        one by one 으로 활동이 선택되기 때문에, 이 버튼은 굳이 필요가 없다 -> 추후 제거 예정
         // 클릭 시 다음 화면으로 이동
        btnNext.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -125,6 +141,8 @@ public class PlacePlanner extends AppCompatActivity {
                startActivity(intent);
            }
        });
+
+         */
     }
 
 }

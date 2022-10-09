@@ -1,15 +1,17 @@
 package com.seoultech.triplanner;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Day1PlacePlanner extends AppCompatActivity {
@@ -36,27 +38,67 @@ public class Day1PlacePlanner extends AppCompatActivity {
             }
         });
 
+
+
         if (bundle != null) {
-            Set<String> keySet = bundle.keySet();
+            Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
+           // Set<String> imgSet = new LinkedHashSet<>(); // intent 객체 중 img 객체들
+           // Set<String> textViewSet = new LinkedHashSet<>(); // intent 객체 중 textView 들
 
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.imgLinearLayout);
 
+            /*
             for (String s : keySet) {
-                // s값: att1, cafe1, rest1
+                System.out.println("s is : " + s);
+                if (s.contains("Img")) {
+                    imgSet.add(String.valueOf(bundle.get(s)));
+                    System.out.println("Img contains is " + s);
+                }
+                else {
+                    textViewSet.add(String.valueOf(bundle.get(s)));
+                    System.out.println("Text contains is " + s);
+                    //System.out.println(textViewSet.toString() + " toString()");
+                }
+            } */
+
+            for (String s : keySet) {
+                // s값: att1Img, cafe1Img, rest1Img
                 ImageView imgView = new ImageView(this);
                 imageValue = bundle.getInt(s);
                 imgView.setImageResource(imageValue);
                 imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 LinearLayout.LayoutParams layoutParams =
-                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                300);
-//                            LinearLayout.LayoutParams.MATCH_PARENT /* layout_width */,
-//                            height /* layout_height */);
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
                 layoutParams.setMargins(20, 20, 20, 20);
                 imgView.setLayoutParams(layoutParams);
                 linearLayout.addView(imgView);
+
+
             }
+//            for (String s : textViewSet) {
+//                // s값: att1Text, cafe1Text, rest1Text
+//                TextView textView = new TextView(this);
+//                textView.setText(bundle.getString(s));
+//                textView.setTextSize(50);
+//                textView.setTextColor(Color.WHITE);
+//                linearLayout.addView(textView);
+//            }
+            Button btnPlus = new Button(this);
+            btnPlus.setWidth(linearLayout.getWidth());
+            btnPlus.setHeight(200);
+            btnPlus.setText("+");
+            btnPlus.setTextSize(40);
+            btnPlus.setBackgroundColor(Color.GREEN);
+            linearLayout.addView(btnPlus);
+
+            btnPlus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+
         }
     }
 }
