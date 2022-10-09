@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class PlacePlanner extends AppCompatActivity {
 
     RelativeLayout att1, rest1, cafe1;
     Button btnAttraction, btnRestaurant, btnCafe;
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +35,23 @@ public class PlacePlanner extends AppCompatActivity {
         rest1 = (RelativeLayout) findViewById(R.id.rest1);
         cafe1 = (RelativeLayout) findViewById(R.id.cafe1);
 
+        btnNext = (Button) findViewById(R.id.btnNext);
+
+        // RelativeLayout 을 클릭 시 이미지들을 저장하도록 하는 Intent 객체를 생성
+        // 여기서 final keyword 를 사용하지 않으면, 아래에서 오류 발생
+        final Intent intent = new Intent(PlacePlanner.this, Day1PlacePlanner.class);
+
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PlacePlanner.this, DatePlanner.class);
                 startActivity(intent);
+                // finish();
             }
         });
+
+        btnAttraction.setSelected(false);
+        btnRestaurant.setSelected(false); btnCafe.setSelected(false);
 
         btnAttraction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +95,36 @@ public class PlacePlanner extends AppCompatActivity {
                 btnCafe.setSelected(!btnCafe.isSelected());
             }
         });
+
+        // 여기서, att1, rest1, cafe1 의 RelativeLayout 을 클릭할 때, intent 로 data 를 저장한다.
+        att1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent.putExtra("att1", R.drawable.attraction1);
+            }
+        });
+        rest1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent.putExtra("rest1", R.drawable.restaurant1);
+            }
+        });
+        cafe1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent.putExtra("cafe1", R.drawable.cafe1);
+            }
+        });
+
+        // 클릭 시 다음 화면으로 이동
+       btnNext.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               System.out.println("main intent size: " + intent.toString());
+
+               startActivity(intent);
+           }
+       });
     }
 
 }
