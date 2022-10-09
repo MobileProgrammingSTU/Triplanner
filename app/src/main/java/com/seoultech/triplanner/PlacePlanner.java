@@ -1,6 +1,5 @@
 package com.seoultech.triplanner;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,8 +35,7 @@ public class PlacePlanner extends AppCompatActivity {
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PlacePlanner.this, DatePlanner.class);
-                startActivity(intent);
+                finish();
             }
         });
 
