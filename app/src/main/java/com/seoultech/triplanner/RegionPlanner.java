@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +14,7 @@ public class RegionPlanner extends AppCompatActivity {
 
     ImageButton btnBack;
 
-    ImageView regionA, regionA_down, regionB;
+    ImageButton regionA, regionA_down, regionB;
     TextView regionAText, regionBText;
 
     Button btnNext;

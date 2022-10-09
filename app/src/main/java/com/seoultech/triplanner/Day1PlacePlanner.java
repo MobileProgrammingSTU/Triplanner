@@ -1,22 +1,19 @@
 package com.seoultech.triplanner;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Day1PlacePlanner extends AppCompatActivity {
 
     ImageView imgBtnBack;
+    ImageButton btnAdd;
     int imageValue;
 
     @Override
@@ -25,6 +22,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
         setContentView(R.layout.planner_place_day1);
 
         imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
+        btnAdd = (ImageButton) findViewById(R.id.btnAddPlace);
 
         final Bundle bundle = getIntent().getExtras();
         //System.out.println(bundle.size());  // bundle의 사이즈에 맞도록 imageView를 생성하자.
@@ -33,11 +31,17 @@ public class Day1PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-               // Intent intent = new Intent(Day1PlacePlanner.this, PlacePlanner.class);
-               // startActivity(intent);
+               //Intent intent = new Intent(Day1PlacePlanner.this, PlacePlanner.class);
+               //startActivity(intent);
             }
         });
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         if (bundle != null) {
@@ -70,7 +74,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
 
                 LinearLayout.LayoutParams layoutParams =
                         new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
-                layoutParams.setMargins(20, 20, 20, 20);
+                layoutParams.setMargins(0, 20, 0, 20);
                 imgView.setLayoutParams(layoutParams);
                 linearLayout.addView(imgView);
 
@@ -84,12 +88,15 @@ public class Day1PlacePlanner extends AppCompatActivity {
 //                textView.setTextColor(Color.WHITE);
 //                linearLayout.addView(textView);
 //            }
+
+            /*
             Button btnPlus = new Button(this);
-            btnPlus.setWidth(linearLayout.getWidth());
+            btnPlus.setWidth(200);
             btnPlus.setHeight(200);
             btnPlus.setText("+");
             btnPlus.setTextSize(40);
-            btnPlus.setBackgroundColor(Color.GREEN);
+            btnPlus.setTextColor(Color.WHITE);
+            btnPlus.setBackground(getDrawable(R.drawable.btn_background_click_effect));
             linearLayout.addView(btnPlus);
 
             btnPlus.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +105,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
                     finish();
                 }
             });
-
+*/
         }
     }
 }
