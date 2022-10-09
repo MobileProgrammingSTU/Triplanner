@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class PlacePlanner extends AppCompatActivity {
 
     ImageButton imgBtnBack;

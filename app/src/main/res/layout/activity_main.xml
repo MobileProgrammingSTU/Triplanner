@@ -155,18 +155,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="지역을 선택하세요"
                 android:textColor="@android:color/white"/>
-            <ImageView
-                android:id="@+id/regionA"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:paddingTop="40dp"
-                android:src="@drawable/img_region_a_up"
-                android:scaleType="fitXY"
-                android:onClick="regionAClicked"/>
-            <ImageView
+            <ImageButton
                 android:id="@+id/regionB"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
@@ -176,8 +165,20 @@
                 android:paddingEnd="10dp"
                 android:src="@drawable/img_region_b"
                 android:scaleType="fitXY"
-                android:onClick="regionBClicked"/>
-            <ImageView
+                android:background="@android:color/transparent"
+                android:foreground="?attr/selectableItemBackground"/>
+            <ImageButton
+                android:id="@+id/regionA"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:paddingTop="40dp"
+                android:src="@drawable/img_region_a_up"
+                android:scaleType="fitXY"
+                android:background="@android:color/transparent"/>
+            <ImageButton
                 android:id="@+id/regionA_down"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -186,7 +187,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/img_region_a_down"
                 android:scaleType="fitXY"
-                android:onClick="regionAClicked"/>
+                android:background="@android:color/transparent"/>
             <TextView
                 android:id="@+id/regionAText"
                 android:layout_width="wrap_content"
@@ -259,10 +260,11 @@
 
         <ImageButton
             android:id="@+id/FooterBtnHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@drawable/btn_background_click_effect"
-            android:src="@drawable/ic_home"/>
+            android:src="@drawable/ic_home"
+            android:scaleType="fitXY"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -270,10 +272,11 @@
 
         <ImageButton
             android:id="@+id/FooterBtnAddPlan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@drawable/btn_background_click_effect"
-            android:src="@drawable/ic_plus"/>
+            android:src="@drawable/ic_plus"
+            android:scaleType="fitXY"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -281,10 +284,11 @@
 
         <ImageButton
             android:id="@+id/FooterBtnStorage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@drawable/btn_background_click_effect"
-            android:src="@drawable/ic_storage"/>
+            android:src="@drawable/ic_storage"
+            android:scaleType="fitXY"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -292,10 +296,11 @@
 
         <ImageButton
             android:id="@+id/FooterBtnMyPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@drawable/btn_background_click_effect"
-            android:src="@drawable/ic_mypage"/>
+            android:src="@drawable/ic_mypage"
+            android:scaleType="fitXY"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

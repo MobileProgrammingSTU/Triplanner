@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView logo;
     ImageButton searchBtn;
     RelativeLayout searchWindow;
-    ImageView regionA, regionA_down, regionB;
+    ImageButton regionA, regionA_down, regionB;
     TextView regionAText, regionBText;
-    Boolean regionAChecked = false;
 
     ImageButton saveBtn, bookmarkBtn;
 
@@ -48,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         searchWindow = (RelativeLayout) findViewById(R.id.BtnSearchWindow);
         regionA = findViewById(R.id.regionA);
         regionA_down = findViewById(R.id.regionA_down);
-        regionAText = findViewById(R.id.regionAText);
         regionB = findViewById(R.id.regionB);
-        regionBText = findViewById(R.id.regionBText);
+        regionAText = (TextView) findViewById(R.id.regionAText);
+        regionBText = (TextView) findViewById(R.id.regionBText);
 
         saveBtn = findViewById(R.id.MainBtnSave);
         bookmarkBtn = findViewById(R.id.MainBtnBookmark);
@@ -134,6 +133,65 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);  // Activity 이동
             }
         });
+
+        //필터에서 북부 지역 선택
+        regionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (regionA.isSelected()) {
+                    regionA.setImageResource(R.drawable.img_region_a_up);
+                    regionA.setScaleX(1);
+                    regionA.setScaleY(1);
+                    regionA_down.setImageResource(R.drawable.img_region_a_down);
+                    regionA_down.setScaleX(1);
+                    regionA_down.setScaleY(1);
+                    regionA_down.setTranslationY(0);
+                    regionAText.setVisibility(View.GONE);
+                }
+                else {
+                    regionA.setImageResource(R.drawable.img_region_a_up_selected);
+                    regionA.setScaleX((float) 1.2);
+                    regionA.setScaleY((float) 1.2);
+                    regionA_down.setImageResource(R.drawable.img_region_a_down_selected);
+                    regionA_down.setScaleX((float) 1.2);
+                    regionA_down.setScaleY((float) 1.2);
+                    regionA_down.setTranslationY((float) 47.35);
+                    regionAText.setVisibility(android.view.View.VISIBLE);
+                }
+                regionA.setSelected(!regionA.isSelected());
+            }
+        });
+        regionA_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (regionA_down.isSelected()) {
+                    regionA.callOnClick();
+                }
+                else {
+                    regionA.callOnClick();
+                }
+                regionA_down.setSelected(!regionA_down.isSelected());
+            }
+        });
+        //필터에서 남부 지역 선택
+        regionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (regionB.isSelected()) {
+                    regionB.setImageResource(R.drawable.img_region_b);
+                    regionB.setScaleX(1);
+                    regionB.setScaleY(1);
+                    regionBText.setVisibility(View.GONE);
+                }
+                else {
+                    regionB.setImageResource(R.drawable.img_region_b_selected);
+                    regionB.setScaleX((float) 1.2);
+                    regionB.setScaleY((float) 1.2);
+                    regionBText.setVisibility(android.view.View.VISIBLE);
+                }
+                regionB.setSelected(!regionB.isSelected());
+            }
+        });
     }
 
     //게시물 슬라이드 인디케이터(점) 생성
@@ -170,50 +228,6 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
         }
-    }
-
-    //필터에서 북부 지역 선택
-    public void regionAClicked(View view) {
-        if(regionAChecked) {
-            regionAChecked = false;
-
-            regionA.setImageResource(R.drawable.img_region_a_up);
-            regionA.setScaleX(1);
-            regionA.setScaleY(1);
-            regionA_down.setImageResource(R.drawable.img_region_a_down);
-            regionA_down.setScaleX(1);
-            regionA_down.setScaleY(1);
-            regionA_down.setTranslationY(0);
-            regionAText.setVisibility(View.GONE);
-        }
-        else {
-            regionAChecked = true;
-
-            regionA.setImageResource(R.drawable.img_region_a_up_selected);
-            regionA.setScaleX((float) 1.2);
-            regionA.setScaleY((float) 1.2);
-            regionA_down.setImageResource(R.drawable.img_region_a_down_selected);
-            regionA_down.setScaleX((float) 1.2);
-            regionA_down.setScaleY((float) 1.2);
-            regionA_down.setTranslationY((float) 47.35);
-            regionAText.setVisibility(android.view.View.VISIBLE);
-        }
-    }
-    //필터에서 남부 지역 선택
-    public void regionBClicked(View view) {
-        if(regionB.isSelected()) {
-            regionB.setImageResource(R.drawable.img_region_b);
-            regionB.setScaleX(1);
-            regionB.setScaleY(1);
-            regionBText.setVisibility(View.GONE);
-        }
-        else {
-            regionB.setImageResource(R.drawable.img_region_b_selected);
-            regionB.setScaleX((float) 1.2);
-            regionB.setScaleY((float) 1.2);
-            regionBText.setVisibility(android.view.View.VISIBLE);
-        }
-        regionB.setSelected(!regionB.isSelected());
     }
 
 }
