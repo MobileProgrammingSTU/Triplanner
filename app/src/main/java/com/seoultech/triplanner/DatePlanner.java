@@ -1,30 +1,40 @@
 package com.seoultech.triplanner;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
+import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
+
+import java.util.List;
 
 public class DatePlanner extends AppCompatActivity {
     ImageButton btnBack;
 
-    CalendarView calendarView;
-    TextView textViewStartDate, textViewEndDate;
-    Button btnReset, btnSelect;
+    MaterialCalendarView calendarView;
+
+    TextView textViewSelectedDate;
+    ImageButton btnReset;
     Button btnNext;
 
-    int dateSelectCount = 0;
     int startYear, startMonth, startDay;
-    int endYear, endMonth, endDay;
-
-    boolean btnSelectIsClicked = false;
+    int endYear, endMonth, endDay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +43,11 @@ public class DatePlanner extends AppCompatActivity {
 
         btnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
-        calendarView = (CalendarView) findViewById(R.id.calendarView);
+        //new calendarView
+        calendarView = findViewById(R.id.calendar);
 
-        textViewStartDate = (TextView) findViewById(R.id.textViewStartDate);
-        textViewEndDate = (TextView) findViewById(R.id.textViewEndDate);
-        btnReset = (Button) findViewById(R.id.btnReset);
-        btnSelect = (Button) findViewById(R.id.btnSelect);
+        textViewSelectedDate = (TextView) findViewById(R.id.textViewSelectedDate);
+        btnReset = (ImageButton) findViewById(R.id.btnReset);
 
         btnNext = (Button) findViewById(R.id.btnNext);
 
@@ -46,79 +55,65 @@ public class DatePlanner extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DatePlanner.this, RegionPlanner.class);
-                startActivity(intent);
+                finish();
             }
         });
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        //새 캘린더뷰---------------------------------------------------------------------------------
+        calendarView.setTitleFormatter(new MonthArrayTitleFormatter(getResources().getTextArray(R.array.custom_months)));
+
+        // 요일 선택 시
+        calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView,
-                                            int i, int i1, int i2) {
-                if (dateSelectCount == 0) {
-                    startYear = i;
-                    startMonth = i1 + 1;
-                    startDay = i2;
-                    textViewStartDate.setText("여행 시작일 : " + startYear + "년 " + startMonth + "월 "
-                            + startDay + "일");
+            public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
+                startYear = dates.get(0).getYear();
+                startMonth = dates.get(0).getMonth();
+                startDay = dates.get(0).getDay();
+                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay);
 
-                    dateSelectCount++;
-                }
-                else if (dateSelectCount == 1) {
-                    endYear = i;
-                    endMonth = i1 + 1;
-                    endDay = i2;
-                    if (startMonth > endMonth) {
-                        Toast.makeText(getApplicationContext(),
-                                "시작 월이 종료 월보다 앞설 수 없습니다!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        if (startDay > endDay) {
-                            Toast.makeText(getApplicationContext(),
-                                    "시작 날짜가 종료 날짜보다 앞설 수 없습니다!", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            textViewEndDate.setText("여행 종료일 : " + endYear + "년 " + endMonth + "월 "
-                                    + endDay + "일");
-                            dateSelectCount++;
-                        }
-                    }
-                }
-                else {
-                   Toast.makeText(getApplicationContext(),
-                            "이미 날짜를 모두 선택하셨습니다!", Toast.LENGTH_SHORT).show();
-                }
+                endYear = dates.get(dates.size() - 1).getYear();
+                endMonth = dates.get(dates.size() - 1).getMonth();
+                endDay = dates.get(dates.size() - 1).getDay();
+                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay + " ~ "
+                        + endYear+"."+endMonth+"."+endDay);
             }
         });
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                endYear = date.getYear();
+                endMonth = date.getMonth();
+                endDay = date.getDay();
+                textViewSelectedDate.setText(endYear+"."+endMonth+"."+endDay);
+            }
+        });
+
+        // 일자 선택 시 내가 정의한 드로어블이 적용되도록 한다
+        calendarView.addDecorators(new DayDecorator(this));
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateSelectCount = 0;
-                textViewStartDate.setText("여행 시작일 : ");
-                textViewEndDate.setText("여행 종료일 : ");
-            }
-        });
+                calendarView.clearSelection();
 
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                startYear = 0;
+                startMonth = 0;
+                startDay = 0;
+                endYear = 0;
+                endMonth = 0;
+                endDay = 0;
 
-                // 여기서 database(firebase 등)에 시작 날짜, 종료 날짜 데이터를 넣도록 한다.
-
-
-                // 이 값을 true 로 설정해야, '다음' 버튼을 눌렀을 때 화면이 전환되도록 한다.
-                btnSelectIsClicked = true;
-
+                textViewSelectedDate.setText("-");
             }
         });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!btnSelectIsClicked) {
+                if (calendarView.getSelectedDates().isEmpty()) {
                     Toast.makeText(getApplicationContext(),
-                            "일정 선택 버튼을 클릭해서 일정을 등록해 주세요!", Toast.LENGTH_SHORT).show();
+                            "여행 기간을 설정해 주세요!", Toast.LENGTH_SHORT).show();
+                    textViewSelectedDate.setText("-");
                 }
                 else {
                     Intent intent = new Intent(DatePlanner.this, PlacePlanner.class);
@@ -128,4 +123,24 @@ public class DatePlanner extends AppCompatActivity {
         });
     }
 
+    /* 선택된 요일의 background를 설정하는 Decorator 클래스 */
+    class DayDecorator implements DayViewDecorator {
+        private final Drawable drawable;
+
+        public DayDecorator(Context context) {
+            drawable = ContextCompat.getDrawable(context, R.drawable.planner_date_calendar_view_selector);
+        }
+
+        // true를 리턴 시 모든 요일에 내가 설정한 드로어블이 적용된다
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return true;
+        }
+
+        // 일자 선택 시 내가 정의한 드로어블이 적용되도록 한다
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.setSelectionDrawable(drawable);
+        }
+    }
 }

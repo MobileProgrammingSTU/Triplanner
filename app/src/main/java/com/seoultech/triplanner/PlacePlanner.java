@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,8 +11,6 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class PlacePlanner extends AppCompatActivity {
 
@@ -47,9 +44,7 @@ public class PlacePlanner extends AppCompatActivity {
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PlacePlanner.this, DatePlanner.class);
-                startActivity(intent);
-                // finish();
+                finish();
             }
         });
 
