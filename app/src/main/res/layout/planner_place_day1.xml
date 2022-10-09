@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:weightSum="100"
+    android:orientation="vertical"
+    android:id="@+id/topLinear">
+
+    <!--Header-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="#5B4FBB">
+
+        <ImageButton
+            android:id="@+id/imgBtnBack"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/arrow_back_ios_white_24dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="플랜추가"
+            android:textSize="10pt"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
+    <!--Main-->
+    <LinearLayout
+        android:id="@+id/MainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="84"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/white"
+            android:text="1일차 활동 선택 내역"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/imgLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+
+<!--            <ImageView-->
+<!--                android:id="@+id/attView1"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="120dp"-->
+<!--                android:alpha="0.7"-->
+<!--                />-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/cafeView1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="120dp"-->
+<!--                    android:alpha="0.7"-->
+<!--                    android:scaleType="centerCrop" />-->
+
+
+
+            </LinearLayout>
+
+            <!-- 이 코드 삽입하면 오류 발생 -->
+            <!--
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="+"
+                android:background="#2196F3"/> -->
+
+
+        </ScrollView>
+
+
+
+    </LinearLayout>
+
+    <!--Footer(메뉴)-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="right">
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="15dp"
+            android:drawableEnd="@drawable/ic_next"
+            android:text="다음"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_background_click_effect"/>
+    </LinearLayout>
+
+</LinearLayout>

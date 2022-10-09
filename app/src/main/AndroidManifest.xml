@@ -25,6 +25,7 @@
         <activity android:name=".PlacePlanner"></activity>
         <activity android:name=".PostMain"></activity>
         <activity android:name=".RegionPlanner"></activity>
+        <activity android:name=".Day1PlacePlanner"></activity>
     </application>
 
 </manifest>
