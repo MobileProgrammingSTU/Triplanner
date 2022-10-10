@@ -56,6 +56,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,29 +67,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
-
-
-                    <!--            <ImageView-->
-                    <!--                android:id="@+id/attView1"-->
-                    <!--                android:scaleType="centerCrop"-->
-                    <!--                android:layout_width="match_parent"-->
-                    <!--                android:layout_height="120dp"-->
-                    <!--                android:alpha="0.7"-->
-                    <!--                />-->
-
-                    <!--                <ImageView-->
-                    <!--                    android:id="@+id/cafeView1"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="120dp"-->
-                    <!--                    android:alpha="0.7"-->
-                    <!--                    android:scaleType="centerCrop" />-->
-
-
+                <include layout="@layout/places" />
 
                 </LinearLayout>
+
+
                 <ImageButton
-                    android:id="@+id/btnAddPlace"
+                    android:id="@+id/imgBtnAddPlace"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -97,17 +82,8 @@
                     android:scaleType="fitXY"
                     android:foreground="?attr/selectableItemBackground"
                     android:background="@drawable/planner_date_calendar_view_bg"/>
+
             </LinearLayout>
-
-
-            <!-- 이 코드 삽입하면 오류 발생 -->
-            <!--
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="+"
-                android:background="#2196F3"/> -->
-
 
         </ScrollView>
 

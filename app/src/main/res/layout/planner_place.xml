@@ -93,121 +93,7 @@
         </LinearLayout>
 
         <!--목록-->
-        <RelativeLayout
-            android:id="@+id/cafe1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <ImageView
-                android:id="@+id/cafeView1"
-                android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:src="@drawable/img_planner_place_cafe_1"
-                android:foreground="?attr/selectableItemBackground"/>
-            <TextView
-                android:id="@+id/cafeText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:text="카페 이름"
-                android:textSize="11pt"
-                android:textColor="@android:color/white"/>
-            <Button
-                android:id="@+id/cafeTag1"
-                android:layout_width="60dp"
-                android:layout_height="24dp"
-                android:layout_alignEnd="@id/cafeView1"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:clickable="false"
-                android:background="@drawable/main_post_postplacetag_tagstyle"
-                android:backgroundTint="#6CE4B4"
-                android:text="카 페"
-                android:textSize="6pt"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/att1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <ImageView
-                android:id="@+id/attView1"
-                android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:alpha="0.7"
-                android:src="@drawable/img_planner_place_attraction_1"
-                android:foreground="?attr/selectableItemBackground"/>
-            <TextView
-                android:id="@+id/attText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:text="명소 이름"
-                android:textSize="11pt"
-                android:textColor="@android:color/white"/>
-            <Button
-                android:id="@+id/attTag1"
-                android:layout_width="60dp"
-                android:layout_height="24dp"
-                android:layout_alignEnd="@id/attView1"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:clickable="false"
-                android:background="@drawable/main_post_postplacetag_tagstyle"
-                android:backgroundTint="#FFD37A"
-                android:text="명 소"
-                android:textSize="6pt"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rest1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <ImageView
-                android:id="@+id/restView1"
-                android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:alpha="0.7"
-                android:src="@drawable/img_planner_place_restaurant_1"
-                android:foreground="?attr/selectableItemBackground"/>
-            <TextView
-                android:id="@+id/restText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:text="맛집 이름"
-                android:textSize="11pt"
-                android:textColor="@android:color/white"/>
-            <Button
-                android:id="@+id/restTag1"
-                android:layout_width="60dp"
-                android:layout_height="24dp"
-                android:layout_alignEnd="@id/restView1"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:clickable="false"
-                android:background="@drawable/main_post_postplacetag_tagstyle"
-                android:backgroundTint="#F26C73"
-                android:text="맛 집"
-                android:textSize="6pt"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"/>
-        </RelativeLayout>
+        <include layout="@layout/places" />
 
     </LinearLayout>
 
@@ -217,17 +103,7 @@
         android:layout_height="0dp"
         android:layout_weight="8"
         android:gravity="right">
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:paddingLeft="15dp"
-            android:drawableEnd="@drawable/ic_next"
-            android:text="다음"
-            android:textColor="@android:color/white"
-            android:background="@drawable/btn_background_click_effect"/>
+        
     </LinearLayout>
 
 </LinearLayout>

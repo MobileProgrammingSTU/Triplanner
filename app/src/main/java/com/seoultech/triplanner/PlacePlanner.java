@@ -97,46 +97,25 @@ public class PlacePlanner extends AppCompatActivity {
         att1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //intent.putExtra("att1", R.drawable.img_planner_place_attraction_1);
-                //relativeLayoutList.add(att));
-
-                intent.putExtra("att1Img", R.drawable.img_planner_place_attraction_1);
-              //  intent.putExtra("att1Text", "명소 이름");
+                intent.putExtra("att1", "att1");
                 startActivity(intent);
             }
         });
         rest1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("rest1Img", R.drawable.img_planner_place_restaurant_1);
-                //intent.putExtra("res1Text", "맛집 이름");
+                intent.putExtra("rest1", "rest1");
                 startActivity(intent);
 
-                // intent.putExtra("rest1", (Parcelable) relativeLayoutList);
             }
         });
         cafe1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("cafe1Img", R.drawable.img_planner_place_cafe_1);
-              //  intent.putExtra("cafe1Text", "카페 이름");
+                intent.putExtra("cafe1", "cafe1");
                 startActivity(intent);
             }
         });
-
-        /*
-        one by one 으로 활동이 선택되기 때문에, 이 버튼은 굳이 필요가 없다 -> 추후 제거 예정
-        // 클릭 시 다음 화면으로 이동
-       btnNext.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               System.out.println("main intent size: " + intent.toString());
-
-               startActivity(intent);
-           }
-       });
-
-         */
     }
 
 }
