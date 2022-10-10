@@ -2,6 +2,7 @@ package com.seoultech.triplanner;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,6 +10,8 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Day1PlacePlanner extends AppCompatActivity {
@@ -17,7 +20,12 @@ public class Day1PlacePlanner extends AppCompatActivity {
 
     ImageView imgBtnBack;
     RelativeLayout att1, cafe1, rest1;
+    Button cafeDelete1, attDelete1, restDelete1;
     ImageButton imgBtnAddPlace;
+
+    Bundle bundle;
+
+    static Map<String, Boolean> removedList = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +33,6 @@ public class Day1PlacePlanner extends AppCompatActivity {
         setContentView(R.layout.planner_place_day1);
 
         imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
-        imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
-
-        final Bundle bundle = getIntent().getExtras();
 
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,30 +41,77 @@ public class Day1PlacePlanner extends AppCompatActivity {
             }
         });
 
+        bundle = getIntent().getExtras();
+        System.out.println("bundle size is : " + bundle.size());
+
         att1 = (RelativeLayout) findViewById(R.id.att1);
         cafe1 = (RelativeLayout) findViewById(R.id.cafe1);
         rest1 = (RelativeLayout) findViewById(R.id.rest1);
 
+        cafeDelete1 = (Button) findViewById(R.id.cafeDelete1);
+        attDelete1 = (Button) findViewById(R.id.attDelete1);
+        restDelete1 =(Button) findViewById(R.id.restDelete1);
+
+        imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
+
         if (bundle != null) {
-            Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
+            final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
+
+            for (String s : keySet) {
+                removedList.put(s, true);
+            }
 
             imgLinearLayout = (LinearLayout) findViewById(R.id.imgLinearLayout);
 
             for (String s : keySet) {
-                // s값: att1Img, cafe1Img, rest1Img
+                // s값: att1, cafe1, rest1
 
                 switch (s) {
                     case "att1":
                         att1.setVisibility(View.VISIBLE);
+                        attDelete1.setVisibility(View.VISIBLE);
                         break;
                     case "rest1":
                         rest1.setVisibility(View.VISIBLE);
+                        restDelete1.setVisibility(View.VISIBLE);
                         break;
                     case "cafe1":
                         cafe1.setVisibility(View.VISIBLE);
+                        cafeDelete1.setVisibility(View.VISIBLE);
                         break;
                 }
             }
+
+            // Delete button 을 누르면 data 제거
+            cafeDelete1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   cafe1.setVisibility(View.GONE);
+
+                   // 여기서 bundle 객체의 데이터를 제거한다.
+                    removedList.put("cafe1", false);
+//                    getIntent().removeExtra("cafe1");
+//                    bundle.remove("cafe1");
+                }
+            });
+            attDelete1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    att1.setVisibility(View.GONE);
+
+                    // 여기서 bundle 객체의 데이터를 제거한다.
+                    removedList.put("att1", false);
+                }
+            });
+            restDelete1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rest1.setVisibility(View.GONE);
+
+                    // 여기서 bundle 객체의 데이터를 제거한다.
+                    removedList.put("rest1", false);
+                }
+            });
 
             imgBtnAddPlace.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,5 +121,13 @@ public class Day1PlacePlanner extends AppCompatActivity {
             });
 
         }
+
+//        class DeleteClickListener implements View.OnClickListener {
+//            @Override
+//            public void onClick(View view) {
+//                keySet.remove()
+//            }
+//        }
+
     }
 }

@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.seoultech.triplanner.Day1PlacePlanner;
+
+import java.util.Set;
 
 public class PlacePlanner extends AppCompatActivity {
 
@@ -18,6 +21,8 @@ public class PlacePlanner extends AppCompatActivity {
     RelativeLayout att1, rest1, cafe1;
     Button btnAttraction, btnRestaurant, btnCafe;
     Button btnNext;
+
+    Set<String> removedListKeySet = Day1PlacePlanner.removedList.keySet();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +98,16 @@ public class PlacePlanner extends AppCompatActivity {
             }
         });
 
+
         // 여기서, att1, rest1, cafe1 의 RelativeLayout 을 클릭할 때, intent 로 data 를 저장한다.
         att1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (String s : removedListKeySet) {
+                    if (!Day1PlacePlanner.removedList.get(s)) {
+                        intent.removeExtra(s);
+                    }
+                }
                 intent.putExtra("att1", "att1");
                 startActivity(intent);
             }
@@ -104,14 +115,23 @@ public class PlacePlanner extends AppCompatActivity {
         rest1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (String s : removedListKeySet) {
+                    if (!Day1PlacePlanner.removedList.get(s)) {
+                        intent.removeExtra(s);
+                    }
+                }
                 intent.putExtra("rest1", "rest1");
                 startActivity(intent);
-
             }
         });
         cafe1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (String s : removedListKeySet) {
+                    if (!Day1PlacePlanner.removedList.get(s)) {
+                        intent.removeExtra(s);
+                    }
+                }
                 intent.putExtra("cafe1", "cafe1");
                 startActivity(intent);
             }
