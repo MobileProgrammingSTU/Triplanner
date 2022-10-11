@@ -53,7 +53,8 @@ public class PlacePlanner extends AppCompatActivity {
         });
 
         btnAttraction.setSelected(false);
-        btnRestaurant.setSelected(false); btnCafe.setSelected(false);
+        btnRestaurant.setSelected(false);
+        btnCafe.setSelected(false);
 
         btnAttraction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +109,7 @@ public class PlacePlanner extends AppCompatActivity {
                         intent.removeExtra(s);
                     }
                 }
-                intent.putExtra("att1", "att1");
+                intent.putExtra("att1_key", "att1");
                 startActivity(intent);
             }
         });
@@ -120,7 +121,7 @@ public class PlacePlanner extends AppCompatActivity {
                         intent.removeExtra(s);
                     }
                 }
-                intent.putExtra("rest1", "rest1");
+                intent.putExtra("rest1_key", "rest1");
                 startActivity(intent);
             }
         });
@@ -132,7 +133,7 @@ public class PlacePlanner extends AppCompatActivity {
                         intent.removeExtra(s);
                     }
                 }
-                intent.putExtra("cafe1", "cafe1");
+                intent.putExtra("cafe1_key", "cafe1");
                 startActivity(intent);
             }
         });

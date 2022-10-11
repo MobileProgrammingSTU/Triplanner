@@ -64,18 +64,18 @@ public class Day1PlacePlanner extends AppCompatActivity {
             imgLinearLayout = (LinearLayout) findViewById(R.id.imgLinearLayout);
 
             for (String s : keySet) {
-                // s값: att1, cafe1, rest1
+                // s값: att1_key, cafe1_key, rest1_key
 
                 switch (s) {
-                    case "att1":
+                    case "att1_key":
                         att1.setVisibility(View.VISIBLE);
                         attDelete1.setVisibility(View.VISIBLE);
                         break;
-                    case "rest1":
+                    case "rest1_key":
                         rest1.setVisibility(View.VISIBLE);
                         restDelete1.setVisibility(View.VISIBLE);
                         break;
-                    case "cafe1":
+                    case "cafe1_key":
                         cafe1.setVisibility(View.VISIBLE);
                         cafeDelete1.setVisibility(View.VISIBLE);
                         break;
@@ -89,7 +89,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
                    cafe1.setVisibility(View.GONE);
 
                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    removedList.put("cafe1", false);
+                    removedList.put("cafe1_key", false);
 //                    getIntent().removeExtra("cafe1");
 //                    bundle.remove("cafe1");
                 }
@@ -100,7 +100,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
                     att1.setVisibility(View.GONE);
 
                     // 여기서 bundle 객체의 데이터를 제거한다.
-                    removedList.put("att1", false);
+                    removedList.put("att1_key", false);
                 }
             });
             restDelete1.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +109,7 @@ public class Day1PlacePlanner extends AppCompatActivity {
                     rest1.setVisibility(View.GONE);
 
                     // 여기서 bundle 객체의 데이터를 제거한다.
-                    removedList.put("rest1", false);
+                    removedList.put("rest1_key", false);
                 }
             });
 
@@ -121,13 +121,5 @@ public class Day1PlacePlanner extends AppCompatActivity {
             });
 
         }
-
-//        class DeleteClickListener implements View.OnClickListener {
-//            @Override
-//            public void onClick(View view) {
-//                keySet.remove()
-//            }
-//        }
-
     }
 }
