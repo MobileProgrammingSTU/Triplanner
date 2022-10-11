@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.seoultech.triplanner.Day1PlacePlanner;
+import com.seoultech.triplanner.PlacePlanner;
 
 import java.util.Set;
 
@@ -41,9 +42,8 @@ public class PlacePlanner extends AppCompatActivity {
 
         btnNext = (Button) findViewById(R.id.btnNext);
 
-        // RelativeLayout 을 클릭 시 이미지들을 저장하도록 하는 Intent 객체를 생성
-        // 여기서 final keyword 를 사용하지 않으면, 아래에서 오류 발생
-        final Intent intent = new Intent(PlacePlanner.this, Day1PlacePlanner.class);
+        // RelativeLayout 을 클릭 시 이미지들을 저장하도록 하는 Intent 객체를 불러온다.
+        PlaceIntent.placeIntent.setClass(PlacePlanner.this, Day1PlacePlanner.class);
 
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,18 +99,18 @@ public class PlacePlanner extends AppCompatActivity {
             }
         });
 
-
         // 여기서, att1, rest1, cafe1 의 RelativeLayout 을 클릭할 때, intent 로 data 를 저장한다.
+        // putExtra 에서 첫 번째 변수는 임의로 지정한 문자열, 두 번째 변수는 RelativeLayout의 id와 동일한 문자열.
         att1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (String s : removedListKeySet) {
                     if (!Day1PlacePlanner.removedList.get(s)) {
-                        intent.removeExtra(s);
+                        PlaceIntent.placeIntent.removeExtra(s);
                     }
                 }
-                intent.putExtra("att1_key", "att1");
-                startActivity(intent);
+                PlaceIntent.placeIntent.putExtra("att1_key", "att1");
+                startActivity(PlaceIntent.placeIntent);
             }
         });
         rest1.setOnClickListener(new View.OnClickListener() {
@@ -118,11 +118,11 @@ public class PlacePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 for (String s : removedListKeySet) {
                     if (!Day1PlacePlanner.removedList.get(s)) {
-                        intent.removeExtra(s);
+                        PlaceIntent.placeIntent.removeExtra(s);
                     }
                 }
-                intent.putExtra("rest1_key", "rest1");
-                startActivity(intent);
+                PlaceIntent.placeIntent.putExtra("rest1_key", "rest1");
+                startActivity(PlaceIntent.placeIntent);
             }
         });
         cafe1.setOnClickListener(new View.OnClickListener() {
@@ -130,11 +130,11 @@ public class PlacePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 for (String s : removedListKeySet) {
                     if (!Day1PlacePlanner.removedList.get(s)) {
-                        intent.removeExtra(s);
+                        PlaceIntent.placeIntent.removeExtra(s);
                     }
                 }
-                intent.putExtra("cafe1_key", "cafe1");
-                startActivity(intent);
+                PlaceIntent.placeIntent.putExtra("cafe1_key", "cafe1");
+                startActivity(PlaceIntent.placeIntent);
             }
         });
     }
