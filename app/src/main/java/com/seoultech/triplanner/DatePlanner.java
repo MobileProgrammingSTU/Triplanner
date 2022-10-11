@@ -23,6 +23,7 @@ import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 
 import java.util.List;
+import com.seoultech.triplanner.PlaceIntent;
 
 public class DatePlanner extends AppCompatActivity {
     ImageButton btnBack;
@@ -116,6 +117,11 @@ public class DatePlanner extends AppCompatActivity {
                     textViewSelectedDate.setText("-");
                 }
                 else {
+
+                    // 여기서 시작 일자와 끝 일자를 저장한다.
+                    PlaceIntent.savedDateMap.put("startDay", startDay - (startDay - 1));
+                    PlaceIntent.savedDateMap.put("endDay", endDay - (startDay - 1));
+
                     Intent intent = new Intent(DatePlanner.this, PlacePlanner.class);
                     startActivity(intent);  // Activity 이동
                 }

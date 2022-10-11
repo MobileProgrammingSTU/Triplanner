@@ -1,5 +1,6 @@
 package com.seoultech.triplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,9 +21,12 @@ public class Day1PlacePlanner extends AppCompatActivity {
     LinearLayout imgLinearLayout;
 
     ImageView imgBtnBack;
+
+    TextView textView;
     RelativeLayout att1, cafe1, rest1;
     Button cafeDelete1, attDelete1, restDelete1;
     ImageButton imgBtnAddPlace;
+    Button btnNext;
 
     Bundle bundle;
 
@@ -44,6 +49,8 @@ public class Day1PlacePlanner extends AppCompatActivity {
         bundle = getIntent().getExtras();
         System.out.println("bundle size is : " + bundle.size());
 
+        textView = (TextView) findViewById(R.id.textView);
+
         att1 = (RelativeLayout) findViewById(R.id.att1);
         cafe1 = (RelativeLayout) findViewById(R.id.cafe1);
         rest1 = (RelativeLayout) findViewById(R.id.rest1);
@@ -53,6 +60,11 @@ public class Day1PlacePlanner extends AppCompatActivity {
         restDelete1 =(Button) findViewById(R.id.restDelete1);
 
         imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
+        btnNext = (Button) findViewById(R.id.btnNext);
+
+        // 1일차, 2일차, ...
+        Integer day = PlaceIntent.savedDateMap.get("startDay");
+        textView.setText(Integer.toString(day) + "일차 활동 선택 내역");
 
         if (bundle != null) {
             final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
@@ -117,6 +129,23 @@ public class Day1PlacePlanner extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     finish();
+                }
+            });
+
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (PlaceIntent.savedDateMap.get("startDay") < PlaceIntent.savedDateMap.get("endDay")) {
+                        int val = PlaceIntent.savedDateMap.get("startDay");
+                        PlaceIntent.savedDateMap.put("startDay", val + 1);
+                        Intent intentBack = new Intent(Day1PlacePlanner.this, PlacePlanner.class);
+                        startActivity(intentBack);
+                    }
+                    else {
+                        Intent intentFinish = new Intent(Day1PlacePlanner.this, FinishPlanner.class);
+                        startActivity(intentFinish);
+                    }
+
                 }
             });
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class PlaceIntent {
 
+    static Map<String, Integer> savedDateMap = new LinkedHashMap<>();
+
     // static 변수로 지정해서, 맨 처음에 생성되도록
     static Intent placeIntent = new Intent();
 

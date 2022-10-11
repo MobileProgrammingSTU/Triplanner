@@ -1,6 +1,5 @@
 package com.seoultech.triplanner;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.seoultech.triplanner.Day1PlacePlanner;
@@ -19,6 +19,7 @@ public class PlacePlanner extends AppCompatActivity {
 
     ImageButton imgBtnBack;
 
+    TextView textView;
     RelativeLayout att1, rest1, cafe1;
     Button btnAttraction, btnRestaurant, btnCafe;
     Button btnNext;
@@ -32,6 +33,7 @@ public class PlacePlanner extends AppCompatActivity {
 
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
+        textView = (TextView) findViewById(R.id.textView);
         btnAttraction = (Button) findViewById(R.id.btnAtt);
         btnRestaurant = (Button) findViewById(R.id.btnRes);
         btnCafe = (Button) findViewById(R.id.btnCafe);
@@ -51,6 +53,10 @@ public class PlacePlanner extends AppCompatActivity {
                 finish();
             }
         });
+
+        // 1일차, 2일차, ...
+        Integer day = PlaceIntent.savedDateMap.get("startDay");
+        textView.setText(Integer.toString(day) + "일차 활동을 선택하세요");
 
         btnAttraction.setSelected(false);
         btnRestaurant.setSelected(false);
