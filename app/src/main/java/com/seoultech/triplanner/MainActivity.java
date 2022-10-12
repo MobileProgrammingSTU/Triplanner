@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView logo;
     ImageButton searchBtn;
+    TextView HeaderText;
     RelativeLayout searchWindow;
     ImageButton regionA, regionA_down, regionB;
     TextView regionAText, regionBText;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         logo = (ImageView) findViewById(R.id.Logo);
         searchBtn = (ImageButton) findViewById(R.id.HeaderBtnSearch);
         searchWindow = (RelativeLayout) findViewById(R.id.BtnSearchWindow);
+        HeaderText = (TextView) findViewById(R.id.HeaderText);
         regionA = findViewById(R.id.regionA);
         regionA_down = findViewById(R.id.regionA_down);
         regionB = findViewById(R.id.regionB);
@@ -78,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 if(searchBtn.isSelected()) {
                     searchWindow.setVisibility(View.GONE);
                     logo.setVisibility(android.view.View.VISIBLE);
+                    HeaderText.setVisibility(android.view.View.GONE);
                 }
                 else {
                     searchWindow.setVisibility(android.view.View.VISIBLE);
                     logo.setVisibility(View.GONE);
+                    HeaderText.setVisibility(android.view.View.VISIBLE);
                 }
                 searchBtn.setSelected(!searchBtn.isSelected());
             }
