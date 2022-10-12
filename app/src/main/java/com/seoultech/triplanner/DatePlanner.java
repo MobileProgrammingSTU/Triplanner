@@ -117,7 +117,6 @@ public class DatePlanner extends AppCompatActivity {
                     textViewSelectedDate.setText("-");
                 }
                 else {
-
                     // 여기서 시작 일자와 끝 일자를 저장한다.
                     PlaceIntent.savedDateMap.put("startDay", startDay - (startDay - 1));
                     PlaceIntent.savedDateMap.put("endDay", endDay - (startDay - 1));
