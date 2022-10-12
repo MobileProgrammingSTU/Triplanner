@@ -23,7 +23,6 @@ import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 
 import java.util.List;
-import com.seoultech.triplanner.PlaceIntent;
 
 public class DatePlanner extends AppCompatActivity {
     ImageButton btnBack;
@@ -82,10 +81,14 @@ public class DatePlanner extends AppCompatActivity {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                startYear = date.getYear();
+                startMonth = date.getMonth();
+                startDay = date.getDay();
+
                 endYear = date.getYear();
                 endMonth = date.getMonth();
                 endDay = date.getDay();
-                textViewSelectedDate.setText(endYear+"."+endMonth+"."+endDay);
+                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay);
             }
         });
 

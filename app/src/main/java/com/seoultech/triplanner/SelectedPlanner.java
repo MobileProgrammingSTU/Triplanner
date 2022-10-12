@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -141,7 +140,6 @@ public class SelectedPlanner extends AppCompatActivity {
                     PlaceIntent.savedPlacesMap.put(startDay, list);
 
                     if (startDay < endDay) {
-
                         // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
                         PlaceIntent.savedDateMap.put("startDay", startDay + 1);
 
