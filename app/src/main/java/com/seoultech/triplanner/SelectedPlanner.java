@@ -21,7 +21,7 @@ public class SelectedPlanner extends AppCompatActivity {
 
     TextView textView;
     RelativeLayout att1, cafe1, rest1;
-    Button cafeDelete1, attDelete1, restDelete1;
+    ImageButton cafeDelete1, attDelete1, restDelete1;
     ImageButton imgBtnAddPlace;
     Button btnNext;
 
@@ -47,9 +47,9 @@ public class SelectedPlanner extends AppCompatActivity {
         cafe1 = (RelativeLayout) findViewById(R.id.cafe1);
         rest1 = (RelativeLayout) findViewById(R.id.rest1);
 
-        cafeDelete1 = (Button) findViewById(R.id.cafeDelete1);
-        attDelete1 = (Button) findViewById(R.id.attDelete1);
-        restDelete1 =(Button) findViewById(R.id.restDelete1);
+        cafeDelete1 = (ImageButton) findViewById(R.id.cafeDelete1);
+        attDelete1 = (ImageButton) findViewById(R.id.attDelete1);
+        restDelete1 =(ImageButton) findViewById(R.id.restDelete1);
 
         imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
         btnNext = (Button) findViewById(R.id.btnNext);

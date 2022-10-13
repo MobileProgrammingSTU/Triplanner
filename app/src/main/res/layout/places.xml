@@ -44,16 +44,18 @@
             android:textSize="6pt"
             android:textAlignment="center"
             android:textColor="@android:color/white"/>
-        <Button
+        <ImageButton
             android:id="@+id/cafeDelete1"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/cafeView1"
-            android:layout_alignBottom="@+id/cafeView1"
-            android:text="제거하기"
-            android:textSize="18dp"
-            android:background="#4CAF50"
-            android:visibility="invisible" />
+            android:layout_alignTop="@+id/cafeView1"
+            android:src="@drawable/ic_remove"
+            android:scaleType="fitXY"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/planner_date_calendar_view_bg"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="invisible"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -92,16 +94,18 @@
             android:textSize="6pt"
             android:textAlignment="center"
             android:textColor="@android:color/white"/>
-        <Button
+        <ImageButton
             android:id="@+id/attDelete1"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/attView1"
             android:layout_alignBottom="@+id/attView1"
-            android:text="제거하기"
-            android:textSize="18dp"
-            android:background="#4CAF50"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_remove"
+            android:scaleType="fitXY"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/planner_date_calendar_view_bg"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="invisible"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -140,16 +144,18 @@
             android:textSize="6pt"
             android:textAlignment="center"
             android:textColor="@android:color/white"/>
-        <Button
+        <ImageButton
             android:id="@+id/restDelete1"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/restView1"
-            android:layout_alignBottom="@+id/restView1"
-            android:text="제거하기"
-            android:textSize="18dp"
-            android:background="#4CAF50"
-            android:visibility="invisible" />
+            android:layout_alignTop="@+id/restView1"
+            android:src="@drawable/ic_remove"
+            android:scaleType="fitXY"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/planner_date_calendar_view_bg"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="invisible"/>
     </RelativeLayout>
 
 </LinearLayout>
