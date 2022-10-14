@@ -139,8 +139,17 @@ public class SelectedPlanner extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     int startDay = PlaceIntent.savedDateMap.get("startDay");
                     int endDay = PlaceIntent.savedDateMap.get("endDay");
+
+                    // User 가 place 를 삭제한 뒤 '다음' 버튼을 눌렀을 때, 삭제된 내역이 반영되지 않는 오류를 수정
+                    Set<String> checkRemovedSet = PlaceIntent.placeSavedMap.keySet();
+                    for (String s : checkRemovedSet) {
+                        if (keySet.contains(s) && !PlaceIntent.placeSavedMap.get(s)) {
+                            keySet.remove(s);
+                        }
+                    }
 
                     // 각 일차마다 저장된 값을 Place.savedPlacesMap 에 넣어준다.
                     LinkedList<String> list = new LinkedList<>();
