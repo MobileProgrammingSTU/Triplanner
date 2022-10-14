@@ -96,20 +96,21 @@ public class PlacePlanner extends AppCompatActivity {
         });
 
         Set<String> removedListKeySet = null;
-        if (PlaceIntent.removedPlaceList != null) {
-            removedListKeySet = PlaceIntent.removedPlaceList.keySet();
+        if (PlaceIntent.placeSavedMap != null) {
+            removedListKeySet = PlaceIntent.placeSavedMap.keySet();
         }
 
+        // 이 부분은 SelectedPlanner class 의 imgBtnAddPlace 가 finish() 가 아닌 intent 객체로 이동하기 때문에 실행된다.
+        // finish() 를 사용하게 되면 아래 해당되는 부분이 읽어지지 않아서 삭제한 활동이 반영되지 않는다.
         if (removedListKeySet != null) {
             for (String s : removedListKeySet) {
-                if (!PlaceIntent.removedPlaceList.get(s)) {
+                if (!PlaceIntent.placeSavedMap.get(s)) {
                     PlaceIntent.placeIntent.removeExtra(s);
                 }
             }
         }
 
         // RelativeLayout 을 클릭 시 이미지들을 저장하도록 하는 Intent 객체를 불러온다.
-        PlaceIntent.placeIntent = new Intent();
         PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
 
         // 1일차, 2일차, ...
@@ -126,6 +127,7 @@ public class PlacePlanner extends AppCompatActivity {
             }
         });
         rest1.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 PlaceIntent.placeIntent.putExtra("rest1_key", "rest1");

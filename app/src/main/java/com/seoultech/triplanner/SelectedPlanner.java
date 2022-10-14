@@ -62,13 +62,13 @@ public class SelectedPlanner extends AppCompatActivity {
         Integer day = PlaceIntent.savedDateMap.get("startDay");
         textView.setText(Integer.toString(day) + "일차 활동 선택 내역");
 
-        PlaceIntent.removedPlaceList = new LinkedHashMap<>();
+        PlaceIntent.placeSavedMap = new LinkedHashMap<>();
 
         if (bundle != null) {
             final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
 
             for (String s : keySet) {
-                PlaceIntent.removedPlaceList.put(s, true);
+                PlaceIntent.placeSavedMap.put(s, true);
             }
 
             for (String s : keySet) {
@@ -97,7 +97,7 @@ public class SelectedPlanner extends AppCompatActivity {
                    cafe1.setVisibility(View.GONE);
 
                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("cafe1_key", false);
+                    PlaceIntent.placeSavedMap.put("cafe1_key", false);
                 }
             });
             attDelete1.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class SelectedPlanner extends AppCompatActivity {
                     att1.setVisibility(View.GONE);
 
                     // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("att1_key", false);
+                    PlaceIntent.placeSavedMap.put("att1_key", false);
                 }
             });
             restDelete1.setOnClickListener(new View.OnClickListener() {
@@ -115,14 +115,24 @@ public class SelectedPlanner extends AppCompatActivity {
                     rest1.setVisibility(View.GONE);
 
                     // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("rest1_key", false);
+                    PlaceIntent.placeSavedMap.put("rest1_key", false);
                 }
             });
 
             imgBtnAddPlace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    finish();
+                    /* test 코드 작성
+                    Set<String> test = PlaceIntent.placeSavedMap.keySet();
+                    System.out.println("====여기는 SelectedPlanner.java 위치 입니다====");
+                    for (String s : test) {
+                        boolean value = PlaceIntent.placeSavedMap.get(s);
+                        System.out.println(s + "에 담긴 값은 " + value + " 입니다.");
+                    } */
+
+                    Intent imgBtnAddIntent = new Intent(SelectedPlanner.this, PlacePlanner.class);
+                    startActivity(imgBtnAddIntent);
+                    // finish();
                 }
             });
 
@@ -142,6 +152,9 @@ public class SelectedPlanner extends AppCompatActivity {
                     if (startDay < endDay) {
                         // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
                         PlaceIntent.savedDateMap.put("startDay", startDay + 1);
+
+                        // 날짜가 변경될 때 마다 해당 날짜에 맞는 새로운 Intent 객체를 생성한다.
+                        PlaceIntent.placeIntent = new Intent();
 
                         Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
                         startActivity(intentBack);
