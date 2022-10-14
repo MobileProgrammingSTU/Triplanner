@@ -99,7 +99,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/attView1"
-            android:layout_alignBottom="@+id/attView1"
             android:src="@drawable/ic_remove"
             android:scaleType="fitXY"
             android:foreground="?attr/selectableItemBackground"
