@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -143,12 +144,19 @@ public class SelectedPlanner extends AppCompatActivity {
                     int startDay = PlaceIntent.savedDateMap.get("startDay");
                     int endDay = PlaceIntent.savedDateMap.get("endDay");
 
-                    // User 가 place 를 삭제한 뒤 '다음' 버튼을 눌렀을 때, 삭제된 내역이 반영되지 않는 오류를 수정
+                    // 사용자가 게시물을 삭제한 뒤 '다음' 버튼을 눌렀을 때, 삭제된 내역이 반영되지 않는 오류를 수정
                     Set<String> checkRemovedSet = PlaceIntent.placeSavedMap.keySet();
                     for (String s : checkRemovedSet) {
                         if (keySet.contains(s) && !PlaceIntent.placeSavedMap.get(s)) {
                             keySet.remove(s);
                         }
+                    }
+
+                    // 사용자가 선택한 게시물이 하나도 없는 경우, 다음 화면으로 넘어가지 못하도록 방지
+                    if (keySet.size() == 0) {
+                        Toast.makeText(getApplicationContext(), "활동을 하나 이상 선택하세요!",
+                                Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
                     // 각 일차마다 저장된 값을 Place.savedPlacesMap 에 넣어준다.
