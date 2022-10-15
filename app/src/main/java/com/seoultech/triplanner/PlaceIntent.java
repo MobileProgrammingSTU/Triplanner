@@ -17,11 +17,12 @@ public class PlaceIntent {
     // 1일차, 2일차마다 활동 담긴 부분을 초기화해주기 위해 사용
     static Map<String, Boolean> placeSavedMap;
 
-    //일차에 선택한 장소배너 아이템 리스트
+    //새로 추가됨 : 일차에 선택한 장소배너 아이템 리스트
     static ArrayList<PlaceBannerItem> daySelectedPlace = new ArrayList<PlaceBannerItem>();
 
     // 1일차에 해당하는 장소를 담는 Map(= Python의 Dict)
     // Key 값은 중복이 될 수 없으므로, 장소를 String[] 배열로 받도록 선언(장소를 여러 개 선택 할 수도 있으므로)
+    //List<String>에서 ArrayList<PlaceBannerItem>으로 변경
     static Map<Integer, ArrayList<PlaceBannerItem>> savedPlacesMap = new LinkedHashMap<>();
 
     PlaceIntent() {

@@ -14,14 +14,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class SelectedPlanner extends AppCompatActivity {
 
     ListView bannerListView;
     SelectedBannerAdapter adapter;
-    ArrayList<PlaceBannerItem> placeDataList; // 장소 data 리스트
+    ArrayList<PlaceBannerItem> placeDataList; // 리스트뷰의 data 리스트
 
     ImageView imgBtnBack;
 
@@ -42,7 +40,7 @@ public class SelectedPlanner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planner_selected);
 
-        bannerListView = (ListView) findViewById(R.id.bannerList);
+        bannerListView = (ListView) findViewById(R.id.selectedList);
         placeDataList = new ArrayList<>();
         adapter = new SelectedBannerAdapter(this, R.layout.place_banner_item, placeDataList);
         bannerListView.setAdapter(adapter);
@@ -76,9 +74,11 @@ public class SelectedPlanner extends AppCompatActivity {
 
         //static ArrayList에 인텐트로 받아온 데이터 누적하기
         PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(imgData, titleData, typeData));
-        placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 데이터 리스트에 모두 추가
+
+        placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
         adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남
 
+        //배너를 클릭하면 지워짐(이후에 delete 버튼 만들어서 역할 이전시킬 예정)
         bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,10 +87,10 @@ public class SelectedPlanner extends AppCompatActivity {
             }
         });
 
-        PlaceIntent.placeSavedMap = new LinkedHashMap<>();
+        //PlaceIntent.placeSavedMap = new LinkedHashMap<>();
 
         if (bundle != null) {
-            final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
+            //final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
 
             //for (String s : keySet) {
             //    PlaceIntent.placeSavedMap.put(s, true);
@@ -173,9 +173,9 @@ public class SelectedPlanner extends AppCompatActivity {
                     }
                      */
                     ArrayList<PlaceBannerItem> list = new ArrayList<PlaceBannerItem>();
-                    list.addAll(PlaceIntent.daySelectedPlace);
+                    list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
 
-                    PlaceIntent.savedPlacesMap.put(startDay, list);
+                    PlaceIntent.savedPlacesMap.put(startDay, list); // 총 저장소에 담기
 
                     if (startDay < endDay) {
                         // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
@@ -186,6 +186,7 @@ public class SelectedPlanner extends AppCompatActivity {
                         // 일차별 사용하는 리스트도 새롭게 비워준다
                         PlaceIntent.daySelectedPlace.clear();
 
+                        // 다음날
                         Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
                         startActivity(intentBack);
                     }
@@ -194,6 +195,7 @@ public class SelectedPlanner extends AppCompatActivity {
                         PlaceIntent.placeIntent = new Intent();
                         PlaceIntent.daySelectedPlace.clear();
 
+                        // finish
                         Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
                         startActivity(intentFinish);
                     }

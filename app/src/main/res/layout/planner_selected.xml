@@ -57,14 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ListView
-                android:id="@+id/bannerList"
+                android:id="@+id/selectedList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <ImageButton
                 android:id="@+id/imgBtnAddPlace"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignBottom="@+id/bannerList"
+                android:layout_alignBottom="@+id/selectedList"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_add"
