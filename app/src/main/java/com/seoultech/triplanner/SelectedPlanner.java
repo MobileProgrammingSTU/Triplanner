@@ -28,6 +28,7 @@ public class SelectedPlanner extends AppCompatActivity {
     RelativeLayout att1, cafe1, rest1;
     ImageButton cafeDelete1, attDelete1, restDelete1;
     ImageButton imgBtnAddPlace;
+    Button btnAdd;
     Button btnNext;
 
     Bundle bundle;
@@ -42,7 +43,7 @@ public class SelectedPlanner extends AppCompatActivity {
 
         bannerListView = (ListView) findViewById(R.id.selectedList);
         placeDataList = new ArrayList<>();
-        adapter = new SelectedBannerAdapter(this, R.layout.place_banner_item, placeDataList);
+        adapter = new SelectedBannerAdapter(this, R.layout.place_selected_banner_item, placeDataList);
         bannerListView.setAdapter(adapter);
 
         imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
@@ -56,7 +57,7 @@ public class SelectedPlanner extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
 
-        imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
+        btnAdd = (Button) findViewById(R.id.btnAdd); //장소 추가 버튼 수정
         btnNext = (Button) findViewById(R.id.btnNext);
 
         // PlacePlanner.java 에서 putExtra 로 담은 내용을 bundle 에 담는다.
@@ -127,7 +128,7 @@ public class SelectedPlanner extends AppCompatActivity {
                 }
             });
 */
-            imgBtnAddPlace.setOnClickListener(new View.OnClickListener() {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     /* test 코드 작성

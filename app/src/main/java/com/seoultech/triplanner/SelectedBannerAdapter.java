@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 //PlaceBannerAdapter와 구조는 동일합니다. 다만 여기에서는 필터를 사용하지 않는다는 차이가 있습니다
 
-public class SelectedBannerAdapter extends BaseAdapter {
+public class SelectedBannerAdapter extends BaseAdapter{
     public final static String ATT = "att";
     public final static String REST = "rest";
     public final static String CAFE = "cafe";
@@ -51,6 +52,8 @@ public class SelectedBannerAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final int pos = position;
+
         // LayoutInflater를 통해 place_banner_item 메모리에 객체화
         if(convertView == null) {
             convertView = inflater.inflate(layout, parent, false);
@@ -62,7 +65,6 @@ public class SelectedBannerAdapter extends BaseAdapter {
         // 아이템 내 각 위젯에 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
         bannerImg.setImageResource(bannerItem.getImg());
-
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
         bannerTitle.setText(bannerItem.getTitle());
 
@@ -84,6 +86,15 @@ public class SelectedBannerAdapter extends BaseAdapter {
             bannerTag.setText("기 타");
         }
 
+        ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(pos); // 리스트 뷰에서 지우기
+                PlaceIntent.daySelectedPlace.remove(pos); // static 리스트 지우기
+            }
+        });
+
         return convertView;
     }
 
@@ -98,4 +109,5 @@ public class SelectedBannerAdapter extends BaseAdapter {
         bannerList.remove(position);
         this.notifyDataSetChanged(); // 데이터 변경사항이 어댑터에 적용, 리스트뷰에 나타남
     }
+
 }

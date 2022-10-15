@@ -45,6 +45,7 @@ public class PlacePlanner extends AppCompatActivity {
         adapter.addItem(R.drawable.img_planner_place_restaurant_1, "맛집 이름", "rest");
         adapter.addItem(R.drawable.img_planner_place_cafe_1, "카페 이름", "cafe");
         adapter.addItem(R.drawable.img_planner_place_attraction_1, "명소 이름", "att");
+        adapter.addItem(R.drawable.img_activity_main_cafe_1, "카페 할아버지 공장", "cafe");
 
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
