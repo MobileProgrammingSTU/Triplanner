@@ -53,45 +53,44 @@
             android:textColor="@android:color/white"
             android:text="1일차 활동 선택 내역"/>
 
-        <RelativeLayout
+        <ListView
+            android:id="@+id/selectedList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ListView
-                android:id="@+id/selectedList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <ImageButton
-                android:id="@+id/imgBtnAddPlace"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/selectedList"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_add"
-                android:scaleType="fitXY"
-                android:foreground="?attr/selectableItemBackground"
-                android:background="@drawable/planner_date_calendar_view_bg"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:focusable="true"/>
 
     </LinearLayout>
 
     <!--Footer(메뉴)-->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:gravity="right">
+        android:layout_weight="8">
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:paddingEnd="15dp"
+            android:drawableStart="@drawable/ic_add"
+            android:text="장소추가"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_background_click_effect"/>
+
         <Button
             android:id="@+id/btnNext"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:paddingLeft="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="15dp"
             android:drawableEnd="@drawable/ic_next"
             android:text="다음"
             android:textColor="@android:color/white"
             android:background="@drawable/btn_background_click_effect"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
