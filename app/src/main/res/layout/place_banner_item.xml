@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/banner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/bannerImg"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:alpha="0.7"/>
+    <TextView
+        android:id="@+id/bannerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:text="장소 이름"
+        android:textSize="11pt"
+        android:textColor="@android:color/white"/>
+    <Button
+        android:id="@+id/bannerTag"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_alignEnd="@id/bannerImg"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:background="@drawable/main_post_postplacetag_tagstyle"
+        android:text="종 류"
+        android:textSize="6pt"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>

@@ -93,7 +93,15 @@
         </LinearLayout>
 
         <!--목록-->
-        <include layout="@layout/places" />
+        <!--include layout="@layout/places" /-->
+
+        <ListView
+            android:id="@+id/bannerList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="3dp"></ListView>
+
+
 
     </LinearLayout>
 
