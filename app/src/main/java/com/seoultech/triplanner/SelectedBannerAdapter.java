@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//PlaceBannerAdapter와 구조는 동일합니다. 다만 여기에서는 필터를 사용하지 않는다는 차이가 있습니다
+
 public class SelectedBannerAdapter extends BaseAdapter {
     public final static String ATT = "att";
     public final static String REST = "rest";
