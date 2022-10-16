@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -173,32 +174,38 @@ public class SelectedPlanner extends AppCompatActivity {
                         startActivity(intentFinish);
                     }
                      */
-                    ArrayList<PlaceBannerItem> list = new ArrayList<PlaceBannerItem>();
-                    list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
+                    if (!placeDataList.isEmpty()) {
+                        ArrayList<PlaceBannerItem> list = new ArrayList<PlaceBannerItem>();
+                        list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
 
-                    PlaceIntent.savedPlacesMap.put(startDay, list); // 총 저장소에 담기
+                        PlaceIntent.savedPlacesMap.put(startDay, list); // 총 저장소에 담기
 
-                    if (startDay < endDay) {
-                        // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
-                        PlaceIntent.savedDateMap.put("startDay", startDay + 1);
+                        if (startDay < endDay) {
+                            // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
+                            PlaceIntent.savedDateMap.put("startDay", startDay + 1);
 
-                        // 날짜가 변경될 때 마다 해당 날짜에 맞는 새로운 Intent 객체를 생성한다.
-                        PlaceIntent.placeIntent = new Intent();
-                        // 일차별 사용하는 리스트도 새롭게 비워준다
-                        PlaceIntent.daySelectedPlace.clear();
+                            // 날짜가 변경될 때 마다 해당 날짜에 맞는 새로운 Intent 객체를 생성한다.
+                            PlaceIntent.placeIntent = new Intent();
+                            // 일차별 사용하는 리스트도 새롭게 비워준다
+                            PlaceIntent.daySelectedPlace.clear();
 
-                        // 다음날
-                        Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
-                        startActivity(intentBack);
+                            // 다음날
+                            Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
+                            startActivity(intentBack);
+                        }
+                        else {
+                            // 모두 초기화
+                            PlaceIntent.placeIntent = new Intent();
+                            PlaceIntent.daySelectedPlace.clear();
+
+                            // finish
+                            Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
+                            startActivity(intentFinish);
+                        }
                     }
                     else {
-                        // 모두 초기화
-                        PlaceIntent.placeIntent = new Intent();
-                        PlaceIntent.daySelectedPlace.clear();
-
-                        // finish
-                        Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
-                        startActivity(intentFinish);
+                        Toast.makeText(getApplicationContext(),
+                                "방문할 장소를 추가해주세요!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
