@@ -87,6 +87,7 @@ public class SelectedBannerAdapter extends BaseAdapter{
         }
 
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
+        btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
         btnDelete.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

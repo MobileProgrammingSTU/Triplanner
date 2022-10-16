@@ -42,7 +42,6 @@
         android:scaleType="fitXY"
         android:foreground="?attr/selectableItemBackground"
         android:background="@drawable/planner_date_calendar_view_bg"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:focusable="false"/>
+        android:backgroundTint="@android:color/holo_red_dark"/>
 
 </RelativeLayout>
