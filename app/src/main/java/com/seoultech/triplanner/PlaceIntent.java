@@ -14,9 +14,6 @@ public class PlaceIntent {
     // static 변수로 지정해서, 맨 처음에 생성되도록
     static Intent placeIntent = new Intent();
 
-    // 1일차, 2일차마다 활동 담긴 부분을 초기화해주기 위해 사용
-    static Map<String, Boolean> placeSavedMap;
-
     //새로 추가됨 : 일차에 선택한 장소배너 아이템 리스트
     static ArrayList<PlaceBannerItem> daySelectedPlace = new ArrayList<PlaceBannerItem>();
 

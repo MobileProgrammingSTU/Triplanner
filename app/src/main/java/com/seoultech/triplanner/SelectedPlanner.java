@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +25,6 @@ public class SelectedPlanner extends AppCompatActivity {
 
     TextView textView;
 
-    RelativeLayout att1, cafe1, rest1;
-    ImageButton cafeDelete1, attDelete1, restDelete1;
-    ImageButton imgBtnAddPlace;
     Button btnAdd;
     Button btnNext;
 
@@ -37,6 +32,8 @@ public class SelectedPlanner extends AppCompatActivity {
     int imgData;
     String titleData;
     String typeData;
+    int startDay;
+    int endDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +66,14 @@ public class SelectedPlanner extends AppCompatActivity {
         Integer day = PlaceIntent.savedDateMap.get("startDay");
         textView.setText(Integer.toString(day) + "일차 장소 선택 내역");
 
+        //날짜 정보
+        startDay = PlaceIntent.savedDateMap.get("startDay");
+        endDay = PlaceIntent.savedDateMap.get("endDay");
+        // 마지막 일차에는 다음버튼이 완료로 텍스트가 나타남
+        if (endDay - startDay < 1) {
+            btnNext.setText("완료");
+        }
+
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();
         imgData = Integer.parseInt(intent.getStringExtra("img")); // String으로 보낸 경로 정보를 다시 Int로 바꿈
@@ -90,59 +95,10 @@ public class SelectedPlanner extends AppCompatActivity {
             }
         });
 
-        //PlaceIntent.placeSavedMap = new LinkedHashMap<>();
-
         if (bundle != null) {
-            //final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
-
-            //for (String s : keySet) {
-            //    PlaceIntent.placeSavedMap.put(s, true);
-            //}
-
-
-/*
-            // Delete button 을 누르면 data 제거
-            cafeDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                   cafe1.setVisibility(View.GONE);
-
-                   // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.placeSavedMap.put("cafe1_key", false);
-                }
-            });
-            attDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    att1.setVisibility(View.GONE);
-
-                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.placeSavedMap.put("att1_key", false);
-                }
-            });
-            restDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    rest1.setVisibility(View.GONE);
-
-                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.placeSavedMap.put("rest1_key", false);
-                }
-            });
-*/
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /* test 코드 작성
-                    Set<String> test = PlaceIntent.placeSavedMap.keySet();
-                    System.out.println("====여기는 SelectedPlanner.java 위치 입니다====");
-                    for (String s : test) {
-                        boolean value = PlaceIntent.placeSavedMap.get(s);
-                        System.out.println(s + "에 담긴 값은 " + value + " 입니다.");
-                    }*/
-
-                    //Intent imgBtnAddIntent = new Intent(SelectedPlanner.this, PlacePlanner.class);
-                    //startActivity(imgBtnAddIntent);
                     finish();
                 }
             });
@@ -150,10 +106,6 @@ public class SelectedPlanner extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    int startDay = PlaceIntent.savedDateMap.get("startDay");
-                    int endDay = PlaceIntent.savedDateMap.get("endDay");
-
 
                     if (!placeDataList.isEmpty()) {
 

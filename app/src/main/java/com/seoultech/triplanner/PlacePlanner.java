@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,6 @@ public class PlacePlanner extends AppCompatActivity {
     ImageButton imgBtnBack;
 
     TextView textView;
-    RelativeLayout att1, rest1, cafe1;
     Button btnAttraction, btnRestaurant, btnCafe;
     Button btnNext;
 
@@ -138,50 +136,6 @@ public class PlacePlanner extends AppCompatActivity {
         // 1일차, 2일차, ...
         Integer day = PlaceIntent.savedDateMap.get("startDay");
         textView.setText(day + "일차에 방문할 장소를 선택하세요");
-/*
-        Set<String> removedListKeySet = null;
-        if (PlaceIntent.placeSavedMap != null) {
-            removedListKeySet = PlaceIntent.placeSavedMap.keySet();
-        }
 
-        // 이 부분은 SelectedPlanner class 의 imgBtnAddPlace 가 finish() 가 아닌 intent 객체로 이동하기 때문에 실행된다.
-        // finish() 를 사용하게 되면 아래 해당되는 부분이 읽어지지 않아서 삭제한 활동이 반영되지 않는다.
-        if (removedListKeySet != null) {
-            for (String s : removedListKeySet) {
-                if (!PlaceIntent.placeSavedMap.get(s)) {
-                    PlaceIntent.placeIntent.removeExtra(s);
-                }
-            }
-        }
-*/
-        // RelativeLayout 을 클릭 시 이미지들을 저장하도록 하는 Intent 객체를 불러온다.
-        //PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
-
-
-/*
-        // 여기서, att1, rest1, cafe1 의 RelativeLayout 을 클릭할 때, intent 로 data 를 저장한다.
-        // putExtra 에서 첫 번째 변수는 임의로 지정한 문자열, 두 번째 변수는 RelativeLayout 의 id와 동일한 문자열.
-        att1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PlaceIntent.placeIntent.putExtra("att1_key", "att1");
-                startActivity(PlaceIntent.placeIntent);
-            }
-        });
-        rest1.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                PlaceIntent.placeIntent.putExtra("rest1_key", "rest1");
-                startActivity(PlaceIntent.placeIntent);
-            }
-        });
-        cafe1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PlaceIntent.placeIntent.putExtra("cafe1_key", "cafe1");
-                startActivity(PlaceIntent.placeIntent);
-            }
-        });*/
     }
 }
