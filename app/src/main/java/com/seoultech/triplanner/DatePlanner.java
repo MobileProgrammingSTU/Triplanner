@@ -74,7 +74,7 @@ public class DatePlanner extends AppCompatActivity {
                 endYear = dates.get(dates.size() - 1).getYear();
                 endMonth = dates.get(dates.size() - 1).getMonth();
                 endDay = dates.get(dates.size() - 1).getDay();
-                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay + " ~ "
+                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay + "   ~   "
                         + endYear+"."+endMonth+"."+endDay);
             }
         });

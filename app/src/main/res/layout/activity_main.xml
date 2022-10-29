@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     android:weightSum="100"
     tools:context=".MainActivity">
@@ -16,23 +16,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
+
         <ImageView
             android:id="@+id/Logo"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="-10dp"
             android:adjustViewBounds="true"
-            android:paddingLeft="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/img_activity_main_logo"/>
-
         <ImageButton
             android:id="@+id/HeaderBtnSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_background_click_effect"
             android:src="@drawable/ic_search"/>
@@ -64,12 +64,7 @@
             android:orientation="horizontal"
             android:layout_gravity="top|center"
             android:gravity="center"
-            android:paddingTop="30dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/activity_main_view_bg_gradient_black_top"/>
+            android:paddingTop="18dp"/>
 
         <!--게시물 제목/부제목/유저명 텍스트-->
         <LinearLayout
@@ -85,19 +80,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingLeft="20dp"
-                android:paddingTop="80dp"
+                android:paddingTop="70dp"
                 android:text="성수동 감성 카페 여행"
-                android:textSize="12pt"
-                android:textColor="@android:color/white"/>
+                android:textSize="36sp"
+                android:textColor="@color/colorFontEmphasis"/>
             <TextView
                 android:id="@+id/MainTextPost_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:paddingTop="10dp"
+                android:paddingTop="20dp"
                 android:text="지친 일상으로부터 탈출"
-                android:textSize="8pt"
-                android:textColor="@android:color/white"/>
+                android:textSize="24sp"
+                android:textColor="@color/colorFontNormal"/>
             <TextView
                 android:id="@+id/MainTextPost_user"
                 android:layout_width="match_parent"
@@ -105,44 +100,34 @@
                 android:gravity="right"
                 android:paddingRight="20dp"
                 android:text="traveler 님"
-                android:textSize="5pt"
-                android:textColor="@android:color/white"/>
+                android:textSize="16sp"
+                android:textColor="@color/colorFontNormal"/>
         </LinearLayout>
-
-        <!--게시물 스크롤 버튼-->
-        <ImageButton
-            android:id="@+id/MainBtnMore"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_gravity="center|bottom"
-            android:src="@drawable/ic_more_post"
-            android:background="@drawable/btn_background_click_effect"
-            android:scaleType="fitXY"/>
-
 
         <!--게시물 버튼-->
         <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_width="96dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
             android:columnCount="2"
-            android:paddingTop="20dp">
+            android:paddingTop="12dp">
             <ImageButton
                 android:id="@+id/MainBtnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_column="1"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_save"
+                android:scaleType="fitXY"
                 android:background="?attr/selectableItemBackground"/>
             <ImageButton
                 android:id="@+id/MainBtnBookmark"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_column="0"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_bookmark"
+                android:src="@drawable/ic_heart"
+                android:scaleType="fitXY"
                 android:background="?attr/selectableItemBackground"/>
         </GridLayout>
 
@@ -152,15 +137,16 @@
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="800dp"
-            android:padding="20dp"
+            android:padding="10dp"
             android:background="@drawable/activity_main_view_bg_gradient_black_top">
             <TextView
                 android:id="@+id/SearchWindowText1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:text="지역을 선택하세요"
-                android:textColor="@android:color/white"/>
+                android:textSize="20sp"
+                android:textColor="@color/colorFontEmphasis"/>
             <ImageButton
                 android:id="@+id/regionB"
                 android:layout_width="260dp"
@@ -199,17 +185,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="북 부"
-                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textFontWeight="600"
+                android:textColor="@color/colorFontEmphasis"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/regionA_down"
                 android:paddingStart="20dp"
+                android:paddingTop="100dp"
                 android:visibility="gone"/>
             <TextView
                 android:id="@+id/regionBText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="남 부"
-                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textFontWeight="600"
+                android:textColor="@color/colorFontEmphasis"
                 android:layout_centerHorizontal="true"
                 android:layout_alignBottom="@+id/regionB"
                 android:layout_marginBottom="25dp"
@@ -222,7 +213,8 @@
                 android:layout_margin="15dp"
                 android:paddingTop="25dp"
                 android:text="장소를 선택하세요"
-                android:textColor="@android:color/white"/>
+                android:textSize="20sp"
+                android:textColor="@color/colorFontEmphasis"/>
             <CheckBox
                 android:id="@+id/checkPlace1"
                 android:layout_width="wrap_content"
@@ -230,7 +222,8 @@
                 android:layout_below="@+id/SearchWindowText2"
                 android:layout_marginStart="25dp"
                 android:text="맛집"
-                android:textColor="@android:color/white"/>
+                android:textSize="18sp"
+                android:textColor="@color/colorFontEmphasis"/>
             <CheckBox
                 android:id="@+id/checkPlace2"
                 android:layout_width="wrap_content"
@@ -239,7 +232,8 @@
                 android:layout_alignBaseline="@+id/checkPlace1"
                 android:layout_marginStart="25dp"
                 android:text="카페"
-                android:textColor="@android:color/white"/>
+                android:textSize="18sp"
+                android:textColor="@color/colorFontEmphasis"/>
             <CheckBox
                 android:id="@+id/checkPlace3"
                 android:layout_width="wrap_content"
@@ -248,7 +242,8 @@
                 android:layout_alignBaseline="@+id/checkPlace2"
                 android:layout_marginStart="25dp"
                 android:text="명소"
-                android:textColor="@android:color/white"/>
+                android:textSize="18sp"
+                android:textColor="@color/colorFontEmphasis"/>
         </RelativeLayout>
     </FrameLayout>
 
@@ -281,7 +276,8 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:background="@drawable/btn_background_click_effect"
-            android:src="@drawable/ic_plus"
+            android:src="@drawable/ic_edit_calendar"
+            android:tint="@color/colorFontEmphasis"
             android:scaleType="fitXY"/>
         <Space
             android:layout_width="wrap_content"

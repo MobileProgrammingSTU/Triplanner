@@ -7,6 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <!--font-->
+        <item name="android:textViewStyle">@style/fontTextView</item>
+        <item name="android:buttonStyle">@style/fontButton</item>
+        <item name="android:checkboxStyle">@style/fontCheckbox</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">

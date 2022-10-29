@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(bookmarkBtn.isSelected()) {
-                    bookmarkBtn.setImageResource(R.drawable.ic_bookmark);
+                    bookmarkBtn.setImageResource(R.drawable.ic_heart);
                 }
                 else {
-                    bookmarkBtn.setImageResource(R.drawable.ic_bookmark_selected);
+                    bookmarkBtn.setImageResource(R.drawable.ic_heart_filled);
                     Toast.makeText(getApplicationContext(),"게시물을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
                 }
                 bookmarkBtn.setSelected(!bookmarkBtn.isSelected());

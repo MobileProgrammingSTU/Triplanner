@@ -92,11 +92,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnAttraction.isSelected()){
-                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#404040")));
+                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
                     adapter.removeFilterType(PlaceBannerAdapter.ATT); // (type:att)를 리스트에서 제거
                 }
                 else {
-                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFD37A")));
+                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
                     adapter.addFilterType(PlaceBannerAdapter.ATT); // (type:att)를 리스트에 띄움
                 }
                 btnAttraction.setSelected(!btnAttraction.isSelected());
@@ -107,11 +107,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnRestaurant.isSelected()){
-                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#404040")));
+                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
                     adapter.removeFilterType(PlaceBannerAdapter.REST); // (type:rest)를 리스트에서 제거
                 }
                 else {
-                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
                     adapter.addFilterType(PlaceBannerAdapter.REST); // (type:rest)를 리스트에 띄움
                 }
                 btnRestaurant.setSelected(!btnRestaurant.isSelected());
@@ -122,11 +122,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnCafe.isSelected()){
-                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#404040")));
+                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
                     adapter.removeFilterType(PlaceBannerAdapter.CAFE); // (type:cafe)를 리스트에서 제거
                 }
                 else {
-                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#6CE4B4")));
+                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
                     adapter.addFilterType(PlaceBannerAdapter.CAFE); // (type:cafe)를 리스트에 띄움
                 }
                 btnCafe.setSelected(!btnCafe.isSelected());

@@ -72,7 +72,7 @@ public class SelectedBannerAdapter extends BaseAdapter{
         String type = bannerItem.getType();
         if(type.contains("cafe") || type.contains("카페")) {
             bannerTag.setText("카 페");
-            bannerTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#6CE4B4")));
+            bannerTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
         }
         else if(type.contains("rest") || type.contains("맛집")) {
             bannerTag.setText("맛 집");
