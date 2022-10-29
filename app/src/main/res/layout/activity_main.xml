@@ -23,7 +23,7 @@
             android:layout_height="160dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="-10dp"
+            android:layout_marginStart="14dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/img_activity_main_logo"/>
