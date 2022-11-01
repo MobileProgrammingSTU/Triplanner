@@ -9,7 +9,6 @@
     android:weightSum="100"
     tools:context=".MainActivity">
 
-
     <!--Header(로고, 게시물 필터)-->
     <RelativeLayout
         android:id="@+id/header"

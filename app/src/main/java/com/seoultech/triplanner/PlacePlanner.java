@@ -24,7 +24,6 @@ public class PlacePlanner extends AppCompatActivity {
 
     TextView textView;
     Button btnAttraction, btnRestaurant, btnCafe;
-    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,6 @@ public class PlacePlanner extends AppCompatActivity {
         btnAttraction = (Button) findViewById(R.id.btnAtt);
         btnRestaurant = (Button) findViewById(R.id.btnRes);
         btnCafe = (Button) findViewById(R.id.btnCafe);
-
-        btnNext = (Button) findViewById(R.id.btnNext);
 
         //SelectedPlanner로 데이터를 보내기위해 인텐트 선언
         PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
