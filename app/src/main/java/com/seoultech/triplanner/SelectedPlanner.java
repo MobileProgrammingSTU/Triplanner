@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-
 public class SelectedPlanner extends AppCompatActivity {
 
     ListView bannerListView;
@@ -106,12 +105,9 @@ public class SelectedPlanner extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (!placeDataList.isEmpty()) {
-
                         ArrayList<PlaceBannerItem> list = new ArrayList<PlaceBannerItem>();
                         list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
-
 
                         PlaceIntent.savedPlacesMap.put(startDay, list); // 총 저장소에 담기
 
@@ -127,7 +123,8 @@ public class SelectedPlanner extends AppCompatActivity {
                             // 다음날
                             Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
                             startActivity(intentBack);
-                        } else {
+                        }
+                        else {
                             // 모두 초기화
                             PlaceIntent.placeIntent = new Intent();
                             PlaceIntent.daySelectedPlace.clear();
@@ -136,7 +133,8 @@ public class SelectedPlanner extends AppCompatActivity {
                             Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
                             startActivity(intentFinish);
                         }
-                    } else {
+                    }
+                    else {
                         Toast.makeText(getApplicationContext(),
                                 "방문할 장소를 추가해주세요!", Toast.LENGTH_SHORT).show();
                     }

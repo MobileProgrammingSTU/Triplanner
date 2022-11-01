@@ -3,4 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#5B4FBB</color>
+
+    <color name="colorBrandBlue">#5B4FBB</color>
+    <color name="colorBrandRed">#F26C73</color>
+    <color name="colorBrandYellow">#FFD37A</color>
+    <color name="colorBrandGreen">#2BD993</color>
+    <color name="colorBackground">#121212</color>
+    <color name="colorGrayBG1">#1d1d1d</color>
+    <color name="colorGrayBG2">#2c2c2c</color>
+    <color name="colorGrayBG3">#383838</color>
+
+    <color name="colorFontEmphasis">#e1e1e1</color>
+    <color name="colorFontNormal">#A4A4A4</color>
+    <color name="colorFontLight">#4B4B4B</color>
 </resources>

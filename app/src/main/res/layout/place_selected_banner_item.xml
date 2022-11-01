@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/banner"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/bannerImg"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        android:foreground="?attr/selectableItemBackground"
-        android:alpha="0.7"/>
-    <TextView
-        android:id="@+id/bannerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:text="장소 이름"
-        android:textSize="11pt"
-        android:textColor="@android:color/white"/>
-    <Button
-        android:id="@+id/bannerTag"
-        android:layout_width="60dp"
-        android:layout_height="24dp"
-        android:layout_alignEnd="@id/bannerImg"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:background="@drawable/main_post_postplacetag_tagstyle"
-        android:text="종 류"
-        android:textSize="6pt"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"/>
-    <ImageButton
-        android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/bannerImg"
-        android:src="@drawable/ic_remove"
-        android:scaleType="fitXY"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="@drawable/planner_date_calendar_view_bg"
-        android:backgroundTint="@android:color/holo_red_dark"/>
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGrayBG1">
+
+        <ImageView
+            android:id="@+id/bannerImg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:foreground="?attr/selectableItemBackground"
+            android:alpha="0.6"/>
+        <TextView
+            android:id="@+id/bannerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:text="장소 이름"
+            android:textSize="28sp"
+            android:textFontWeight="500"
+            android:textColor="@color/colorFontEmphasis"/>
+        <Button
+            android:id="@+id/bannerTag"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@id/bannerImg"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:background="@drawable/main_post_postplacetag_tagstyle"
+            android:text="종 류"
+            android:textSize="16sp"
+            android:textFontWeight="600"
+            android:textAlignment="center"
+            android:textColor="@color/colorFontEmphasis"/>
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/bannerImg"
+            android:src="@drawable/ic_remove"
+            android:scaleType="fitXY"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/planner_date_calendar_view_bg"
+            android:backgroundTint="@color/colorGrayBG3"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

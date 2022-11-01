@@ -63,7 +63,7 @@ public class RegionPlanner extends AppCompatActivity {
                     regionA_down.setImageResource(R.drawable.img_region_a_down_selected);
                     regionA_down.setScaleX((float) 1.2);
                     regionA_down.setScaleY((float) 1.2);
-                    regionA_down.setTranslationY((float) 62);
+                    regionA_down.setTranslationY((float) 61);
                     regionAText.setVisibility(android.view.View.VISIBLE);
 
                     regionB.setSelected(true);

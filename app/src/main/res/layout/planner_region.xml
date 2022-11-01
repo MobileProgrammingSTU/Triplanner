@@ -3,31 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/black">
+    android:background="@color/colorBackground">
     <!--Header-->
     <RelativeLayout
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:background="#5B4FBB">
+        android:layout_weight="8">
         <ImageButton
             android:id="@+id/imgBtnBack"
-            android:layout_width="38dp"
+            android:layout_width="36dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_marginStart="4dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_back"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackground"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="플랜 추가"
-            android:textColor="@android:color/white"
-            android:textSize="10pt" />
+            android:text="새로운 플랜 만들기"
+            android:textFontWeight="600"
+            android:textColor="@color/colorFontEmphasis"
+            android:textSize="18sp"/>
     </RelativeLayout>
 
     <!--Main-->
@@ -38,17 +38,21 @@
         android:layout_weight="84"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="22dp"
             android:text="지역을 선택하세요"
-            android:textColor="@android:color/white"
-            android:textSize="24dp" />
+            android:textColor="@color/colorFontEmphasis"
+            android:textSize="26sp"/>
+
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="374dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:background="@drawable/planner_date_calendar_view_bg">
             <ImageButton
                 android:id="@+id/regionB"
                 android:layout_width="310dp"
@@ -59,8 +63,7 @@
                 android:paddingEnd="10dp"
                 android:src="@drawable/img_region_b"
                 android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackground"/>
+                android:background="@android:color/transparent"/>
             <ImageButton
                 android:id="@+id/regionA"
                 android:layout_width="200dp"
@@ -86,23 +89,26 @@
                 android:id="@+id/regionAText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="북 부"
-                android:textColor="@android:color/white"
-                android:textSize="10pt"
+                android:text="북  부"
+                android:textColor="@color/colorFontEmphasis"
+                android:textSize="32sp"
+                android:textFontWeight="600"
                 android:layout_centerHorizontal="true"
-                android:layout_above="@+id/regionA_down"
+                android:layout_alignBaseline="@+id/regionA_down"
                 android:paddingStart="20dp"
+                android:paddingTop="154dp"
                 android:visibility="gone"/>
             <TextView
                 android:id="@+id/regionBText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="남 부"
-                android:textColor="@android:color/white"
-                android:textSize="10pt"
+                android:text="남  부"
+                android:textColor="@color/colorFontEmphasis"
+                android:textSize="32sp"
+                android:textFontWeight="600"
                 android:layout_centerHorizontal="true"
                 android:layout_alignBottom="@+id/regionB"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="32dp"
                 android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
@@ -123,7 +129,8 @@
             android:paddingLeft="15dp"
             android:drawableEnd="@drawable/ic_next"
             android:text="다음"
-            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textColor="@color/colorFontEmphasis"
             android:background="@drawable/btn_background_click_effect"/>
     </LinearLayout>
 

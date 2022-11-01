@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@color/colorBackground"
     android:weightSum="100"
     android:orientation="vertical">
 
@@ -13,14 +13,14 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:background="#5B4FBB">
+        android:layout_weight="8">
         <ImageButton
             android:id="@+id/imgBtnBack"
-            android:layout_width="38dp"
+            android:layout_width="36dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_marginStart="4dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_back"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackground"/>
@@ -28,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="플랜 추가"
-            android:textSize="10pt"
-            android:textColor="@android:color/white"/>
-
+            android:text="새로운 플랜 만들기"
+            android:textFontWeight="600"
+            android:textColor="@color/colorFontEmphasis"
+            android:textSize="18sp"/>
     </RelativeLayout>
 
     <!--Main-->
@@ -45,63 +45,60 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:textSize="24dp"
-            android:textColor="@android:color/white"
-            android:text="1일차 활동을 선택하세요"/>
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="22dp"
+            android:text="1일차 장소를 선택하세요"
+            android:textColor="@color/colorFontEmphasis"
+            android:textSize="26sp"/>
 
         <!--버튼그룹(명소,맛집,카페)-->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="374dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:gravity="center">
+            android:layout_marginBottom="14dp"
+            android:layout_gravity="center">
             <Button
                 android:id="@+id/btnAtt"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:padding="8dp"
                 android:text="명 소"
-                android:textColor="@android:color/white"
-                android:textSize="8pt"
+                android:textColor="@color/colorFontEmphasis"
+                android:textSize="20sp"
                 android:foreground="?attr/selectableItemBackground"
                 android:background="@drawable/planner_place_btnatt_round"/>
-
             <Button
                 android:id="@+id/btnRes"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:padding="8dp"
                 android:text="맛 집"
-                android:textColor="@android:color/white"
-                android:textSize="8pt"
+                android:textColor="@color/colorFontEmphasis"
+                android:textSize="20sp"
                 android:foreground="?attr/selectableItemBackground"
                 android:background="@drawable/planner_place_btnres_color"/>
-
             <Button
                 android:id="@+id/btnCafe"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:padding="8dp"
                 android:text="카 페"
-                android:textColor="@android:color/white"
-                android:textSize="8pt"
+                android:textColor="@color/colorFontEmphasis"
+                android:textSize="20sp"
                 android:foreground="?attr/selectableItemBackground"
                 android:background="@drawable/planner_place_btncafe_round"/>
         </LinearLayout>
 
         <!--목록-->
-        <!--include layout="@layout/places" /-->
-
         <ListView
             android:id="@+id/bannerList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="3dp"></ListView>
-
-
+            android:layout_width="374dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
@@ -109,8 +106,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
-        android:gravity="right">
+        android:layout_weight="8">
 
     </LinearLayout>
 
