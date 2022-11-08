@@ -12,6 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.seoultech.triplanner.Model.PlaceBannerItem;
+import com.seoultech.triplanner.Model.PlaceIntent;
+
 import java.util.ArrayList;
 
 //PlaceBannerAdapter와 구조는 동일합니다. 다만 여기에서는 필터를 사용하지 않는다는 차이가 있습니다
@@ -64,7 +67,7 @@ public class SelectedBannerAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        bannerImg.setImageResource(bannerItem.getImg());
+        bannerImg.setImageResource(bannerItem.getImg()[0]);
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
         bannerTitle.setText(bannerItem.getTitle());
 
@@ -100,7 +103,7 @@ public class SelectedBannerAdapter extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(int img, String title, String type) {
+    public void addItem(Integer[] img, String title, String type) {
         PlaceBannerItem item = new PlaceBannerItem(img, title, type);
         bannerList.add(item);
         this.notifyDataSetChanged();

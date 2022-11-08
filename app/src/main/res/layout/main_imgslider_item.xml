@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/imgSliderViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="554dp"
+        android:focusable="false"/>
+
+    <LinearLayout
+        android:id="@+id/layoutIndicators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="18dp" />
+
+    <LinearLayout
+        android:id="@+id/post"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/activity_main_view_bg_gradient_black_bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/postTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="70dp"
+            android:text="제목 입력"
+            android:textColor="@color/colorFontEmphasis"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/postSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:text="부제 입력"
+            android:textColor="@color/colorFontNormal"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/postUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="20dp"
+            android:text="유저명 입력"
+            android:textColor="@color/colorFontNormal"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <GridLayout
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:columnCount="2"
+        android:paddingTop="12dp">
+
+        <ImageButton
+            android:id="@+id/postBtnSave"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_save"
+            android:focusable="false"/>
+
+        <ImageButton
+            android:id="@+id/postBtnHeart"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_heart"
+            android:focusable="false"/>
+    </GridLayout>
+
+</FrameLayout>

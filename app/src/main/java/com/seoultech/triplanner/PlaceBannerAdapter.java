@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.seoultech.triplanner.Model.PlaceBannerItem;
+
 import java.util.ArrayList;
 
 /*PlacePlanner의 listView에 적용할 adapter 입니다. 명소,맛집,카페 필터를 적용하게 되므로 bannerList에서 최초로
@@ -70,7 +72,7 @@ public class PlaceBannerAdapter extends BaseAdapter {
 
         // img 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        bannerImg.setImageResource(bannerItem.getImg());
+        bannerImg.setImageResource(bannerItem.getImg()[0]);
 
         // title 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
@@ -99,7 +101,7 @@ public class PlaceBannerAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가
-    public void addItem(int img, String title, String type) {
+    public void addItem(Integer[] img, String title, String type) {
         PlaceBannerItem item = new PlaceBannerItem(img, title, type);
         bannerList.add(item);
     }

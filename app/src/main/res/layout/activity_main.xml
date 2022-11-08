@@ -53,7 +53,11 @@
         android:layout_height="0dp"
         android:layout_weight="84">
 
-        <!--게시물 슬라이드-->
+        <ListView
+            android:id="@+id/imgSliderListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <!--
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/sliderViewPager"
             android:layout_width="match_parent"
@@ -68,7 +72,6 @@
             android:orientation="horizontal"
             android:paddingTop="18dp" />
 
-        <!--게시물 제목/부제목/유저명 텍스트-->
         <LinearLayout
             android:id="@+id/MainTextPost"
             android:layout_width="match_parent"
@@ -109,7 +112,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!--게시물 버튼-->
         <GridLayout
             android:layout_width="96dp"
             android:layout_height="48dp"
@@ -136,7 +138,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_heart" />
-        </GridLayout>
+        </GridLayout>-->
 
         <!--돋보기 버튼 서치창-->
         <RelativeLayout

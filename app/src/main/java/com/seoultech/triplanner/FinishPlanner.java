@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.seoultech.triplanner.Model.PlaceBannerItem;
+import com.seoultech.triplanner.Model.PlaceIntent;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
