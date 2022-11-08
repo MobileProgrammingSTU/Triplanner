@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <!-- "@style/AppTheme" -->
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,12 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DatePlanner"></activity>
-        <activity android:name=".PlacePlanner"></activity>
-        <activity android:name=".PostMain"></activity>
-        <activity android:name=".RegionPlanner"></activity>
-        <activity android:name=".SelectedPlanner"></activity>
-        <activity android:name=".FinishPlanner"></activity>
+        <activity android:name=".LoginActivity"/>
+        <!--activity android:name=".MainActivity"/-->
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".DatePlanner" />
+        <activity android:name=".PlacePlanner" />
+        <activity android:name=".PostMain" />
+        <activity android:name=".RegionPlanner" />
+        <activity android:name=".SelectedPlanner" />
+        <activity android:name=".FinishPlanner" />
+        <activity android:name=".Storage" />
+        <activity android:name=".MyPage" />
     </application>
 
 </manifest>

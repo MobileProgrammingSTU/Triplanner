@@ -1,4 +1,4 @@
-package com.seoultech.triplanner;
+package com.seoultech.triplanner.Model;
 
 /*
     앞으로 우리가 사용할 데이터의 형식입니다.
@@ -11,17 +11,18 @@ package com.seoultech.triplanner;
 */
 
 public class PlaceBannerItem {
-    private int imgRes;
+    private Integer[] imgRes;
     private String titleStr;
     private String typeStr;
+    private String userName;
 
-    public PlaceBannerItem(int img, String title, String type) {
+    public PlaceBannerItem(Integer[] img, String title, String type) {
         this.imgRes = img;
         this.titleStr = title;
         this.typeStr = type;
     }
 
-    public int getImg() {
+    public Integer[] getImg() {
         return this.imgRes;
     }
     public String getTitle() {
@@ -31,7 +32,7 @@ public class PlaceBannerItem {
         return this.typeStr;
     }
 
-    public void setImg(int img) {
+    public void setImg(Integer[] img) {
         imgRes = img;
     }
     public void setTitle(String title) {
