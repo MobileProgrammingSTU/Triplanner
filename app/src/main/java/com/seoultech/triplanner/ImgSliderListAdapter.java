@@ -57,7 +57,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        final PlaceBannerItem sliderItem = filteredItemList.get(position);
+        PlaceBannerItem sliderItem = filteredItemList.get(position);
 
         if(convertView == null) {
             holder = new ViewHolder();

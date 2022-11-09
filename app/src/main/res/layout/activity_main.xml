@@ -45,7 +45,6 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-    <!--Main(게시물)-->
 
     <!--Main(게시물)-->
     <FrameLayout
