@@ -6,34 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-    <EditText
-        android:id="@+id/et_reg_Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="이메일을 입력하세요"
-        android:inputType="textEmailAddress"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/et_reg_PW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="비밀번호를 입력하세요"
-        android:inputType="textPassword"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_reg_Email"
-        app:layout_constraintStart_toStartOf="@+id/et_reg_Email"
-        app:layout_constraintTop_toBottomOf="@+id/et_reg_Email" />
-
     <!--
     <EditText
         android:id="@+id/editTextName"
@@ -62,11 +34,54 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
         -->
 
+
+    <EditText
+        android:id="@+id/et_reg_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="닉네임을 입력하세요"
+        android:inputType="textPersonName"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_reg_Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="이메일을 입력하세요"
+        android:inputType="textEmailAddress"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_reg_Name"
+        app:layout_constraintStart_toStartOf="@+id/et_reg_Name"
+        app:layout_constraintTop_toBottomOf="@+id/et_reg_Name" />
+
+    <EditText
+        android:id="@+id/et_reg_PW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="비밀번호를 입력하세요"
+        android:inputType="textPassword"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_reg_Email"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_reg_Email"
+        app:layout_constraintTop_toBottomOf="@+id/et_reg_Email" />
+
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="0dp"
+        android:layout_width="278dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="가입 완료"
         app:layout_constraintEnd_toEndOf="@+id/et_reg_PW"
         app:layout_constraintStart_toStartOf="@+id/et_reg_PW"
