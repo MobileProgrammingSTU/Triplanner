@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,8 +19,8 @@ import com.seoultech.triplanner.Model.PlaceIntent;
 import java.util.ArrayList;
 
 //PlaceBannerAdapter와 구조는 동일합니다. 다만 여기에서는 필터를 사용하지 않는다는 차이가 있습니다
-
 public class SelectedBannerAdapter extends BaseAdapter{
+
     public final static String ATT = "att";
     public final static String REST = "rest";
     public final static String CAFE = "cafe";
@@ -67,12 +68,12 @@ public class SelectedBannerAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        bannerImg.setImageResource(bannerItem.getImg()[0]);
+        bannerImg.setImageResource(bannerItem.getPbThumbnail());
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getTitle());
+        bannerTitle.setText(bannerItem.getPbMainTitle());
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        String type = bannerItem.getType();
+        String type = bannerItem.getPbType();
         if(type.contains("cafe") || type.contains("카페")) {
             bannerTag.setText("카 페");
             bannerTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
@@ -90,6 +91,7 @@ public class SelectedBannerAdapter extends BaseAdapter{
         }
 
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
+
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
         btnDelete.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -103,8 +105,11 @@ public class SelectedBannerAdapter extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Integer[] img, String title, String type) {
-        PlaceBannerItem item = new PlaceBannerItem(img, title, type);
+    public void addItem(int pbThumbnail, Integer[] pbImgRes, String pbMainTitle,
+                        String pbSubTitle, String pbType, String pbUserName,
+                        String pbBearing, String pbContent) {
+        PlaceBannerItem item = new PlaceBannerItem(pbThumbnail, pbImgRes, pbMainTitle,
+                pbSubTitle, pbType, pbUserName, pbBearing, pbContent);
         bannerList.add(item);
         this.notifyDataSetChanged();
     }

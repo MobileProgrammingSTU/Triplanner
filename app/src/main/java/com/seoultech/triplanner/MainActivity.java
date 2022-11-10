@@ -60,10 +60,19 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ImgSliderListAdapter(this, R.layout.main_imgslider_item, placeDataList);
         imgSliderListView.setAdapter(adapter);
 
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_restaurant_1}, "맛집 이름", "rest");
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_cafe_1}, "카페 이름", "cafe");
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_attraction_1}, "명소 이름", "att");
-        adapter.addItem(new Integer[] {R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw}, "카페 할아버지 공장", "cafe");
+        adapter.addItem(R.drawable.img_planner_place_restaurant_1,
+                new Integer[] {R.drawable.img_planner_place_restaurant_1},
+                "맛집 이름", "", "rest", "", "", "");
+        adapter.addItem(R.drawable.img_planner_place_cafe_1,
+                new Integer[] {R.drawable.img_planner_place_cafe_1},
+                "카페 이름", "","cafe", "", "", "");
+        adapter.addItem(R.drawable.img_planner_place_attraction_1,
+                new Integer[] {R.drawable.img_planner_place_attraction_1},
+                "명소 이름","", "att", "", "", "");
+        adapter.addItem(R.drawable.img_activity_main_cafe_1,
+                new Integer[] {R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw},
+                "카페 할아버지 공장", "", "cafe", "", "", "");
+
 
         //필터(임시로 모두 true)
         adapter.addFilterType(ImgSliderListAdapter.ATT);

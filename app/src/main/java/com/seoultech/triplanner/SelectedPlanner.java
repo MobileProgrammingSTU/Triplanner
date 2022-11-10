@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class SelectedPlanner extends AppCompatActivity {
         bannerListView = (ListView) findViewById(R.id.selectedList);
         placeDataList = new ArrayList<>();
         adapter = new SelectedBannerAdapter(this, R.layout.place_selected_banner_item, placeDataList);
+
         bannerListView.setAdapter(adapter);
 
         imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
@@ -59,6 +61,7 @@ public class SelectedPlanner extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
 
         btnAdd = (Button) findViewById(R.id.btnAdd); //장소 추가 버튼 수정
+
         btnNext = (Button) findViewById(R.id.btnNext);
 
         // PlacePlanner.java 에서 putExtra 로 담은 내용을 bundle 에 담는다.
@@ -83,7 +86,8 @@ public class SelectedPlanner extends AppCompatActivity {
         typeData = intent.getStringExtra("type");
 
         //static ArrayList에 인텐트로 받아온 데이터 누적하기
-        PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(new Integer[] {imgData}, titleData, typeData));
+        PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(imgData, null, titleData,
+                "", typeData, "", "", ""));
 
         placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
         adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,10 +43,18 @@ public class PlacePlanner extends AppCompatActivity {
         bannerListView.setAdapter(adapter);
 
         //placeDataList 에 장소 data 입력
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_restaurant_1}, "맛집 이름", "rest");
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_cafe_1}, "카페 이름", "cafe");
-        adapter.addItem(new Integer[] {R.drawable.img_planner_place_attraction_1}, "명소 이름", "att");
-        adapter.addItem(new Integer[] {R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw}, "카페 할아버지 공장", "cafe");
+        adapter.addItem(R.drawable.img_planner_place_restaurant_1,
+                new Integer[] {R.drawable.img_planner_place_restaurant_1},
+                "맛집 이름", "", "rest", "", "", "");
+        adapter.addItem(R.drawable.img_planner_place_cafe_1,
+                new Integer[] {R.drawable.img_planner_place_cafe_1},
+                "카페 이름", "","cafe", "", "", "");
+        adapter.addItem(R.drawable.img_planner_place_attraction_1,
+                new Integer[] {R.drawable.img_planner_place_attraction_1},
+                "명소 이름","", "att", "", "", "");
+        adapter.addItem(R.drawable.img_activity_main_cafe_1,
+                new Integer[] {R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw},
+                "카페 할아버지 공장", "", "cafe", "", "", "");
 
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
@@ -66,9 +75,9 @@ public class PlacePlanner extends AppCompatActivity {
 
                 //아이템 정보를 번들에 묶음
                 Bundle extras = new Bundle();
-                extras.putString("img", Integer.toString(item.getImg()[0])); //(int)img 경로정보를 파싱(String)
-                extras.putString("title", item.getTitle());
-                extras.putString("type", item.getType());
+                extras.putString("img", Integer.toString(item.getPbThumbnail())); //(int)img 경로정보를 파싱(String)
+                extras.putString("title", item.getPbMainTitle());
+                extras.putString("type", item.getPbType());
 
                 //번들을 보냄
                 PlaceIntent.placeIntent.putExtras(extras);
@@ -113,6 +122,7 @@ public class PlacePlanner extends AppCompatActivity {
                 else {
                     btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
                     adapter.addFilterType(PlaceBannerAdapter.REST); // (type:rest)를 리스트에 띄움
+
                 }
                 btnRestaurant.setSelected(!btnRestaurant.isSelected());
             }

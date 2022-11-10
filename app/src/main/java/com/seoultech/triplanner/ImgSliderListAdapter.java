@@ -57,7 +57,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        PlaceBannerItem sliderItem = filteredItemList.get(position);
+        final PlaceBannerItem sliderItem = filteredItemList.get(position);
 
         if(convertView == null) {
             holder = new ViewHolder();
@@ -71,7 +71,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
             holder.subtitle = (TextView) convertView.findViewById(R.id.postSubtitle);
             holder.username = (TextView) convertView.findViewById(R.id.postUsername);
 
-            holder.numOfIndicators = sliderItem.getImg().length;
+            holder.numOfIndicators = sliderItem.getPbImgRes().length;
             setupIndicators(holder.numOfIndicators, holder.layoutIndicator);
             convertView.setTag(holder);
         } else {
@@ -79,7 +79,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
         }
 
         holder.sliderViewPager.setOffscreenPageLimit(4);
-        holder.sliderViewPager.setAdapter(new ImageSliderAdapter(context, sliderItem.getImg()));
+        holder.sliderViewPager.setAdapter(new ImageSliderAdapter(context, sliderItem.getPbImgRes()));
         holder.sliderViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int pos) {
@@ -89,7 +89,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
         });
         holder.sliderViewPager.setFocusable(false);
 
-        holder.title.setText(sliderItem.getTitle());
+        holder.title.setText(sliderItem.getPbMainTitle());
 
         holder.btnSave.setFocusable(false);
         holder.btnSave.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +135,11 @@ public class ImgSliderListAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가
-    public void addItem(Integer[] img, String title, String type) {
-        PlaceBannerItem item = new PlaceBannerItem(img, title, type);
+    public void addItem(int pbThumbnail, Integer[] pbImgRes, String pbMainTitle,
+                        String pbSubTitle, String pbType, String pbUserName,
+                        String pbBearing, String pbContent) {
+        PlaceBannerItem item = new PlaceBannerItem(pbThumbnail, pbImgRes, pbMainTitle,
+                pbSubTitle, pbType, pbUserName, pbBearing, pbContent);
         sliderList.add(item);
     }
 
@@ -148,7 +151,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에 추가합니다
     public void addFilterType(String type) {
         for (PlaceBannerItem item : sliderList) {
-            if(item.getType().equals(type)) {
+            if(item.getPbType().equals(type)) {
                 filteredItemList.add(0, item);
             }
         }
@@ -156,7 +159,7 @@ public class ImgSliderListAdapter extends BaseAdapter {
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에서 제거합니다
     public void removeFilterType(String type) {
         for (PlaceBannerItem item : sliderList) {
-            if(item.getType().equals(type)) {
+            if(item.getPbType().equals(type)) {
                 filteredItemList.remove(item);
             }
         }
