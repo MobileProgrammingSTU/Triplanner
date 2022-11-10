@@ -4,11 +4,12 @@ package com.seoultech.triplanner.Model;
    사용자 계정 정보 모델 클래스
  */
 public class UserAccount {
-
+    
     private String fbName;      // 닉네임
     private String fbEmail;     // email
     private String fbPassword;    // password
     private String fbIdToken;   // Firebase Uid (고유 토큰 정보)
+    private String imageurl;
 
     // Firebase 의 경우 빈 생성자를 만들지 않으면 데이터를 조회할 때 오류가 난다고 한다.
     public UserAccount() {}
@@ -43,5 +44,13 @@ public class UserAccount {
 
     public void setFbName(String fbName) {
         this.fbName = fbName;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 }
