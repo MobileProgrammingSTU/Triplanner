@@ -8,6 +8,7 @@ public class UserAccount {
     private String emailId;     // email 아이디
     private String passwd;      // 비밀번호
     private String idToken;     // Firebase Uid (고유 토큰 정보)
+    private String imageurl;
 
     // Firebase 의 경우 빈 생성자를 만들지 않으면 데이터를 조회할 때 오류가 난다고 한다.
     public UserAccount() {}
@@ -34,5 +35,13 @@ public class UserAccount {
 
     public void setIdToken(String idToken) {
         this.idToken = idToken;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 }

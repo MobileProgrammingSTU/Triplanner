@@ -1,5 +1,7 @@
 package com.seoultech.triplanner;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.seoultech.triplanner.Model.PlaceBannerItem;
+import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //saveBtn = findViewById(R.id.MainBtnSave);
+
+
+                //saveBtn = findViewById(R.id.MainBtnSave);
         //bookmarkBtn = findViewById(R.id.MainBtnBookmark);
 
         //sliderViewPager = findViewById(R.id.sliderViewPager);

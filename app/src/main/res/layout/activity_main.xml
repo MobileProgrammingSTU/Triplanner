@@ -57,6 +57,12 @@
             android:id="@+id/imgSliderListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bar"
+            android:id="@+id/recycler_view"/>
         <!--
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/sliderViewPager"
