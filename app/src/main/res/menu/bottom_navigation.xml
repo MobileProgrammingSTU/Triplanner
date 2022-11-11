@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title=""/>
-
+        android:enabled="true"
+        android:checked="true"
+        android:title="홈"/>
     <item
         android:id="@+id/nav_planner"
         android:icon="@drawable/ic_edit_calendar"
-        android:title=""/>
-
+        android:enabled="true"
+        android:title="플랜"/>
     <item
         android:id="@+id/nav_storage"
         android:icon="@drawable/ic_storage"
-        android:title=""/>
-
+        android:enabled="true"
+        android:title="저장소"/>
     <item
         android:id="@+id/nav_mypage"
         android:icon="@drawable/ic_mypage"
-        android:title=""/>
+        android:enabled="true"
+        android:title="프로필"/>
 
 </menu>

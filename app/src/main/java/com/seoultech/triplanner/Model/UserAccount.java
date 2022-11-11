@@ -9,7 +9,9 @@ public class UserAccount {
     private String fbEmail;     // email
     private String fbPassword;    // password
     private String fbIdToken;   // Firebase Uid (고유 토큰 정보)
+
     private String imageurl;
+    private String bio;
 
     // Firebase 의 경우 빈 생성자를 만들지 않으면 데이터를 조회할 때 오류가 난다고 한다.
     public UserAccount() {}

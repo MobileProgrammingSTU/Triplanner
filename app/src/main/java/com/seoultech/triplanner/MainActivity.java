@@ -4,6 +4,8 @@ import static java.security.AccessController.getContext;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.seoultech.triplanner.Fragment.HomeFragment;
+import com.seoultech.triplanner.Fragment.MypageFragment;
+import com.seoultech.triplanner.Fragment.StorageFragment;
 import com.seoultech.triplanner.Model.PlaceBannerItem;
 import com.seoultech.triplanner.Model.PostItem;
 
@@ -42,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        bottomNavigationView.setOnNavigationItemSelectedListener(new navigationItemSelectedListener());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new HomeFragment());
@@ -53,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
+    class  navigationItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -68,19 +68,19 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this, RegionPlanner.class));
                             break;
                         case R.id.nav_storage:
-                            //selectedFragment = new StorageFragment();
+                            selectedFragment = new StorageFragment();
                             break;
                         case R.id.nav_mypage:
                             SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
-                            editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            editor.apply();
-                            //selectedFragment = new MypageFragment();
+                            //editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            //editor.apply();
+                            selectedFragment = new MypageFragment();
                             break;
                     }
 
                     if (selectedFragment != null){
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                selectedFragment).commit();
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.fragment_container, selectedFragment).commit();
                     }
 
                     return true;
