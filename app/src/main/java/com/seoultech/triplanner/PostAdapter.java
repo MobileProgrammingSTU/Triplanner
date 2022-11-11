@@ -26,7 +26,7 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public Context mContext;
-    public List<PostItem> mPost;
+    public List<PostItem> mPost; // 포스트 아이템의 리스트
 
     private FirebaseUser firebaseUser;
 
@@ -38,7 +38,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.main_post_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
         return new PostAdapter.ViewHolder(view);
     }
 
@@ -49,7 +49,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         Glide.with(mContext).load(post.getPostimage()).into(holder.post_image);
 
-        publisherInfo(holder.publisher, post.getPublisher());
+        //publisherInfo(holder.publisher, post.getPublisher());
     }
 
     @Override
@@ -75,8 +75,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    private void publisherInfo (TextView publisher, String userid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+    private void publisherInfo (TextView publisher, String userid) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
