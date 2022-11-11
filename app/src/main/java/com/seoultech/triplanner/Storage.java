@@ -1,24 +1,17 @@
 package com.seoultech.triplanner;
 
-import static com.seoultech.triplanner.StorageFragmentAdapter.PAGE_POSITION;
+import static com.seoultech.triplanner.Fragment.StorageFragmentAdapter.PAGE_POSITION;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
+import com.seoultech.triplanner.Fragment.StorageFragmentAdapter;
 
 @SuppressWarnings("deprecation")
 public class Storage extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.seoultech.triplanner;
+package com.seoultech.triplanner.Fragment;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

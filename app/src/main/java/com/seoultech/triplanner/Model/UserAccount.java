@@ -4,7 +4,7 @@ package com.seoultech.triplanner.Model;
    사용자 계정 정보 모델 클래스
  */
 public class UserAccount {
-    
+
     private String fbName;      // 닉네임
     private String fbEmail;     // email
     private String fbPassword;    // password
