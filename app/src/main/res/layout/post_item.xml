@@ -23,7 +23,7 @@
         <View
             android:id="@+id/postTop"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:background="@drawable/activity_main_view_bg_gradient_black_top"/>
 
         <RelativeLayout
@@ -45,6 +45,7 @@
                 android:layout_height="36dp"
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="true"
                 android:src="@drawable/ic_save"
                 android:scaleType="fitXY"/>
             <ImageView
@@ -54,6 +55,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_toLeftOf="@+id/save"
                 android:background="?attr/selectableItemBackground"
+                android:clickable="true"
                 android:src="@drawable/ic_heart"
                 android:scaleType="fitXY"/>
         </RelativeLayout>
