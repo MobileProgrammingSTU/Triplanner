@@ -36,11 +36,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         this.mPost = mPost;
     }
 
+    //아이템 클릭 리스너 인터페이스
+    interface OnItemClickListener{
+        void onItemClicked(int position, String data);
+    }
+    //리스너 객체 참조 변수
+    private OnItemClickListener itemClickListener;
+    //리스너 객체 참조를 어댑터에 전달 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
-        return new PostAdapter.ViewHolder(view);
+        PostAdapter.ViewHolder viewHolder = new PostAdapter.ViewHolder(view);
+
+        //피드 아이템(포스트) 클릭 이벤트
+        view.setOnClickListener(new View.OnClickListener() {
+            String data = "";
+            @Override
+            public void onClick(View view) {
+
+                int position = viewHolder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    data = viewHolder.pid;
+                }
+                Toast.makeText(mContext, data, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -48,7 +75,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         PostItem post = mPost.get(position);
 
+        holder.pid = post.getPid();
+
         Glide.with(mContext).load(post.getImgurl()).placeholder(R.drawable.img_activity_main_cafe_1_bw).dontAnimate().into(holder.post_image);
+
         holder.title.setText(post.getTitle());
         holder.subtitle.setText(post.getSubtitle());
         holder.publisher.setText(post.getPublisher());
@@ -71,6 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 }
             }
         });
+
     }
 
     @Override
@@ -79,6 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public String pid;
         public ImageView post_image, like, save;
         public TextView title, subtitle, publisher;
         public LinearLayout indicators;
@@ -93,6 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             subtitle = itemView.findViewById(R.id.post_subtitle);
             publisher = itemView.findViewById(R.id.publisher);
             indicators = itemView.findViewById(R.id.layoutIndicators);
+
         }
     }
 

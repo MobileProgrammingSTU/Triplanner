@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/postTextScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.PostFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorBackground">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/post_image"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_activity_main_cafe_1"/>
+            <!--
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/sliderViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="560dp"/>
+            <LinearLayout
+                android:id="@+id/layoutIndicators"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignTop="@+id/sliderViewPager"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:paddingTop="20dp"/>
+            -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="30dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_back"
+                    android:scaleType="centerCrop"
+                    android:background="?attr/selectableItemBackground"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutIndicators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"/>
+
+                <ImageView
+                    android:id="@+id/save"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:src="@drawable/ic_save"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/save"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:src="@drawable/ic_heart"
+                    android:scaleType="fitXY"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:background="@color/colorBackground">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/postTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성수동 감성 카페 여행"
+                    android:textColor="@android:color/white"
+                    android:textSize="32sp"/>
+                <TextView
+                    android:id="@+id/postPublisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/postTitle"
+                    android:text="traveler 님"
+                    android:textColor="@color/colorFontNormal"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp">
+                <Button
+                    android:id="@+id/postLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카페 할아버지 공장"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorFontLight"
+                    android:drawableStart="@drawable/ic_gps"
+                    android:background="@drawable/btn_background_click_effect"/>
+                <!--태그-->
+                <Button
+                    android:id="@+id/postPlaceType"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:clickable="false"
+                    android:background="@drawable/main_post_postplacetag_tagstyle"
+                    android:backgroundTint="@color/colorBrandGreen"
+                    android:text="카 페"
+                    android:textSize="16sp"
+                    android:textFontWeight="600"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorFontEmphasis"/>
+                <Button
+                    android:id="@+id/postRegionType"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/postPlaceType"
+                    android:clickable="false"
+                    android:background="@drawable/main_post_postplacetag_tagstyle"
+                    android:backgroundTint="@color/colorBrandBlue"
+                    android:text="북 부"
+                    android:textSize="16sp"
+                    android:textAlignment="center"
+                    android:textFontWeight="600"
+                    android:textColor="@color/colorFontEmphasis"
+                    android:layout_marginEnd="8dp"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/colorFontNormal"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/postSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="지친 일상으로부터 탈출"
+                android:textSize="24sp"
+                android:textColor="@color/colorFontNormal"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/postContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="오랜 고민 끝에 드디어 여행을 떠나기로 했다\n\n나는 원래 여행도 일정을 빡빡하게 하고 많이 돌아다니는 편이었지만\n이번에는 정말로 편하게 쉬는 것을 목적으로 여유를 가지고 돌아다니려고 한다\n\n\n\n\n\n\ntest"
+                android:textSize="16sp"
+                android:textColor="@color/colorFontNormal"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
