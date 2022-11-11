@@ -47,7 +47,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         PostItem post = mPost.get(position);
 
-        Glide.with(mContext).load(post.getPostimage()).into(holder.post_image);
+        Glide.with(mContext).load(post.getImgurl()).placeholder(R.drawable.img_activity_main_cafe_1_bw).dontAnimate().into(holder.post_image);
+        holder.title.setText(post.getTitle());
+        holder.subtitle.setText(post.getSubtitle());
+        holder.publisher.setText(post.getPublisher());
 
         //publisherInfo(holder.publisher, post.getPublisher());
     }

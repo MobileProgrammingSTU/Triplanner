@@ -1,72 +1,56 @@
 package com.seoultech.triplanner.Model;
 
-public class PostItem {
-    private String postid;
-    private String postimage;
-    private Integer[] imgRes;
-    private String titleStr;
-    private String subtitleStr;
-    private String typeStr;
-    private String publisher;
+/*
+!주의 사항!
+Firebase의 키는 항상 소문자로만 작성한다!!!
+해당 아이템 클래스의 프로퍼티와 DB의 키를 매칭시키려면
+프로퍼티명이 키의 이름을 포함해야한다
+ */
 
-    public PostItem(String postid, String postimage, String title, String subtitle, String publisher) {
-        this.postid = postid;
-        this.postimage = postimage;
-        this.publisher = publisher;
-        this.titleStr = title;
-        this.subtitleStr = subtitle;
-    }
+public class PostItem {
+    private String fbPID;
+    private String imgurl;
+    private String title;
+    private String fbSubtitle;
+    private String fbPublisher;
 
     public PostItem() {
+
     }
 
     public String getPostid() {
-        return postid;
+        return fbPID;
     }
-    public void setPostid(String postid) {
-        this.postid = postid;
+    public void setPostid(String fbPID) {
+        this.fbPID = fbPID;
     }
 
-    public String getPostimage() {
-        return postimage;
+    public String getImgurl() {
+        return imgurl;
     }
-    public void setPostimage(String postimage) {
-        this.postimage = postimage;
+    public void setImgurl(String fbImgurl) {
+        this.imgurl = fbImgurl;
     }
 
     public String getPublisher() {
-        return publisher;
+        return fbPublisher;
     }
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public Integer[] getImg() {
-        return imgRes;
-    }
-    public void setImg(Integer[] img) {
-        this.imgRes = img;
+    public void setPublisher(String fbPublisher) {
+        this.fbPublisher = fbPublisher;
     }
 
     public String getTitle() {
-        return titleStr;
+        return title;
     }
-    public void setTitle(String title) {
-        this.titleStr = title;
+    public void setTitle(String fbTitle) {
+        this.title = fbTitle;
     }
 
     public String getSubtitle() {
-        return subtitleStr;
+        return fbSubtitle;
     }
-    public void setSubtitle(String subtitleStr) {
-        this.subtitleStr = subtitleStr;
-    }
-
-    public String getType() {
-        return typeStr;
-    }
-    public void setType(String type) {
-        this.typeStr = type;
+    public void setSubtitle(String fbSubtitle) {
+        this.fbSubtitle = fbSubtitle;
     }
 
 }
