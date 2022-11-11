@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.publisher.setText(post.getPublisher());
 
         //publisherInfo(holder.publisher, post.getPublisher());
+
+        isLiked(post.getPid(), holder.like);
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.like.getTag().equals("like")) {
+                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                            .child(post.getPid()).setValue(true);
+                            //.child(firebaseUser.getUid()).setValue(true);
+                    Toast.makeText(mContext, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                            .child(post.getPid()).removeValue();
+                            //.child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
     }
 
     @Override
@@ -86,6 +104,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserAccount user = snapshot.getValue(UserAccount.class);
                 publisher.setText(user.getEmailId());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void isLiked(String postid, ImageView imageView) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner")
+                .child("Likes").child(postid);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //if (snapshot.child(firebaseUser.getUid()).exists()) {
+                if (snapshot.exists()) {
+                    imageView.setImageResource(R.drawable.ic_heart_filled);
+                    imageView.setTag("liked");
+                } else {
+                    imageView.setImageResource(R.drawable.ic_heart);
+                    imageView.setTag("like");
+                }
             }
 
             @Override

@@ -8,7 +8,7 @@ Firebase의 키는 항상 소문자로만 작성한다!!!
  */
 
 public class PostItem {
-    private String fbPID;
+    private String pid;
     private String imgurl;
     private String title;
     private String fbSubtitle;
@@ -18,11 +18,11 @@ public class PostItem {
 
     }
 
-    public String getPostid() {
-        return fbPID;
+    public String getPid() {
+        return pid;
     }
-    public void setPostid(String fbPID) {
-        this.fbPID = fbPID;
+    public void setPid(String fbPID) {
+        this.pid = fbPID;
     }
 
     public String getImgurl() {
