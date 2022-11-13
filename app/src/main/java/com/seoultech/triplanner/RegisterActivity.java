@@ -1,9 +1,5 @@
 package com.seoultech.triplanner;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                             userAccount.setEmailId(firebaseUser.getEmail());
                             userAccount.setPasswd(strPW);
                             //userAccount. username 데이터 입력 필요
-                            userAccount.setImageurl("https://firebasestorage.googleapis.com/v0/b/instagram-72e36.appspot.com/o/toolbar_8.jpg?alt=media&token=83118f66-19ca-4c28-975a-b276093be5dc");
+                            //userAccount.setImageurl("https://firebasestorage.googleapis.com/v0/b/instagram-72e36.appspot.com/o/toolbar_8.jpg?alt=media&token=83118f66-19ca-4c28-975a-b276093be5dc");
                             userAccount.setIdToken(firebaseUser.getUid());  // 고유값
 
                             // setValue: database 에 insert 하는 행위

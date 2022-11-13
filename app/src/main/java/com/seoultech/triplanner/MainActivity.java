@@ -1,42 +1,26 @@
 package com.seoultech.triplanner;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.seoultech.triplanner.Fragment.HomeFragment;
 import com.seoultech.triplanner.Fragment.MypageFragment;
 import com.seoultech.triplanner.Fragment.StorageFragment;
-import com.seoultech.triplanner.Model.PlaceBannerItem;
-import com.seoultech.triplanner.Model.PostItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Fragment selectedFragment = null;
+    static HomeFragment homeFragment = new HomeFragment();
+    static StorageFragment storageFragment = new StorageFragment();
+    static MypageFragment mypageFragment = new MypageFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,20 +45,20 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = homeFragment;
                             break;
                         case R.id.nav_planner:
                             selectedFragment = null;
                             startActivity(new Intent(MainActivity.this, RegionPlanner.class));
                             break;
                         case R.id.nav_storage:
-                            selectedFragment = new StorageFragment();
+                            selectedFragment = storageFragment;
                             break;
                         case R.id.nav_mypage:
                             SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                             //editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             //editor.apply();
-                            selectedFragment = new MypageFragment();
+                            selectedFragment = mypageFragment;
                             break;
                     }
 
