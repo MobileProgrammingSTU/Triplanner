@@ -83,7 +83,8 @@ public class SelectedPlanner extends AppCompatActivity {
         typeData = intent.getStringExtra("type");
 
         //static ArrayList에 인텐트로 받아온 데이터 누적하기
-        PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(new Integer[] {imgData}, titleData, typeData));
+        PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(imgData, null, titleData,
+                "", typeData, "", "", ""));
 
         placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
         adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남

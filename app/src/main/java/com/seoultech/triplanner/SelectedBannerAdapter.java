@@ -67,12 +67,12 @@ public class SelectedBannerAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        bannerImg.setImageResource(bannerItem.getImg()[0]);
+        bannerImg.setImageResource(bannerItem.getPbThumbnail());
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getTitle());
+        bannerTitle.setText(bannerItem.getPbMainTitle());
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        String type = bannerItem.getType();
+        String type = bannerItem.getPbType();
         if(type.contains("cafe") || type.contains("카페")) {
             bannerTag.setText("카 페");
             bannerTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
@@ -103,8 +103,11 @@ public class SelectedBannerAdapter extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Integer[] img, String title, String type) {
-        PlaceBannerItem item = new PlaceBannerItem(img, title, type);
+    public void addItem(int pbThumbnail, Integer[] pbImgRes, String pbMainTitle,
+                        String pbSubTitle, String pbType, String pbUserName,
+                        String pbBearing, String pbContent) {
+        PlaceBannerItem item = new PlaceBannerItem(pbThumbnail, pbImgRes, pbMainTitle,
+                pbSubTitle, pbType, pbUserName, pbBearing, pbContent);
         bannerList.add(item);
         this.notifyDataSetChanged();
     }

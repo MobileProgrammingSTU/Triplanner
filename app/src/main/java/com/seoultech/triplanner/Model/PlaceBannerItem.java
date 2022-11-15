@@ -11,34 +11,99 @@ package com.seoultech.triplanner.Model;
 */
 
 public class PlaceBannerItem {
-    private Integer[] imgRes;
-    private String titleStr;
-    private String typeStr;
-    private String userName;
 
-    public PlaceBannerItem(Integer[] img, String title, String type) {
-        this.imgRes = img;
-        this.titleStr = title;
-        this.typeStr = type;
+    private int pbThumbnail;       // 게시글의 메인(보이는) 이미지
+    private Integer [] pbImgRes;    // 게시글의 서브 이미지
+    private String pbMainTitle;     // 메인 제목
+    private String pbSubTitle;      // 서브 제목
+    private String pbType;          // 타입: att, cafe, ...
+    private String pbUserName;
+    private String pbBearing;   // 방위: 북 or 남
+    private String pbContent;
+    private String pbAddress;   // 주소. 해당 기능은 우선 보류
+
+    public PlaceBannerItem(int pbThumbnail, Integer[] pbImgRes, String pbMainTitle,
+                           String pbSubTitle, String pbType, String pbUserName,
+                           String pbBearing, String pbContent) {
+        this.pbThumbnail = pbThumbnail;
+        this.pbImgRes = pbImgRes;
+        this.pbMainTitle = pbMainTitle;
+        this.pbSubTitle = pbSubTitle;
+        this.pbType = pbType;
+        this.pbUserName = pbUserName;
+        this.pbBearing = pbBearing;
+        this.pbContent = pbContent;
     }
 
-    public Integer[] getImg() {
-        return this.imgRes;
-    }
-    public String getTitle() {
-        return this.titleStr;
-    }
-    public String getType() {
-        return this.typeStr;
+    public int getPbThumbnail() {
+        return pbThumbnail;
     }
 
-    public void setImg(Integer[] img) {
-        imgRes = img;
+    public void setPbThumbnail(int pbThumbnail) {
+        this.pbThumbnail = pbThumbnail;
     }
-    public void setTitle(String title) {
-        titleStr = title;
+
+    public Integer[] getPbImgRes() {
+        return pbImgRes;
     }
-    public void setType(String type) {
-        typeStr = type;
+
+    public void setPbImgRes(Integer[] pbImgRes) {
+        this.pbImgRes = pbImgRes;
+    }
+
+    public String getPbMainTitle() {
+        return pbMainTitle;
+    }
+
+    public void setPbMainTitle(String pbMainTitle) {
+        this.pbMainTitle = pbMainTitle;
+    }
+
+    public String getPbSubTitle() {
+        return pbSubTitle;
+    }
+
+    public void setPbSubTitle(String pbSubTitle) {
+        this.pbSubTitle = pbSubTitle;
+    }
+
+    public String getPbType() {
+        return pbType;
+    }
+
+    public void setPbType(String pbType) {
+        this.pbType = pbType;
+    }
+
+    public String getPbUserName() {
+        return pbUserName;
+    }
+
+    public void setPbUserName(String pbUserName) {
+        this.pbUserName = pbUserName;
+    }
+
+    public String getPbBearing() {
+        return pbBearing;
+    }
+
+    public void setPbBearing(String pbBearing) {
+        this.pbBearing = pbBearing;
+    }
+
+    public String getPbContent() {
+        return pbContent;
+    }
+
+    public void setPbContent(String pbContent) {
+        this.pbContent = pbContent;
+    }
+
+    public String getPbAddress() {
+        return pbAddress;
+    }
+
+    public void setPbAddress(String pbAddress) {
+        this.pbAddress = pbAddress;
     }
 }
