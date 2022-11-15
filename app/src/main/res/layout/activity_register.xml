@@ -19,39 +19,39 @@
     <EditText
         android:id="@+id/et_reg_Username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="15dp"
-        android:padding="10dp"
         android:background="@drawable/edittext_background"
         android:hint="닉네임을 입력하세요"
         android:inputType="textEmailAddress"
-        android:textSize="18sp"
-        android:textColor="@color/colorFontNormal"/>
+        android:padding="10dp"
+        android:textColor="@color/colorFontNormal"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/et_reg_Email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:background="@drawable/edittext_background"
         android:hint="이메일을 입력하세요"
         android:inputType="textEmailAddress"
-        android:textSize="18sp"
-        android:textColor="@color/colorFontNormal"/>
+        android:padding="10dp"
+        android:textColor="@color/colorFontNormal"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/et_reg_PW"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:background="@drawable/edittext_background"
         android:ems="10"
         android:hint="비밀번호를 입력하세요"
         android:inputType="textEmailAddress"
-        android:textSize="18sp"
-        android:textColor="@color/colorFontNormal"/>
+        android:padding="10dp"
+        android:textColor="@color/colorFontNormal"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btn_register"
