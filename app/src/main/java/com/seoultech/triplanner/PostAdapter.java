@@ -136,7 +136,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserAccount user = snapshot.getValue(UserAccount.class);
-                publisher.setText(user.getEmailId());
+                publisher.setText(user.getFbEmail());
             }
 
             @Override
