@@ -72,15 +72,15 @@ public class PlaceBannerAdapter extends BaseAdapter {
 
         // img 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        bannerImg.setImageResource(bannerItem.getImg()[0]);
+        bannerImg.setImageResource(bannerItem.getPbThumbnail());
 
         // title 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getTitle());
+        bannerTitle.setText(bannerItem.getPbMainTitle());
 
         //타입별로 배너 태그 설정 반영
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        String type = bannerItem.getType();
+        String type = bannerItem.getPbType();
         if(type.contains("cafe") || type.contains("카페")) {
             bannerTag.setText("카 페");
             bannerTag.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
@@ -101,8 +101,11 @@ public class PlaceBannerAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가
-    public void addItem(Integer[] img, String title, String type) {
-        PlaceBannerItem item = new PlaceBannerItem(img, title, type);
+    public void addItem(int pbThumbnail, Integer[] pbImgRes, String pbMainTitle,
+                        String pbSubTitle, String pbType, String pbUserName,
+                        String pbBearing, String pbContent) {
+        PlaceBannerItem item = new PlaceBannerItem(pbThumbnail, pbImgRes, pbMainTitle,
+                pbSubTitle, pbType, pbUserName, pbBearing, pbContent);
         bannerList.add(item);
     }
 
@@ -114,7 +117,7 @@ public class PlaceBannerAdapter extends BaseAdapter {
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에 추가합니다
     public void addFilterType(String type) {
         for (PlaceBannerItem item : bannerList) {
-            if(item.getType().equals(type)) {
+            if(item.getPbType().equals(type)) {
                 filteredItemList.add(0, item);
             }
         }
@@ -124,7 +127,7 @@ public class PlaceBannerAdapter extends BaseAdapter {
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에서 제거합니다
     public void removeFilterType(String type) {
         for (PlaceBannerItem item : bannerList) {
-            if(item.getType().equals(type)) {
+            if(item.getPbType().equals(type)) {
                 filteredItemList.remove(item);
             }
         }

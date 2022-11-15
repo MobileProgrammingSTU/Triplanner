@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class  navigationItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
+    class navigationItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -55,10 +55,11 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = storageFragment;
                             break;
                         case R.id.nav_mypage:
-                            SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                            //SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                             //editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             //editor.apply();
-                            selectedFragment = mypageFragment;
+//                            selectedFragment = mypageFragment;
+                            selectedFragment = new MypageFragment();
                             break;
                     }
 
