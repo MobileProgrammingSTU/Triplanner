@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.seoultech.triplanner.Fragment.HomeFragment;
 import com.seoultech.triplanner.Fragment.MypageFragment;
 import com.seoultech.triplanner.Fragment.StorageFragment;
 
 public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
+    NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
     static HomeFragment homeFragment = new HomeFragment();
     static StorageFragment storageFragment = new StorageFragment();
@@ -28,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("홈화면");
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new navigationItemSelectedListener());
+        navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new navigationItemSelectedListener());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new HomeFragment());
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class navigationItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
+    class navigationItemSelectedListener implements NavigationBarView.OnItemSelectedListener {
 
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
