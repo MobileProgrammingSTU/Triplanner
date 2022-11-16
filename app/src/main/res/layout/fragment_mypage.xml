@@ -1,16 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    tools:context=".Fragment.MypageFragment">
+    tools:context=".Fragment.MyPageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:textColor="@color/colorFontNormal"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/myPage_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/img_activity_main_logo" />
+
+            <ImageView
+                android:id="@+id/myPage_profile"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/myPage_userName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittext_background"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="닉네임"
+                android:textColor="@color/colorFontNormal"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/et_reg_Email"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/edittext_background"
+                android:text="가입일자"
+                android:padding="10dp"
+                android:textColor="@color/colorFontNormal"
+                android:textSize="18sp" />
+
+            <!--
+            <TextView
+                android:id="@+id/et_reg_PW"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
+                android:text="여분 textView"
+                android:padding="10dp"
+                android:textColor="@color/colorFontNormal"
+                android:textSize="18sp" />
+                -->
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="로그아웃"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn_quit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원탈퇴"
+                android:textColor="@color/colorFontNormal"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:background="@color/colorBackground">
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
