@@ -1,7 +1,6 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -10,10 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.seoultech.triplanner.Fragment.HomeFragment;
-import com.seoultech.triplanner.Fragment.MypageFragment;
+import com.seoultech.triplanner.Fragment.MyPageFragment;
 import com.seoultech.triplanner.Fragment.StorageFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment selectedFragment = null;
     static HomeFragment homeFragment = new HomeFragment();
     static StorageFragment storageFragment = new StorageFragment();
-    static MypageFragment mypageFragment = new MypageFragment();
+    static MyPageFragment mypageFragment = new MyPageFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new navigationItemSelectedListener());
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new HomeFragment());
-        transaction.commit();
+        loadFragment(new HomeFragment());
 
     }
 
@@ -59,17 +55,26 @@ public class MainActivity extends AppCompatActivity {
                             //editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             //editor.apply();
 //                            selectedFragment = mypageFragment;
-                            selectedFragment = new MypageFragment();
+                            selectedFragment = mypageFragment;
                             break;
                     }
 
                     if (selectedFragment != null){
                         getSupportFragmentManager().beginTransaction().
                                 replace(R.id.fragment_container, selectedFragment).commit();
+                        loadFragment(selectedFragment);
                     }
 
                     return true;
                 }
             };
+
+    private void loadFragment(Fragment fragment) {
+        // load Fragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
 }
