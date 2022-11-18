@@ -30,12 +30,13 @@ import java.util.Objects;
 
 public class MyPageFragment extends Fragment {
 
-    ImageView myPage_profile;
+    ImageView myPage_profile_img;
     TextView myPage_userName, myPage_regDate;
     Button btn_logout, btn_quit;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseRef;
 
     @Override
@@ -44,7 +45,7 @@ public class MyPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 
-        myPage_profile = (ImageView) view.findViewById(R.id.myPage_profile);
+        myPage_profile_img = (ImageView) view.findViewById(R.id.myPage_profile_img);
         myPage_userName = (TextView) view.findViewById(R.id.myPage_userName);
         myPage_regDate = (TextView) view.findViewById(R.id.et_reg_Email);
 
@@ -52,7 +53,8 @@ public class MyPageFragment extends Fragment {
         btn_quit = (Button) view.findViewById(R.id.btn_quit);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
 
         setViewPager();
 
