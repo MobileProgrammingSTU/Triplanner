@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,15 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <!--activity android:name=".MainActivity"/-->
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".DatePlanner" />
-        <activity android:name=".PlacePlanner" />
-        <activity android:name=".PostMain" />
-        <activity android:name=".RegionPlanner" />
-        <activity android:name=".SelectedPlanner" />
-        <activity android:name=".FinishPlanner" />
+        <!--activity android:name=".LoginActivity"/-->
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".DatePlanner"/>
+        <activity android:name=".PlacePlanner"/>
+        <activity android:name=".PostMain"/>
+        <activity android:name=".RegionPlanner"/>
+        <activity android:name=".SelectedPlanner"/>
+        <activity android:name=".FinishPlanner"/>
     </application>
 
 </manifest>
