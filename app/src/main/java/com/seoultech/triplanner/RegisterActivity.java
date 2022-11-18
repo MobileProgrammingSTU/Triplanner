@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.seoultech.triplanner.Model.UserAccount;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;     // 파이어베이스 인증
@@ -47,6 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = (Button) findViewById(R.id.btn_register);
 
         txt_login = (TextView) findViewById(R.id.txt_login);
+
+        // 오늘 날짜를 입력받도록
+        String strRegDate = new SimpleDateFormat("yyyy년 MM월 dd일").format(new Date());
 
         txt_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                             userAccount.setFbEmail(firebaseUser.getEmail());
                             userAccount.setFbPassword(strPW);
                             userAccount.setFbName(strUsername);
+                            userAccount.setFbRegDate(strRegDate);
                             userAccount.setFbIdToken(firebaseUser.getUid());  // 고유값
 
                             //userAccount.setImageurl("https://firebasestorage.googleapis.com/v0/b/instagram-72e36.appspot.com/o/toolbar_8.jpg?alt=media&token=83118f66-19ca-4c28-975a-b276093be5dc");
