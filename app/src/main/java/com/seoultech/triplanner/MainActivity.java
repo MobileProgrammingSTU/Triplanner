@@ -17,9 +17,6 @@ import com.seoultech.triplanner.Fragment.StorageFragment;
 public class MainActivity extends AppCompatActivity {
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
-    static HomeFragment homeFragment = new HomeFragment();
-    static StorageFragment storageFragment = new StorageFragment();
-    static MyPageFragment mypageFragment = new MyPageFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +38,20 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = homeFragment;
+                            selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_planner:
                             selectedFragment = null;
                             startActivity(new Intent(MainActivity.this, RegionPlanner.class));
                             break;
                         case R.id.nav_storage:
-                            selectedFragment = storageFragment;
+                            selectedFragment = new StorageFragment();
                             break;
                         case R.id.nav_mypage:
                             //SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
                             //editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             //editor.apply();
-//                            selectedFragment = mypageFragment;
-                            selectedFragment = mypageFragment;
+                            selectedFragment = new MyPageFragment();
                             break;
                     }
 

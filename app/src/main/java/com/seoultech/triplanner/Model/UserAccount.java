@@ -9,6 +9,7 @@ public class UserAccount {
     private String fbEmail;         // email
     private String fbPassword;      // 비밀번호
     private String fbIdToken;       // Firebase Uid (고유 토큰 정보)
+    private String fbRegDate;       // 가입일자(yyyy년 MM월 dd일)
     private String fbImageUrl;
     private String bio;
 
@@ -53,5 +54,13 @@ public class UserAccount {
 
     public void setFbImageUrl(String fbImageUrl) {
         this.fbImageUrl = fbImageUrl;
+    }
+
+    public String getFbRegDate() {
+        return fbRegDate;
+    }
+
+    public void setFbRegDate(String fbRegDate) {
+        this.fbRegDate = fbRegDate;
     }
 }
