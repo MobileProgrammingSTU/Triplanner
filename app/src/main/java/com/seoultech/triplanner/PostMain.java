@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.seoultech.triplanner.Model.PostItem;
 import java.util.ArrayList;
 
 public class PostMain extends AppCompatActivity {
+    RelativeLayout menu;
     ImageButton btnBack;
     ImageView btnSave, btnLike;
 
@@ -60,9 +62,12 @@ public class PostMain extends AppCompatActivity {
         typeRegion = findViewById(R.id.postRegionType);
         typePlace = findViewById(R.id.postPlaceType);
 
+        menu = findViewById(R.id.layoutMenu);
         btnBack = findViewById(R.id.btnBack);
         btnSave = findViewById(R.id.save);
         btnLike = findViewById(R.id.like);
+
+        menu.bringToFront();
 
         // 홈에서 클릭한 포스트의 pid 받아오기
         intent = getIntent();
@@ -84,6 +89,9 @@ public class PostMain extends AppCompatActivity {
                     subtitle.setText(fbSubtitle);
                     publisher.setText(fbPublisher + " 님");
                     images.add(fbImgurl);
+
+                    // 슬라이드 인디케이터
+                    setupIndicators(images.size());
                 }
             }
 
@@ -106,8 +114,6 @@ public class PostMain extends AppCompatActivity {
                 setCurrentIndicator(position);
             }
         });
-        // 슬라이드 인디케이터
-        setupIndicators(images.size());
 
         //뒤로가기 버튼
         btnBack.setOnClickListener(new View.OnClickListener() {
