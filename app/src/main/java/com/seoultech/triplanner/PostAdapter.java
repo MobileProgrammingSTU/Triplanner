@@ -1,6 +1,7 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,15 +56,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         //피드 아이템(포스트) 클릭 이벤트
         view.setOnClickListener(new View.OnClickListener() {
-            String data = "";
+            String postId = "";
             @Override
             public void onClick(View view) {
-
                 int position = viewHolder.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    data = viewHolder.pid;
+                    postId = viewHolder.pid;
                 }
-                Toast.makeText(mContext, data, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, PostMain.class);
+
+                //Toast.makeText(mContext, postId, Toast.LENGTH_SHORT).show();
+                intent.putExtra("pid", postId);
+                mContext.startActivity(intent);
+
+
             }
         });
 

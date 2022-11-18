@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/postTextScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,76 +12,63 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/black">
+            android:layout_height="match_parent">
 
-            <!--게시물 슬라이드-->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/sliderViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="560dp"/>
-            <LinearLayout
-                android:id="@+id/layoutIndicators"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignTop="@+id/sliderViewPager"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:paddingTop="20dp"/>
+                android:layout_height="500dp"/>
 
-            <!--뒤로가기 버튼-->
-            <ImageButton
-                android:id="@+id/imgBtnBack"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_alignTop="@+id/sliderViewPager"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_back"
-                android:scaleType="fitXY"
-                android:background="?attr/selectableItemBackground"/>
-
-            <!--게시물 버튼모음-->
-            <GridLayout
-                android:layout_width="96dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:columnCount="2"
-                android:paddingTop="12dp">
-                <ImageButton
-                    android:id="@+id/postBtnSave"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_column="1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_save"
-                    android:scaleType="fitXY"
-                    android:background="?attr/selectableItemBackground"/>
-                <ImageButton
-                    android:id="@+id/postBtnBookmark"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_column="0"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_heart"
-                    android:scaleType="fitXY"
-                    android:background="?attr/selectableItemBackground"/>
-            </GridLayout>
-
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignBottom="@+id/sliderViewPager"
-                android:background="@drawable/activity_main_view_bg_gradient_black_bottom"/>
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="30dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_back"
+                    android:scaleType="centerCrop"
+                    android:background="?attr/selectableItemBackground"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutIndicators"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"/>
+
+                <ImageView
+                    android:id="@+id/save"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:src="@drawable/ic_save"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/save"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:src="@drawable/ic_heart"
+                    android:scaleType="fitXY"/>
+            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:padding="15dp"
             android:background="@color/colorBackground">
 
             <RelativeLayout
@@ -90,11 +78,11 @@
                     android:id="@+id/postTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="성수동 감성 카페 여행"
+                    android:text="포스트 제목입니다"
                     android:textColor="@android:color/white"
                     android:textSize="32sp"/>
                 <TextView
-                    android:id="@+id/postWriterID"
+                    android:id="@+id/postPublisher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -109,6 +97,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp">
                 <Button
+                    android:id="@+id/postLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="카페 할아버지 공장"
@@ -118,7 +107,7 @@
                     android:background="@drawable/btn_background_click_effect"/>
                 <!--태그-->
                 <Button
-                    android:id="@+id/postPlaceTag"
+                    android:id="@+id/postPlaceType"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
@@ -130,14 +119,13 @@
                     android:textSize="16sp"
                     android:textFontWeight="600"
                     android:textAlignment="center"
-                    android:textColor="@color/colorFontEmphasis"
-                    android:layout_margin="4dp"/>
+                    android:textColor="@color/colorFontEmphasis"/>
                 <Button
-                    android:id="@+id/postRegionTag"
+                    android:id="@+id/postRegionType"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/postPlaceTag"
+                    android:layout_toLeftOf="@+id/postPlaceType"
                     android:clickable="false"
                     android:background="@drawable/main_post_postplacetag_tagstyle"
                     android:backgroundTint="@color/colorBrandBlue"
@@ -146,7 +134,7 @@
                     android:textAlignment="center"
                     android:textFontWeight="600"
                     android:textColor="@color/colorFontEmphasis"
-                    android:layout_margin="4dp"/>
+                    android:layout_marginEnd="8dp"/>
             </RelativeLayout>
 
             <View
@@ -156,7 +144,7 @@
                 android:layout_marginBottom="16dp"/>
 
             <TextView
-                android:id="@+id/postTextSubtitle"
+                android:id="@+id/postSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="지친 일상으로부터 탈출"
@@ -165,11 +153,11 @@
                 android:layout_marginBottom="20dp"/>
 
             <TextView
-                android:id="@+id/postTextContent"
+                android:id="@+id/postContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="오랜 고민 끝에 드디어 여행을 떠나기로 했다\n\n나는 원래 여행도 일정을 빡빡하게 하고 많이 돌아다니는 편이었지만\n이번에는 정말로 편하게 쉬는 것을 목적으로 여유를 가지고 돌아다니려고 한다\n\n\n\n\n\n\ntest"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorFontNormal"/>
         </LinearLayout>
 

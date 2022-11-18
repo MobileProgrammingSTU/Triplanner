@@ -26,13 +26,13 @@
         </activity>
         <activity android:name=".LoginActivity"/>
         <!--activity android:name=".MainActivity"/-->
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".DatePlanner" />
-        <activity android:name=".PlacePlanner" />
-        <activity android:name=".PostMain" />
-        <activity android:name=".RegionPlanner" />
-        <activity android:name=".SelectedPlanner" />
-        <activity android:name=".FinishPlanner" />
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".DatePlanner"/>
+        <activity android:name=".PlacePlanner"/>
+        <activity android:name=".PostMain"/>
+        <activity android:name=".RegionPlanner"/>
+        <activity android:name=".SelectedPlanner"/>
+        <activity android:name=".FinishPlanner"/>
     </application>
 
 </manifest>
