@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -16,9 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.LoginActivity;
+import com.seoultech.triplanner.Model.UserAccount;
 import com.seoultech.triplanner.R;
 
 import java.util.Objects;
@@ -29,7 +34,8 @@ public class MyPageFragment extends Fragment {
     TextView myPage_userName, myPage_regDate;
     Button btn_logout, btn_quit;
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
     private DatabaseReference mDatabaseRef;
 
     @Override
@@ -54,6 +60,8 @@ public class MyPageFragment extends Fragment {
     }
 
     private void setViewPager() {
+        setProfile();
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +83,35 @@ public class MyPageFragment extends Fragment {
         });
     }
 
-    private void showQuitDialog() {// 회원탈퇴 전 AlertDialog 창을 띄워서 다시 한 번 묻는다.
+    /*
+    Realtime db 에서 user 정보를 가져와서 View 에 보여주는 역할
+     */
 
-        final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private void setProfile() {
+
+        assert fbCurrentUserUID != null;
+        mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        UserAccount userAccount = snapshot.getValue(UserAccount.class);
+                        myPage_userName.setText("닉네임: " + userAccount.getFbName());
+                        myPage_regDate.setText("가입 일자: " + userAccount.getFbRegDate());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+
+    }
+
+    /*
+    회원탈퇴 전 AlertDialog 창을 띄워서 다시 한 번 묻는다.
+     */
+    private void showQuitDialog() {
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         dlg.setTitle("회원 탈퇴");
