@@ -83,7 +83,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.pid = post.getPid();
 
-        Glide.with(mContext).load(post.getImgurl()).placeholder(R.drawable.img_activity_main_cafe_1_bw).dontAnimate().into(holder.post_image);
+        Glide.with(mContext).load(post.getImgurl()).placeholder(R.drawable.noimg).dontAnimate().into(holder.post_image);
 
         holder.title.setText(post.getTitle());
         holder.subtitle.setText(post.getSubtitle());
