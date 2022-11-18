@@ -11,10 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +42,7 @@ public class PostMain extends AppCompatActivity {
     private ViewPager2 sliderViewPager;
     private LinearLayout layoutIndicator;
 
-    ArrayList<String> images = new ArrayList<String>();
+    private ArrayList<String> images = new ArrayList<String>();
 
     private DatabaseReference mDatabase;
 
@@ -106,11 +109,11 @@ public class PostMain extends AppCompatActivity {
         // 슬라이드 인디케이터
         setupIndicators(images.size());
 
+        //뒤로가기 버튼
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostMain.this, MainActivity.class);
-                startActivity(intent); // 홈으로 이동
+                finish();
             }
         });
 
@@ -128,18 +131,21 @@ public class PostMain extends AppCompatActivity {
                 btnSave.setSelected(!btnSave.isSelected());
             }
         });
+
+        isLiked(postId, btnLike);
         //하트 버튼 클릭
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(btnLike.isSelected()) {
-                    btnLike.setImageResource(R.drawable.ic_heart);
+                if(btnLike.getTag().equals("like")) {
+                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                            .child(postId).setValue(true);
+                    Toast.makeText(getApplicationContext(), "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    btnLike.setImageResource(R.drawable.ic_heart_filled);
-                    Toast.makeText(getApplicationContext(),"게시물을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
+                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                            .child(postId).removeValue();
                 }
-                btnLike.setSelected(!btnLike.isSelected());
             }
         });
 
@@ -179,5 +185,32 @@ public class PostMain extends AppCompatActivity {
                 ));
             }
         }
+    }
+
+    private void isLiked(String postid, ImageView imageView) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner")
+                .child("Likes").child(postid);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //if (snapshot.child(firebaseUser.getUid()).exists()) {
+                if (snapshot.exists()) {
+                    imageView.setImageResource(R.drawable.ic_heart_filled);
+                    imageView.setTag("liked");
+                } else {
+                    imageView.setImageResource(R.drawable.ic_heart);
+                    imageView.setTag("like");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

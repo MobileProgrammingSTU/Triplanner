@@ -87,7 +87,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.title.setText(post.getTitle());
         holder.subtitle.setText(post.getSubtitle());
-        holder.publisher.setText(post.getPublisher());
+        holder.publisher.setText(post.getPublisher() + " 님");
 
         //publisherInfo(holder.publisher, post.getPublisher());
 

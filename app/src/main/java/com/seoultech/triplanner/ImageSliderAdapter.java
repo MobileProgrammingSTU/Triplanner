@@ -54,6 +54,7 @@ class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.MyViewH
             Glide.with(context)
                     .load(imageURL)
                     .centerCrop()
+                    .placeholder(R.drawable.noimg)
                     .into(mImageView);
         }
     }
