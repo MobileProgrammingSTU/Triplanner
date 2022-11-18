@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +29,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public Context mContext;
     public List<PostItem> mPost; // 포스트 아이템의 리스트
 
-    private FirebaseUser firebaseUser;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseRef;
 
     public PostAdapter(Context mContext, List<PostItem> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
     }
 
     //아이템 클릭 리스너 인터페이스
@@ -78,7 +82,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         PostItem post = mPost.get(position);
 
         holder.pid = post.getPid();
@@ -96,12 +99,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (holder.like.getTag().equals("like")) {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(post.getPid()).setValue(true);
                             //.child(firebaseUser.getUid()).setValue(true);
                     Toast.makeText(mContext, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
                 } else {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(post.getPid()).removeValue();
                             //.child(firebaseUser.getUid()).removeValue();
                 }
@@ -136,9 +139,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     private void publisherInfo (TextView publisher, String userid) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post");
+        mDatabaseRef.child("Post");
 
-        reference.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserAccount user = snapshot.getValue(UserAccount.class);
@@ -154,10 +157,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private void isLiked(String postid, ImageView imageView) {
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner")
-                .child("Likes").child(postid);
+        DatabaseReference reference = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes").child(postid);
+        //DatabaseReference reference = mDatabaseRef.child("Likes").child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
