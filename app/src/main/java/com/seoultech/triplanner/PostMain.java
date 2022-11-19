@@ -1,7 +1,10 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,7 +21,6 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,14 +48,18 @@ public class PostMain extends AppCompatActivity {
 
     private ArrayList<String> images = new ArrayList<String>();
 
-    private DatabaseReference mDatabase;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_post);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post");
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
 
         title = findViewById(R.id.postTitle);
         subtitle = findViewById(R.id.postSubtitle);
@@ -74,7 +80,7 @@ public class PostMain extends AppCompatActivity {
         postId = intent.getStringExtra("pid");
 
         // Firebase 에서 pid로 찾아 data 받아와서 매칭
-        Query val = mDatabase.orderByChild("pid").equalTo(postId);
+        Query val = mDatabaseRef.child("Post").orderByChild("pid").equalTo(postId);
         val.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -83,11 +89,46 @@ public class PostMain extends AppCompatActivity {
                     String fbTitle = fbPost.getTitle();
                     String fbSubtitle = fbPost.getSubtitle();
                     String fbPublisher = fbPost.getPublisher();
+
+                    String fbTypeRegion = fbPost.getTypeRegion();
+                    String fbTypePlace = fbPost.getTypePlace();
+
                     String fbImgurl = fbPost.getImgurl();
 
                     title.setText(fbTitle);
                     subtitle.setText(fbSubtitle);
                     publisher.setText(fbPublisher + " 님");
+
+                    // place 타입 설정
+                    if(fbTypePlace.contains("cafe") || fbTypePlace.contains("카페")) {
+                        typePlace.setText("카 페");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
+                    }
+                    else if(fbTypePlace.contains("rest") || fbTypePlace.contains("맛집")) {
+                        typePlace.setText("맛 집");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                    }
+                    else if(fbTypePlace.contains("att") || fbTypePlace.contains("명소")) {
+                        typePlace.setText("명 소");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFD37A")));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
+                    // region 타입 설정
+                    if(fbTypeRegion.contains("N") || fbTypeRegion.contains("북부")) {
+                        typeRegion.setText("북 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#5B4FBB")));
+                    }
+                    else if(fbTypeRegion.contains("S") || fbTypeRegion.contains("남부")) {
+                        typeRegion.setText("남 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
                     images.add(fbImgurl);
 
                     // 슬라이드 인디케이터
@@ -97,7 +138,7 @@ public class PostMain extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.w("getFirebaseDatabase", "loadPost:onCancelled", databaseError.toException());
             }
         });
 
@@ -144,12 +185,12 @@ public class PostMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btnLike.getTag().equals("like")) {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(postId).setValue(true);
                     Toast.makeText(getApplicationContext(), "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(postId).removeValue();
                 }
             }
@@ -195,9 +236,8 @@ public class PostMain extends AppCompatActivity {
 
     private void isLiked(String postid, ImageView imageView) {
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner")
+        //FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID)
                 .child("Likes").child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {

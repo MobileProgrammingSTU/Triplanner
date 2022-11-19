@@ -8,6 +8,8 @@ package com.seoultech.triplanner.Model;
     title : 배너(장소)의 타이틀 정보, 게시물과 연동시, 게시물 제목 혹은 위치 정보가 들어갈수 있습니다
             (위치정보는 나중에 부제목 속성을 추가할 수 도 있습니다.)
     type : 배너(장소)의 타입 정보. 장소의 타입(att, rest, cafe) 3가지 중 하나 입니다. 배너의 태그에 적용됩니다.
+
+    !!!!!!!!!!!!!!!!!해당 파일은 PostItem 으로 대체합니다!!!!!!!!!!!!!!!!!!!!!!!!!
 */
 
 public class PlaceBannerItem {

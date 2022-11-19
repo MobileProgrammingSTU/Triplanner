@@ -13,6 +13,8 @@ public class PostItem {
     private String title;
     private String fbSubtitle;
     private String fbPublisher;
+    private String typeRegion;
+    private String typePlace;
 
     public PostItem() {
 
@@ -52,5 +54,11 @@ public class PostItem {
     public void setSubtitle(String fbSubtitle) {
         this.fbSubtitle = fbSubtitle;
     }
+
+    public String getTypeRegion() { return typeRegion; }
+    public void setTypeRegion(String typeRegion) { this.typeRegion = typeRegion; }
+
+    public String getTypePlace() { return typePlace; }
+    public void setTypePlace(String typePlace) { this.typePlace = typePlace; }
 
 }
