@@ -7,6 +7,8 @@ Firebase의 키는 항상 소문자로만 작성한다!!!
 프로퍼티명이 키의 이름을 포함해야한다
  */
 
+import java.util.HashMap;
+
 public class PostItem {
     private String pid;
     private String imgurl;
@@ -15,9 +17,10 @@ public class PostItem {
     private String fbPublisher;
     private String typeRegion;
     private String typePlace;
+    private HashMap<String, String> images;
 
     public PostItem() {
-
+        images = new HashMap<>();
     }
 
     public String getPid() {
@@ -60,5 +63,8 @@ public class PostItem {
 
     public String getTypePlace() { return typePlace; }
     public void setTypePlace(String typePlace) { this.typePlace = typePlace; }
+
+    public HashMap<String, String> getImages() { return images; }
+    public void setImages(HashMap<String, String> listImgurl) { this.images = listImgurl; }
 
 }

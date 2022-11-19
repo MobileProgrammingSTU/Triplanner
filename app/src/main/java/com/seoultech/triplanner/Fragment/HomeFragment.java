@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 
     private void readPosts(){
         //DB로부터 post item 형태의 데이터를 읽어서 리사이클뷰(피드)의 포스트(아이템) 리스트에 추가합니다
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post2");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -92,11 +92,6 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     PostItem post = dataSnapshot.getValue(PostItem.class);
                     postLists.add(post);
-//                    for (String id : followingList){
-//                        if (post.getPublisher().equals(id)){
-//                            postLists.add(post);
-//                        }
-//                    }
                 }
                 postAdapter.notifyDataSetChanged();
             }

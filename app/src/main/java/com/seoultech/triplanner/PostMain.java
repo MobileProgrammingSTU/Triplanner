@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PostMain extends AppCompatActivity {
     RelativeLayout menu;
@@ -46,7 +47,7 @@ public class PostMain extends AppCompatActivity {
     private ViewPager2 sliderViewPager;
     private LinearLayout layoutIndicator;
 
-    private ArrayList<String> images = new ArrayList<String>();
+    private ArrayList<String> images = new ArrayList<String>(); // imgUrl 리스트
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -80,7 +81,7 @@ public class PostMain extends AppCompatActivity {
         postId = intent.getStringExtra("pid");
 
         // Firebase 에서 pid로 찾아 data 받아와서 매칭
-        Query val = mDatabaseRef.child("Post").orderByChild("pid").equalTo(postId);
+        Query val = mDatabaseRef.child("Post2").orderByChild("pid").equalTo(postId);
         val.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,7 +94,7 @@ public class PostMain extends AppCompatActivity {
                     String fbTypeRegion = fbPost.getTypeRegion();
                     String fbTypePlace = fbPost.getTypePlace();
 
-                    String fbImgurl = fbPost.getImgurl();
+                    HashMap<String, String> fbImages = fbPost.getImages();
 
                     title.setText(fbTitle);
                     subtitle.setText(fbSubtitle);
@@ -129,7 +130,9 @@ public class PostMain extends AppCompatActivity {
                         typePlace.setText("기 타");
                     }
 
-                    images.add(fbImgurl);
+                    for (String fbImgurl : fbImages.values()) {
+                        images.add(fbImgurl);
+                    }
 
                     // 슬라이드 인디케이터
                     setupIndicators(images.size());
