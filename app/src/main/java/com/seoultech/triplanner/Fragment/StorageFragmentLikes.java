@@ -31,7 +31,7 @@ public class StorageFragmentLikes extends Fragment {
     ListView listView;
     bannerPostAdapter adapter;
     ArrayList<String> arrayLikesID = new ArrayList<String>(); // 좋아요 게시물 ID 리스트
-    ArrayList<PostItem> listLikedPost = new ArrayList<PostItem>();
+    ArrayList<PostItem> listLikedPost = new ArrayList<PostItem>(); // post 배너 리스트뷰 아이템 리스트
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -53,24 +53,25 @@ public class StorageFragmentLikes extends Fragment {
         View view = inflater.inflate(R.layout.storage_fragment_likes, container, false);
 
         listView = (ListView) view.findViewById(R.id.listPost);
-        adapter = new bannerPostAdapter(getContext(), R.layout.place_banner_item, listLikedPost);
+        adapter = new bannerPostAdapter(getContext(), R.layout.place_selected_banner_item, listLikedPost, false);
         listView.setAdapter(adapter);
 
         // Database
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
-        DatabaseReference userDataRef = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes");
+        DatabaseReference userDataRef = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID);
 
-        // 좋아요 pid 수집
-        userDataRef.orderByValue().addValueEventListener(new ValueEventListener() {
+        userDataRef.child("Likes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arrayLikesID.clear();
+                // 좋아요 pid 수집 : arrayLikesID 채우기
                 for(DataSnapshot likesSnapshot : snapshot.getChildren()) {
                     String result = likesSnapshot.getKey(); // 키를 읽어옴
                     //System.out.println("출력"+result);
                     arrayLikesID.add(result);
                 }
 
+                // pid 검색하여 PostItem data 받아오기 : listLikedPost 채우기
                 mDatabaseRef.child("Post").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,6 +85,7 @@ public class StorageFragmentLikes extends Fragment {
                         }
                         adapter.notifyDataSetChanged();
 
+                        // 리스트뷰 아이템(배너) 클릭 이벤트
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

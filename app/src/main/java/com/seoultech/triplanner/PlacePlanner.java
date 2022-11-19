@@ -3,6 +3,7 @@ package com.seoultech.triplanner;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -10,51 +11,44 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.seoultech.triplanner.Model.PlaceBannerItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PlaceIntent;
+import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
 
 public class PlacePlanner extends AppCompatActivity {
 
     ListView bannerListView;
-    PlaceBannerAdapter adapter;
-    ArrayList<PlaceBannerItem> placeDataList; // 장소 data 리스트
+    bannerPostAdapter adapter;
+    ArrayList<PostItem> placeDataList; // 장소 data 리스트
+    ArrayList<String> arrayLikesID = new ArrayList<String>(); // 좋아요 게시물 ID 리스트
 
     ImageButton imgBtnBack;
 
     TextView textView;
     Button btnAttraction, btnRestaurant, btnCafe;
 
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private DatabaseReference mDatabaseRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planner_place);
 
-        bannerListView = (ListView) findViewById(R.id.bannerList);
-        placeDataList = new ArrayList<>();
-
-        //어댑터에 배너 기본 형식과 장소 data 리스트 적용
-        adapter = new PlaceBannerAdapter(this, R.layout.place_banner_item, placeDataList);
-        //리스트뷰에 어댑터 적용
-        bannerListView.setAdapter(adapter);
-
-        //placeDataList 에 장소 data 입력
-        adapter.addItem(R.drawable.img_planner_place_restaurant_1,
-                new Integer[] {R.drawable.img_planner_place_restaurant_1},
-                "맛집 이름", "", "rest", "", "", "");
-        adapter.addItem(R.drawable.img_planner_place_cafe_1,
-                new Integer[] {R.drawable.img_planner_place_cafe_1},
-                "카페 이름", "","cafe", "", "", "");
-        adapter.addItem(R.drawable.img_planner_place_attraction_1,
-                new Integer[] {R.drawable.img_planner_place_attraction_1},
-                "명소 이름","", "att", "", "", "");
-        adapter.addItem(R.drawable.img_activity_main_cafe_1,
-                new Integer[] {R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw},
-                "카페 할아버지 공장", "", "cafe", "", "", "");
-
+        // Database
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
+        DatabaseReference userDataRef = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID);
 
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
 
@@ -63,26 +57,71 @@ public class PlacePlanner extends AppCompatActivity {
         btnRestaurant = (Button) findViewById(R.id.btnRes);
         btnCafe = (Button) findViewById(R.id.btnCafe);
 
+        bannerListView = (ListView) findViewById(R.id.bannerList);
+        placeDataList = new ArrayList<>();
+
+        //어댑터에 배너 기본 형식과 장소 data 리스트 적용
+        adapter = new bannerPostAdapter(this, R.layout.place_selected_banner_item, placeDataList, true);
+        //리스트뷰에 어댑터 적용
+        bannerListView.setAdapter(adapter);
+
         //SelectedPlanner로 데이터를 보내기위해 인텐트 선언
         PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
 
-        //배너 클릭
-        bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // 좋아요 pid 수집
+        userDataRef.child("Likes").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //선택한 배너의 아이템 정보 객체
-                PlaceBannerItem item = (PlaceBannerItem) adapter.getItem(position);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayLikesID.clear();
+                for(DataSnapshot likesSnapshot : snapshot.getChildren()) {
+                    String result = likesSnapshot.getKey(); // 키를 읽어옴
+                    //System.out.println("출력"+result);
+                    arrayLikesID.add(result);
+                }
 
-                //아이템 정보를 번들에 묶음
-                Bundle extras = new Bundle();
-                extras.putString("img", Integer.toString(item.getPbThumbnail())); //(int)img 경로정보를 파싱(String)
-                extras.putString("title", item.getPbMainTitle());
-                extras.putString("type", item.getPbType());
+                mDatabaseRef.child("Post").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        placeDataList.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            PostItem post = dataSnapshot.getValue(PostItem.class);
+                            for (String pid : arrayLikesID) {
+                                if (post.getPid().equals(pid))
+                                    placeDataList.add(post);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
 
+                        // 리스트뷰의 아이템(배너) 클릭 이벤트 : intent 로 data 전송
+                        bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                //선택한 배너의 아이템 정보 객체
+                                PostItem item = (PostItem) adapter.getItem(position);
 
-                //번들을 보냄
-                PlaceIntent.placeIntent.putExtras(extras);
-                startActivity(PlaceIntent.placeIntent);
+                                //아이템 정보를 번들에 묶음
+                                Bundle extras = new Bundle();
+                                extras.putString("img", item.getImgurl()); //(int)img 경로정보를 파싱(String)
+                                extras.putString("title", item.getTitle());
+                                extras.putString("type", item.getTypePlace());
+                                
+                                //번들을 보냄
+                                PlaceIntent.placeIntent.putExtras(extras);
+                                startActivity(PlaceIntent.placeIntent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w("getFirebaseDatabase", "loadPost:onCancelled", error.toException());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("getFirebaseDatabase","loadPost:onCancelled", error.toException());
             }
         });
 
@@ -103,11 +142,11 @@ public class PlacePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 if(btnAttraction.isSelected()){
                     btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
-                    adapter.removeFilterType(PlaceBannerAdapter.ATT); // (type:att)를 리스트에서 제거
+                    adapter.removeFilterType(bannerPostAdapter.ATT); // (type:att)를 리스트에서 제거
                 }
                 else {
                     btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
-                    adapter.addFilterType(PlaceBannerAdapter.ATT); // (type:att)를 리스트에 띄움
+                    adapter.addFilterType(bannerPostAdapter.ATT); // (type:att)를 리스트에 띄움
                 }
                 btnAttraction.setSelected(!btnAttraction.isSelected());
             }
@@ -118,11 +157,11 @@ public class PlacePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 if(btnRestaurant.isSelected()){
                     btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
-                    adapter.removeFilterType(PlaceBannerAdapter.REST); // (type:rest)를 리스트에서 제거
+                    adapter.removeFilterType(bannerPostAdapter.REST); // (type:rest)를 리스트에서 제거
                 }
                 else {
                     btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
-                    adapter.addFilterType(PlaceBannerAdapter.REST); // (type:rest)를 리스트에 띄움
+                    adapter.addFilterType(bannerPostAdapter.REST); // (type:rest)를 리스트에 띄움
                 }
                 btnRestaurant.setSelected(!btnRestaurant.isSelected());
             }
@@ -133,11 +172,11 @@ public class PlacePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 if(btnCafe.isSelected()){
                     btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
-                    adapter.removeFilterType(PlaceBannerAdapter.CAFE); // (type:cafe)를 리스트에서 제거
+                    adapter.removeFilterType(bannerPostAdapter.CAFE); // (type:cafe)를 리스트에서 제거
                 }
                 else {
                     btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
-                    adapter.addFilterType(PlaceBannerAdapter.CAFE); // (type:cafe)를 리스트에 띄움
+                    adapter.addFilterType(bannerPostAdapter.CAFE); // (type:cafe)를 리스트에 띄움
                 }
                 btnCafe.setSelected(!btnCafe.isSelected());
             }
@@ -146,6 +185,5 @@ public class PlacePlanner extends AppCompatActivity {
         // 1일차, 2일차, ...
         Integer day = PlaceIntent.savedDateMap.get("startDay");
         textView.setText(day + "일차에 방문할 장소를 선택하세요");
-
     }
 }

@@ -2,8 +2,6 @@ package com.seoultech.triplanner.Model;
 
 import android.content.Intent;
 
-import com.seoultech.triplanner.Model.PlaceBannerItem;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,12 +15,14 @@ public class PlaceIntent {
     public static Intent placeIntent = new Intent();
 
     //새로 추가됨 : 일차에 선택한 장소배너 아이템 리스트
-    public static ArrayList<PlaceBannerItem> daySelectedPlace = new ArrayList<PlaceBannerItem>();
+    public static ArrayList<PostItem> daySelectedPlace = new ArrayList<PostItem>();
 
     // 1일차에 해당하는 장소를 담는 Map(= Python의 Dict)
     // Key 값은 중복이 될 수 없으므로, 장소를 String[] 배열로 받도록 선언(장소를 여러 개 선택 할 수도 있으므로)
     //List<String>에서 ArrayList<PlaceBannerItem>으로 변경
-    public static Map<Integer, ArrayList<PlaceBannerItem>> savedPlacesMap = new LinkedHashMap<>();
+    public static Map<Integer, ArrayList<PostItem>> savedPlacesMap = new LinkedHashMap<>();
+
+    // 모든 PlaceBannerItem 데이터 타입은 --> PostItem 으로 변경되었습니다
 
     PlaceIntent() {
 

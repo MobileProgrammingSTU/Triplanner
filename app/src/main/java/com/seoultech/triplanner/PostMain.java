@@ -1,7 +1,10 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -86,11 +89,46 @@ public class PostMain extends AppCompatActivity {
                     String fbTitle = fbPost.getTitle();
                     String fbSubtitle = fbPost.getSubtitle();
                     String fbPublisher = fbPost.getPublisher();
+
+                    String fbTypeRegion = fbPost.getTypeRegion();
+                    String fbTypePlace = fbPost.getTypePlace();
+
                     String fbImgurl = fbPost.getImgurl();
 
                     title.setText(fbTitle);
                     subtitle.setText(fbSubtitle);
                     publisher.setText(fbPublisher + " 님");
+
+                    // place 타입 설정
+                    if(fbTypePlace.contains("cafe") || fbTypePlace.contains("카페")) {
+                        typePlace.setText("카 페");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
+                    }
+                    else if(fbTypePlace.contains("rest") || fbTypePlace.contains("맛집")) {
+                        typePlace.setText("맛 집");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                    }
+                    else if(fbTypePlace.contains("att") || fbTypePlace.contains("명소")) {
+                        typePlace.setText("명 소");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFD37A")));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
+                    // region 타입 설정
+                    if(fbTypeRegion.contains("N") || fbTypeRegion.contains("북부")) {
+                        typeRegion.setText("북 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#5B4FBB")));
+                    }
+                    else if(fbTypeRegion.contains("S") || fbTypeRegion.contains("남부")) {
+                        typeRegion.setText("남 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
                     images.add(fbImgurl);
 
                     // 슬라이드 인디케이터
@@ -100,7 +138,7 @@ public class PostMain extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.w("getFirebaseDatabase", "loadPost:onCancelled", databaseError.toException());
             }
         });
 

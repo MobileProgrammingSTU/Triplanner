@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PostItem;
-import com.seoultech.triplanner.Model.UserAccount;
 
 import java.util.List;
 
@@ -72,8 +71,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 //Toast.makeText(mContext, postId, Toast.LENGTH_SHORT).show();
                 intent.putExtra("pid", postId);
                 mContext.startActivity(intent);
-
-
             }
         });
 
@@ -81,6 +78,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
+    // 뷰홀더에서 선언한 아이템에 DB값 입력
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PostItem post = mPost.get(position);
 
@@ -91,8 +89,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.title.setText(post.getTitle());
         holder.subtitle.setText(post.getSubtitle());
         holder.publisher.setText(post.getPublisher() + " 님");
-
-        //publisherInfo(holder.publisher, post.getPublisher());
 
         isLiked(post.getPid(), holder.like);
         holder.like.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mPost.size();
     }
 
+    // 뷰홀더 : 아이템 선언
     public class ViewHolder extends RecyclerView.ViewHolder {
         public String pid;
         public ImageView post_image, like, save;
@@ -134,25 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             subtitle = itemView.findViewById(R.id.post_subtitle);
             publisher = itemView.findViewById(R.id.publisher);
             indicators = itemView.findViewById(R.id.layoutIndicators);
-
         }
-    }
-
-    private void publisherInfo (TextView publisher, String userid) {
-        mDatabaseRef.child("Post");
-
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserAccount user = snapshot.getValue(UserAccount.class);
-                publisher.setText(user.getFbEmail());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void isLiked(String postid, ImageView imageView) {

@@ -12,30 +12,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.seoultech.triplanner.Model.PlaceBannerItem;
 import com.seoultech.triplanner.Model.PlaceIntent;
+import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
 
 public class SelectedPlanner extends AppCompatActivity {
 
     ListView bannerListView;
-    SelectedBannerAdapter adapter;
-    ArrayList<PlaceBannerItem> placeDataList; // 리스트뷰의 data 리스트
+    bannerPostAdapter adapter;
+    ArrayList<PostItem> placeDataList; // 리스트뷰의 data 리스트
 
     ImageView imgBtnBack;
 
     TextView textView;
 
-    Button btnAdd;
-    Button btnNext;
+    Button btnAdd, btnNext;
 
     Bundle bundle;
-    int imgData;
-    String titleData;
-    String typeData;
-    int startDay;
-    int endDay;
+    String imgData, titleData, typeData;
+    int startDay, endDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +40,8 @@ public class SelectedPlanner extends AppCompatActivity {
 
         bannerListView = (ListView) findViewById(R.id.selectedList);
         placeDataList = new ArrayList<>();
-        adapter = new SelectedBannerAdapter(this, R.layout.place_selected_banner_item, placeDataList);
+        adapter = new bannerPostAdapter(this, R.layout.place_selected_banner_item, placeDataList, false);
+        adapter.useBtnDelete(true);
         bannerListView.setAdapter(adapter);
 
         imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
@@ -78,13 +75,16 @@ public class SelectedPlanner extends AppCompatActivity {
 
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();
-        imgData = Integer.parseInt(intent.getStringExtra("img")); // String으로 보낸 경로 정보를 다시 Int로 바꿈
+        PostItem addItem = new PostItem();
+        imgData = intent.getStringExtra("img");
         titleData = intent.getStringExtra("title");
         typeData = intent.getStringExtra("type");
+        addItem.setImgurl(imgData);
+        addItem.setTitle(titleData);
+        addItem.setTypePlace(typeData);
 
         //static ArrayList에 인텐트로 받아온 데이터 누적하기
-        PlaceIntent.daySelectedPlace.add(new PlaceBannerItem(imgData, null, titleData,
-                "", typeData, "", "", ""));
+        PlaceIntent.daySelectedPlace.add(addItem);
 
         placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
         adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남
@@ -110,7 +110,7 @@ public class SelectedPlanner extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (!placeDataList.isEmpty()) {
-                        ArrayList<PlaceBannerItem> list = new ArrayList<PlaceBannerItem>();
+                        ArrayList<PostItem> list = new ArrayList<PostItem>();
                         list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
 
                         PlaceIntent.savedPlacesMap.put(startDay, list); // 총 저장소에 담기
