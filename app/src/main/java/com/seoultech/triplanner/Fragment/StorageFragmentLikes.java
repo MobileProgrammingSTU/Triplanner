@@ -1,9 +1,12 @@
 package com.seoultech.triplanner.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PostItem;
+import com.seoultech.triplanner.PostMain;
 import com.seoultech.triplanner.R;
 import com.seoultech.triplanner.bannerPostAdapter;
 
@@ -79,18 +83,29 @@ public class StorageFragmentLikes extends Fragment {
                             }
                         }
                         adapter.notifyDataSetChanged();
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                PostItem postItem = (PostItem) adapter.getItem(position);
+
+                                Intent intent = new Intent(getContext(), PostMain.class);
+                                intent.putExtra("pid", postItem.getPid());
+                                getContext().startActivity(intent);
+                            }
+                        });
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Log.w("getFirebaseDatabase", "loadPost:onCancelled", error.toException());
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.w("getFirebaseDatabase","loadPost:onCancelled", error.toException());
             }
         });
 

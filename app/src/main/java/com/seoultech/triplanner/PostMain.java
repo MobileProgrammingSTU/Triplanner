@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,14 +45,18 @@ public class PostMain extends AppCompatActivity {
 
     private ArrayList<String> images = new ArrayList<String>();
 
-    private DatabaseReference mDatabase;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_post);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Triplanner").child("Post");
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
 
         title = findViewById(R.id.postTitle);
         subtitle = findViewById(R.id.postSubtitle);
@@ -74,7 +77,7 @@ public class PostMain extends AppCompatActivity {
         postId = intent.getStringExtra("pid");
 
         // Firebase 에서 pid로 찾아 data 받아와서 매칭
-        Query val = mDatabase.orderByChild("pid").equalTo(postId);
+        Query val = mDatabaseRef.child("Post").orderByChild("pid").equalTo(postId);
         val.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -144,12 +147,12 @@ public class PostMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btnLike.getTag().equals("like")) {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(postId).setValue(true);
                     Toast.makeText(getApplicationContext(), "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    FirebaseDatabase.getInstance().getReference("Triplanner").child("Likes")
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
                             .child(postId).removeValue();
                 }
             }
@@ -195,9 +198,8 @@ public class PostMain extends AppCompatActivity {
 
     private void isLiked(String postid, ImageView imageView) {
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Triplanner")
+        //FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID)
                 .child("Likes").child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {
