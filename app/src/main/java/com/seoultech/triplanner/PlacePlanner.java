@@ -56,6 +56,9 @@ public class PlacePlanner extends AppCompatActivity {
         btnAttraction = (Button) findViewById(R.id.btnAtt);
         btnRestaurant = (Button) findViewById(R.id.btnRes);
         btnCafe = (Button) findViewById(R.id.btnCafe);
+        btnAttraction.setSelected(false);
+        btnRestaurant.setSelected(false);
+        btnCafe.setSelected(false);
 
         bannerListView = (ListView) findViewById(R.id.bannerList);
         placeDataList = new ArrayList<>();
@@ -79,7 +82,7 @@ public class PlacePlanner extends AppCompatActivity {
                     arrayLikesID.add(result);
                 }
 
-                mDatabaseRef.child("Post").addValueEventListener(new ValueEventListener() {
+                mDatabaseRef.child("Post2").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         placeDataList.clear();
@@ -91,30 +94,30 @@ public class PlacePlanner extends AppCompatActivity {
                             }
                         }
                         adapter.notifyDataSetChanged();
-
-                        // 리스트뷰의 아이템(배너) 클릭 이벤트 : intent 로 data 전송
-                        bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                                //선택한 배너의 아이템 정보 객체
-                                PostItem item = (PostItem) adapter.getItem(position);
-
-                                //아이템 정보를 번들에 묶음
-                                Bundle extras = new Bundle();
-                                extras.putString("img", item.getImgurl()); //(int)img 경로정보를 파싱(String)
-                                extras.putString("title", item.getTitle());
-                                extras.putString("type", item.getTypePlace());
-                                
-                                //번들을 보냄
-                                PlaceIntent.placeIntent.putExtras(extras);
-                                startActivity(PlaceIntent.placeIntent);
-                            }
-                        });
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.w("getFirebaseDatabase", "loadPost:onCancelled", error.toException());
+                    }
+                });
+
+                // 리스트뷰의 아이템(배너) 클릭 이벤트 : intent 로 data 전송
+                bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                        //선택한 배너의 아이템 정보 객체
+                        PostItem item = (PostItem) adapter.getItem(position);
+
+                        //아이템 정보를 번들에 묶음
+                        Bundle extras = new Bundle();
+                        extras.putString("img", item.getThumbnail());
+                        extras.putString("title", item.getTitle());
+                        extras.putString("type", item.getTypePlace());
+
+                        //번들을 보냄
+                        PlaceIntent.placeIntent.putExtras(extras);
+                        startActivity(PlaceIntent.placeIntent);
                     }
                 });
             }
@@ -125,6 +128,8 @@ public class PlacePlanner extends AppCompatActivity {
             }
         });
 
+        filterClickListener();
+
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,10 +137,12 @@ public class PlacePlanner extends AppCompatActivity {
             }
         });
 
-        btnAttraction.setSelected(false);
-        btnRestaurant.setSelected(false);
-        btnCafe.setSelected(false);
+        // 1일차, 2일차, ...
+        Integer day = PlaceIntent.savedDateMap.get("startDay");
+        textView.setText(day + "일차에 방문할 장소를 선택하세요");
+    }
 
+    public void filterClickListener() {
         //명소 필터 버튼 클릭
         btnAttraction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,9 +188,5 @@ public class PlacePlanner extends AppCompatActivity {
                 btnCafe.setSelected(!btnCafe.isSelected());
             }
         });
-
-        // 1일차, 2일차, ...
-        Integer day = PlaceIntent.savedDateMap.get("startDay");
-        textView.setText(day + "일차에 방문할 장소를 선택하세요");
     }
 }
