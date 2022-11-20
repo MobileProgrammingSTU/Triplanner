@@ -72,7 +72,7 @@ public class StorageFragmentLikes extends Fragment {
                 }
 
                 // pid 검색하여 PostItem data 받아오기 : listLikedPost 채우기
-                mDatabaseRef.child("Post").addValueEventListener(new ValueEventListener() {
+                mDatabaseRef.child("Post2").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         listLikedPost.clear();
@@ -90,9 +90,15 @@ public class StorageFragmentLikes extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                                 PostItem postItem = (PostItem) adapter.getItem(position);
+                                ArrayList<String> listImgurl = new ArrayList<>();
 
                                 Intent intent = new Intent(getContext(), PostMain.class);
                                 intent.putExtra("pid", postItem.getPid());
+                                
+                                // 이미지 url 데이터를 리스트 형태로 보냄 : DB 에서 찾아서하면 로드 오류남
+                                listImgurl.addAll(postItem.getImages().values());
+                                intent.putExtra("images", listImgurl);
+                                
                                 getContext().startActivity(intent);
                             }
                         });

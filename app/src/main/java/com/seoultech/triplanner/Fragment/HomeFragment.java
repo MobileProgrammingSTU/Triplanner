@@ -24,6 +24,7 @@ import com.seoultech.triplanner.R;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class HomeFragment extends Fragment {
     AppBarLayout appBar;
 

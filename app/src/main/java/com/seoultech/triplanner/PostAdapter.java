@@ -2,7 +2,9 @@ package com.seoultech.triplanner;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,22 +37,58 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseRef;
 
+    private GestureDetector gestureDetector = null;
+    private Boolean clickEventFlag = false; // 클릭 플래그 (기본값 : false)
+
     public PostAdapter(Context mContext, List<PostItem> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
+        
+        // viewPager2 터치 제스쳐 구분
+        gestureDetector = new GestureDetector(mContext, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                clickEventFlag = true; // 클릭 감지시 플래그 세움
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
     }
 
-    //아이템 클릭 리스너 인터페이스
-    interface OnItemClickListener{
-        void onItemClicked(int position, String data);
+    //인터페이스 선언
+    public interface OnItemClickListener{
+        //클릭시 동작할 함수
+        void onItemClick(View v, int position);
     }
-    //리스너 객체 참조 변수
-    private OnItemClickListener itemClickListener;
-    //리스너 객체 참조를 어댑터에 전달 메서드
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        itemClickListener = listener;
+    private OnItemClickListener itemListener = null;
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.itemListener = listener;
     }
 
     @NonNull
@@ -59,23 +97,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
         PostAdapter.ViewHolder viewHolder = new PostAdapter.ViewHolder(view);
 
+//        String postId = "";
+//        ArrayList<String> postImages = new ArrayList<>();
         //피드 아이템(포스트) 클릭 이벤트
-        view.setFocusable(true);
-        view.setOnClickListener(new View.OnClickListener() {
-            String postId = "";
-            @Override
-            public void onClick(View view) {
-                int position = viewHolder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    postId = viewHolder.pid;
-                }
-                Intent intent = new Intent(mContext, PostMain.class);
-
-                Toast.makeText(mContext, postId, Toast.LENGTH_SHORT).show();
-                intent.putExtra("pid", postId);
-                mContext.startActivity(intent);
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            String postId = "";
+//            ArrayList<String> postImages = new ArrayList<>();
+//            @Override
+//            public void onClick(View view) {
+//                int position = viewHolder.getAdapterPosition();
+//                if (position != RecyclerView.NO_POSITION) {
+//                    postId = viewHolder.pid;
+//                    postImages = viewHolder.images;
+//                }
+//                Intent intent = new Intent(mContext, PostMain.class);
+//
+//                Toast.makeText(mContext, postId, Toast.LENGTH_SHORT).show();
+//                intent.putExtra("pid", postId);
+//
+//                // 이미지 url 데이터를 리스트 형태로 보냄 : DB 에서 찾아서하면 로드 오류남
+//                intent.putExtra("images", postImages);
+//
+//                mContext.startActivity(intent);
+//            }
+//        });
 
         return viewHolder;
     }
@@ -87,9 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.images.clear();
         holder.indicators.clear();
-        for (String imgurl : post.getImages().values()) {
-            holder.images.add(imgurl);
-        }
+        holder.images.addAll(post.getImages().values());
         // 슬라이드 인디케이터
         holder.setupIndicators(holder.indicators);
 
@@ -101,6 +144,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 holder.setCurrentIndicator(position);
+            }
+        });
+        // viewPager2의 recyclerView 터치 이벤트 (recyclerView item 클릭 이벤트 오류로 해당 방식으로 해결)
+        holder.sliderViewPager.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                gestureDetector.onTouchEvent(motionEvent);
+
+                if (clickEventFlag) {
+                    clickEventFlag = false;
+                    Intent intent = new Intent(mContext, PostMain.class);
+
+                    intent.putExtra("pid", holder.pid);
+
+                    // 이미지 url 데이터를 리스트 형태로 보냄 : DB 에서 찾아서하면 로드 오류남
+                    intent.putExtra("images", holder.images);
+
+                    mContext.startActivity(intent);
+                }
+
+                return false;
             }
         });
 
@@ -132,6 +196,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public int getItemCount() {
         return mPost.size();
     }
+
 
     // 뷰홀더 : 아이템 선언
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -213,5 +278,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         });
     }
-
 }

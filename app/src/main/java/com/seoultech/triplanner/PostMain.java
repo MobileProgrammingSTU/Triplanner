@@ -41,7 +41,6 @@ public class PostMain extends AppCompatActivity {
     Button location;
     Button typeRegion, typePlace;
 
-    private Intent intent;
     String postId;
 
     private ViewPager2 sliderViewPager;
@@ -77,8 +76,10 @@ public class PostMain extends AppCompatActivity {
         menu.bringToFront();
 
         // 홈에서 클릭한 포스트의 pid 받아오기
-        intent = getIntent();
+        Intent intent = getIntent();
         postId = intent.getStringExtra("pid");
+        // 찾아서하면 오류가 발생하여 url 리스트를 intent 로 받음
+        images = intent.getStringArrayListExtra("images");
 
         // Firebase 에서 pid로 찾아 data 받아와서 매칭
         Query val = mDatabaseRef.child("Post2").orderByChild("pid").equalTo(postId);
@@ -128,10 +129,6 @@ public class PostMain extends AppCompatActivity {
                     }
                     else{
                         typePlace.setText("기 타");
-                    }
-
-                    for (String fbImgurl : fbImages.values()) {
-                        images.add(fbImgurl);
                     }
 
                     // 슬라이드 인디케이터
