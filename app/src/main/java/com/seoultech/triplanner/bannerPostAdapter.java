@@ -91,7 +91,7 @@ public class bannerPostAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        Glide.with(mContext).load(bannerItem.getImgurl()).placeholder(R.drawable.noimg).dontAnimate().into(bannerImg);
+        Glide.with(mContext).load(bannerItem.getThumbnail()).placeholder(R.drawable.noimg).dontAnimate().into(bannerImg);
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
         bannerTitle.setText(bannerItem.getTitle());
 
