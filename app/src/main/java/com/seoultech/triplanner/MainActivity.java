@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_planner:
                             selectedFragment = null;
-                            startActivity(new Intent(MainActivity.this, RegionPlanner.class));
+                            startActivity(new Intent(MainActivity.this, DatePlanner.class));
                             break;
                         case R.id.nav_storage:
                             selectedFragment = new StorageFragment();
