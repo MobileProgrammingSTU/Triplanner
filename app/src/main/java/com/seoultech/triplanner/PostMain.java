@@ -67,6 +67,7 @@ public class PostMain extends AppCompatActivity {
         location = findViewById(R.id.postLocation);
         typeRegion = findViewById(R.id.postRegionType);
         typePlace = findViewById(R.id.postPlaceType);
+        content = findViewById(R.id.postContent);
 
         menu = findViewById(R.id.layoutMenu);
         btnBack = findViewById(R.id.btnBack);
@@ -91,6 +92,7 @@ public class PostMain extends AppCompatActivity {
                     String fbTitle = fbPost.getTitle();
                     String fbSubtitle = fbPost.getSubtitle();
                     String fbPublisher = fbPost.getPublisher();
+                    String fbContent = fbPost.getContent().replace("\\n", "\n");
 
                     String fbTypeRegion = fbPost.getTypeRegion();
                     String fbTypePlace = fbPost.getTypePlace();
@@ -100,6 +102,7 @@ public class PostMain extends AppCompatActivity {
                     title.setText(fbTitle);
                     subtitle.setText(fbSubtitle);
                     publisher.setText(fbPublisher + " 님");
+                    content.setText(fbContent);
 
                     // place 타입 설정
                     if(fbTypePlace.contains("cafe") || fbTypePlace.contains("카페")) {
