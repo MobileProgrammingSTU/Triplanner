@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationBarView;
 import com.seoultech.triplanner.Fragment.HomeFragment;
 import com.seoultech.triplanner.Fragment.MyPageFragment;
+import com.seoultech.triplanner.Fragment.PostWriteFragment;
 import com.seoultech.triplanner.Fragment.StorageFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment();
+                            break;
+                        case R.id.nav_postWrite:
+                            selectedFragment = new PostWriteFragment();
                             break;
                         case R.id.nav_planner:
                             selectedFragment = null;

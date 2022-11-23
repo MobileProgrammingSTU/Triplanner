@@ -19,7 +19,8 @@ public class PostItem {
     private String typeRegion;
     private String typePlace;
     private HashMap<String, String> images;
-    private String Content;
+    private String content;
+    private String thumbNail;
 
     public PostItem() {
         images = new HashMap<>();
@@ -76,10 +77,14 @@ public class PostItem {
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String Content) {
-        this.Content = Content;
+        this.content = Content;
+    }
+
+    public void setThumbnail(String thumbNail) {
+        this.thumbNail = thumbNail;
     }
 }
