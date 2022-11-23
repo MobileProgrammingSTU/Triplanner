@@ -29,7 +29,9 @@ import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
 import com.seoultech.triplanner.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PostWriteFragment extends Fragment {
 
@@ -84,6 +86,8 @@ public class PostWriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         postItem = new PostItem();
 
+        List<String> list = new ArrayList<>();
+
         spinner_Region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -108,6 +112,22 @@ public class PostWriteFragment extends Fragment {
             }
         });
 
+        // p2, p3, ... 처럼 db 의 table 값을 받아오기 위해 사용
+        // 내림차순으로 정렬한 뒤, 마지막 값에서 +1 추가 필요
+        mDatabaseRef.child("Post2").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    list.add(dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // 현재 접속 중인 user 의 FbName 을 db 에서 읽어오기 위해 작성(글 작성자의 fbName)
         mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).addValueEventListener(
                 new ValueEventListener() {
@@ -124,8 +144,6 @@ public class PostWriteFragment extends Fragment {
                 }
         );
 
-        postItem.setPid("post7");
-
         HashMap<String, String> hashmap = new HashMap<>();
         hashmap.put("imgurl1",
                 "https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/img_planner_place_restaurant_1.jpg?alt=media&token=6a6ead11-30f7-4f76-b181-2fd62421d95e");
@@ -137,13 +155,24 @@ public class PostWriteFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+//                for (String s : list) {
+//                    System.out.println(s);
+//                }
+
+                // 데이터 처리 후 pid column 값 설정
+                String s = list.get(list.size() - 1);
+                int num = Character.getNumericValue(s.charAt(1));
+                postItem.setPid("post" + Integer.toString(num + 1));
+
                 // 이 내역들을 여기서 받는 이유는, btn_write.setOnClickListener 밖에서 받을 시 db 에 값이 저장되지 않는다.
                 // 아마 "Fragment 생명 주기" 개념과 연관이 있지 않을까 추측.
                 postItem.setTitle(edt_Title.getText().toString());
                 postItem.setSubtitle(edt_subTitle.getText().toString());
                 postItem.setContent(edt_content.getText().toString());
 
-                mDatabaseRef.child("Post2").child("p7").setValue(postItem);
+                // db table 이름 설정
+                String fbTableName = s.charAt(0) + Integer.toString(num + 1);
+                mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);
 
                 Toast.makeText(getActivity(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
