@@ -91,7 +91,12 @@ public class PostWriteFragment extends Fragment {
         spinner_Region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                postItem.setTypeRegion(Region[position]);
+                if (position == 0) {
+                    postItem.setTypeRegion("R");
+                }
+                else {
+                    postItem.setTypeRegion("S");
+                }
             }
 
             @Override
@@ -103,7 +108,15 @@ public class PostWriteFragment extends Fragment {
         spinner_Place.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                postItem.setTypePlace(Place[position]);
+                if (position == 0) {
+                    postItem.setTypePlace("cafe");
+                }
+                else if (position == 1){
+                    postItem.setTypeRegion("att");
+                }
+                else {
+                    postItem.setTypeRegion("rest");
+                }
             }
 
             @Override
