@@ -1,5 +1,6 @@
 package com.seoultech.triplanner.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import com.seoultech.triplanner.MainActivity;
 import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
 import com.seoultech.triplanner.R;
@@ -28,7 +32,6 @@ import com.seoultech.triplanner.R;
 import java.util.HashMap;
 
 public class PostWriteFragment extends Fragment {
-
 
     ImageView img_camera;
     EditText edt_Title, edt_subTitle, edt_content;
@@ -74,6 +77,9 @@ public class PostWriteFragment extends Fragment {
         return view;
     }
 
+    /*
+    아래 메소드에서, postItem 에 담길 data 들을 넣는다.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         postItem = new PostItem();
@@ -102,7 +108,7 @@ public class PostWriteFragment extends Fragment {
             }
         });
 
-        // 현재 글을 작성하는 user 의 FbName 을 db 에서 읽어오기 위해 작성
+        // 현재 접속 중인 user 의 FbName 을 db 에서 읽어오기 위해 작성(글 작성자의 fbName)
         mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).addValueEventListener(
                 new ValueEventListener() {
                     @Override
@@ -138,6 +144,14 @@ public class PostWriteFragment extends Fragment {
                 postItem.setContent(edt_content.getText().toString());
 
                 mDatabaseRef.child("Post2").child("p7").setValue(postItem);
+
+                Toast.makeText(getActivity(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
+
+                // 글 작성이 완료되면, MainActivity 로 화면 이동
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+
             }
         });
     }
