@@ -118,9 +118,6 @@ public class PostWriteFragment extends Fragment {
                 }
         );
 
-        postItem.setTitle(edt_Title.getText().toString());
-        postItem.setSubtitle(edt_subTitle.getText().toString());
-        postItem.setContent(edt_content.getText().toString());
         postItem.setPid("post7");
 
         HashMap<String, String> hashmap = new HashMap<>();
@@ -133,6 +130,13 @@ public class PostWriteFragment extends Fragment {
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // 이 내역들을 여기서 받는 이유는, btn_write.setOnClickListener 밖에서 받을 시 db 에 값이 저장되지 않는다.
+                // 아마 "Fragment 생명 주기" 개념과 연관이 있지 않을까 추측.
+                postItem.setTitle(edt_Title.getText().toString());
+                postItem.setSubtitle(edt_subTitle.getText().toString());
+                postItem.setContent(edt_content.getText().toString());
+
                 mDatabaseRef.child("Post2").child("p7").setValue(postItem);
             }
         });
