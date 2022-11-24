@@ -13,12 +13,13 @@ public class PostItem {
     private String pid;
     //private String imgurl;
     private String title;
-    private String fbSubtitle;
-    private String fbPublisher;
+    private String Subtitle;
+    private String Publisher;
     private String typeRegion;
     private String typePlace;
     private HashMap<String, String> images;
-    private String thumbnail;
+    private String content;
+    private String thumbNail;
 
     public PostItem() {
         images = new HashMap<>();
@@ -39,10 +40,10 @@ public class PostItem {
 //    }
 
     public String getPublisher() {
-        return fbPublisher;
+        return Publisher;
     }
-    public void setPublisher(String fbPublisher) {
-        this.fbPublisher = fbPublisher;
+    public void setPublisher(String Publisher) {
+        this.Publisher = Publisher;
     }
 
     public String getTitle() {
@@ -53,10 +54,10 @@ public class PostItem {
     }
 
     public String getSubtitle() {
-        return fbSubtitle;
+        return Subtitle;
     }
-    public void setSubtitle(String fbSubtitle) {
-        this.fbSubtitle = fbSubtitle;
+    public void setSubtitle(String Subtitle) {
+        this.Subtitle = Subtitle;
     }
 
     public String getTypeRegion() { return typeRegion; }
@@ -73,5 +74,17 @@ public class PostItem {
     }
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String Content) {
+        this.content = Content;
+    }
+
+    public void setThumbnail(String thumbNail) {
+        this.thumbNail = thumbNail;
     }
 }
