@@ -37,8 +37,7 @@ public class RegionPlanner extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegionPlanner.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -109,8 +108,13 @@ public class RegionPlanner extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(regionA.isSelected() || regionB.isSelected()) {
-                    Intent intent = new Intent(RegionPlanner.this, DatePlanner.class);
+                Intent intent = new Intent(RegionPlanner.this, PlacePlanner.class);
+                if (regionA.isSelected()) {
+                    intent.putExtra("regionType", "N");
+                    startActivity(intent);
+                }
+                else if (regionB.isSelected()) {
+                    intent.putExtra("regionType", "S");
                     startActivity(intent);
                 }
                 else {

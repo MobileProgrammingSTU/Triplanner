@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +26,11 @@ import com.seoultech.triplanner.R;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MyPageFragment extends Fragment {
 
-    ImageView myPage_profile_img;
+    CircleImageView myPage_profile_img;
     TextView myPage_userName, myPage_regDate;
     Button btn_logout, btn_quit;
 
@@ -44,7 +45,7 @@ public class MyPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 
-        myPage_profile_img = (ImageView) view.findViewById(R.id.myPage_profile_img);
+        myPage_profile_img = (CircleImageView) view.findViewById(R.id.myPage_profile_img);
         myPage_userName = (TextView) view.findViewById(R.id.myPage_userName);
         myPage_regDate = (TextView) view.findViewById(R.id.et_reg_Email);
 
@@ -96,8 +97,8 @@ public class MyPageFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         UserAccount userAccount = snapshot.getValue(UserAccount.class);
-                        myPage_userName.setText("닉네임: " + userAccount.getFbName());
-                        myPage_regDate.setText("가입 일자: " + userAccount.getFbRegDate());
+                        myPage_userName.setText(userAccount.getFbName());
+                        myPage_regDate.setText(userAccount.getFbRegDate());
                     }
 
                     @Override

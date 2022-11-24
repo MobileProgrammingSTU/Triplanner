@@ -79,7 +79,7 @@ public class SelectedPlanner extends AppCompatActivity {
         imgData = intent.getStringExtra("img");
         titleData = intent.getStringExtra("title");
         typeData = intent.getStringExtra("type");
-        addItem.setImgurl(imgData);
+        addItem.setThumbnail(imgData);
         addItem.setTitle(titleData);
         addItem.setTypePlace(typeData);
 

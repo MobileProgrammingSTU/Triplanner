@@ -90,10 +90,11 @@ public class bannerPostAdapter extends BaseAdapter{
         PostItem bannerItem = filteredItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        Glide.with(mContext).load(bannerItem.getThumbnail()).placeholder(R.drawable.noimg).dontAnimate().into(bannerImg);
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
         bannerTitle.setText(bannerItem.getTitle());
+
+        ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
+        Glide.with(mContext).load(bannerItem.getThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
         String type = bannerItem.getTypePlace();
@@ -150,7 +151,7 @@ public class bannerPostAdapter extends BaseAdapter{
                 filteredItemList.add(0, item);
             }
         }
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에서 제거합니다
