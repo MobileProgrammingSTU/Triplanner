@@ -18,6 +18,8 @@ import com.seoultech.triplanner.Fragment.StorageFragment;
 public class MainActivity extends AppCompatActivity {
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
+    static HomeFragment homeFragment = new HomeFragment();
+    static StorageFragment storageFragment = new StorageFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = homeFragment;
                             break;
                         case R.id.nav_postWrite:
                             selectedFragment = new PostWriteFragment();
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this, DatePlanner.class));
                             break;
                         case R.id.nav_storage:
-                            selectedFragment = new StorageFragment();
+                            selectedFragment = storageFragment;
                             break;
                         case R.id.nav_mypage:
                             //SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();

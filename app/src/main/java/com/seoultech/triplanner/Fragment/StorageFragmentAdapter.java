@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class StorageFragmentAdapter extends FragmentPagerAdapter {
     public static int PAGE_POSITION = 3;
 
-    public final StorageFragmentMypost myPost = StorageFragmentMypost.newInstance();
+    public final StorageFragmentMyPost myPost = StorageFragmentMyPost.newInstance();
     public final StorageFragmentMyplan myPlan = StorageFragmentMyplan.newInstance();
     public final StorageFragmentLikes Likes = StorageFragmentLikes.newInstance();
 

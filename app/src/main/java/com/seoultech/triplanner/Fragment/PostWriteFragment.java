@@ -92,7 +92,7 @@ public class PostWriteFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    postItem.setTypeRegion("R");
+                    postItem.setTypeRegion("N");
                 }
                 else {
                     postItem.setTypeRegion("S");
@@ -112,10 +112,10 @@ public class PostWriteFragment extends Fragment {
                     postItem.setTypePlace("cafe");
                 }
                 else if (position == 1){
-                    postItem.setTypeRegion("att");
+                    postItem.setTypePlace("att");
                 }
                 else {
-                    postItem.setTypeRegion("rest");
+                    postItem.setTypePlace("rest");
                 }
             }
 

@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public class PostItem {
     private String pid;
-    //private String imgurl;
     private String title;
     private String Subtitle;
     private String Publisher;
@@ -31,13 +30,6 @@ public class PostItem {
     public void setPid(String fbPID) {
         this.pid = fbPID;
     }
-
-//    public String getImgurl() {
-//        return imgurl;
-//    }
-//    public void setImgurl(String fbImgurl) {
-//        this.imgurl = fbImgurl;
-//    }
 
     public String getPublisher() {
         return Publisher;
@@ -70,21 +62,16 @@ public class PostItem {
     public void setImages(HashMap<String, String> listImgurl) { this.images = listImgurl; }
 
     public String getThumbnail() {
-        return thumbnail;
+        return thumbNail;
     }
     public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+        this.thumbNail = thumbnail;
     }
 
     public String getContent() {
         return content;
     }
-
     public void setContent(String Content) {
         this.content = Content;
-    }
-
-    public void setThumbnail(String thumbNail) {
-        this.thumbNail = thumbNail;
     }
 }
