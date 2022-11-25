@@ -1,7 +1,10 @@
 package com.seoultech.triplanner.Fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.seoultech.triplanner.MainActivity;
 import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
@@ -45,10 +48,13 @@ public class PostWriteFragment extends Fragment {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabaseRef;
 
-    final String [] Region = {"북부", "남부"};
-    final String [] Place = {"카페", "명소", "맛집"};
+    final String [] Region = {"지역을 선택하세요", "북부", "남부"}; // 0번째 추가
+    final String [] Place = {"장소 타입을 선택하세요", "카페", "명소", "맛집"}; // 0번째 추가
     final String imgStr = "imgurl";
     PostItem postItem;
+
+    Boolean inputTitle, inputSubtitle, inputRegion,
+            inputPlace, inputContent;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -65,13 +71,78 @@ public class PostWriteFragment extends Fragment {
         spinner_Region = (Spinner) view.findViewById(R.id.spinner_Region);
         spinner_Place = (Spinner) view.findViewById(R.id.spinner_Place);
 
+        inputTitle = false;
+        inputSubtitle = false;
+        inputRegion = false;inputPlace = false;
+        inputContent = false;
+
         ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, Region);
+                R.layout.writepost_spinner_item, Region) {
+            @Override // 0번째 아이템 색 바꾸기
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view;
+
+                if(position == 0)
+                    textView.setTextColor(Color.parseColor("#4B4B4B"));
+
+                return view;
+            }
+
+            @Override // 0번째 아이템 선택 불가
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override// 드롭다운에서 0번째 아이템 색 바꾸기
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View mView = super.getDropDownView(position, convertView, parent);
+                TextView mTextView = (TextView) mView;
+                if (position == 0) {
+                    mTextView.setTextColor(Color.parseColor("#4B4B4B"));
+                }
+
+                return mView;
+            }
+        };
         spinner_Region.setAdapter(regionAdapter);
 
-        ArrayAdapter<String> PlaceAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, Place);
-        spinner_Place.setAdapter(PlaceAdapter);
+        ArrayAdapter<String> placeAdapter = new ArrayAdapter<String>(getContext(),
+                R.layout.writepost_spinner_item, Place) {
+            @Override // 0번째 아이템 색 바꾸기
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view;
+
+                if(position == 0)
+                    textView.setTextColor(Color.parseColor("#4B4B4B"));
+
+                return view;
+            }
+
+            @Override // 0번째 아이템 선택 불가
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override// 드롭다운에서 0번째 아이템 색 바꾸기
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View mView = super.getDropDownView(position, convertView, parent);
+                TextView mTextView = (TextView) mView;
+                if (position == 0) {
+                    mTextView.setTextColor(Color.parseColor("#4B4B4B"));
+                }
+
+                return mView;
+            }
+        };
+        spinner_Place.setAdapter(placeAdapter);
 
         // 여기서 먼저 mDatabaseRef 선언
         mDatabaseRef = mDatabase.getReference("Triplanner");
@@ -92,11 +163,17 @@ public class PostWriteFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
+
+                }
+                else if (position == 1) {
                     postItem.setTypeRegion("N");
+                    inputRegion = true;
                 }
                 else {
                     postItem.setTypeRegion("S");
+                    inputRegion = true;
                 }
+                isAllInputComplete();
             }
 
             @Override
@@ -108,15 +185,23 @@ public class PostWriteFragment extends Fragment {
         spinner_Place.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 if (position == 0) {
-                    postItem.setTypePlace("cafe");
+
                 }
                 else if (position == 1){
+                    postItem.setTypePlace("cafe");
+                    inputPlace = true;
+                }
+                else if (position == 2){
                     postItem.setTypePlace("att");
+                    inputPlace = true;
                 }
                 else {
                     postItem.setTypePlace("rest");
+                    inputPlace = true;
                 }
+                isAllInputComplete();
             }
 
             @Override
@@ -164,6 +249,58 @@ public class PostWriteFragment extends Fragment {
         postItem.setImages(hashmap);
         postItem.setThumbnail("testThumbNail");
 
+        edt_Title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                inputTitle = true;
+                isAllInputComplete();
+            }
+        });
+        edt_subTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                inputSubtitle = true;
+                isAllInputComplete();
+            }
+        });
+        edt_content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                inputContent = true;
+                isAllInputComplete();
+            }
+        });
+
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +333,15 @@ public class PostWriteFragment extends Fragment {
 
             }
         });
+    }
+
+    // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
+    public void isAllInputComplete() {
+        if (inputTitle && inputSubtitle && inputRegion && inputPlace && inputContent ) {
+            btn_write.setBackgroundColor(Color.parseColor("#5B4FBB"));
+            btn_write.setEnabled(true);
+            btn_write.setTextColor(Color.parseColor("#e1e1e1"));
+        }
     }
 
 }
