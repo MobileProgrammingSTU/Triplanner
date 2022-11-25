@@ -8,9 +8,9 @@
         android:title="홈"/>
     <item
         android:id="@+id/nav_postWrite"
-        android:icon="@drawable/ic_edit_calendar"
+        android:icon="@drawable/ic_post_add"
         android:enabled="true"
-        android:title="글 작성"/>
+        android:title="포스트"/>
     <item
         android:id="@+id/nav_planner"
         android:icon="@drawable/ic_edit_calendar"
