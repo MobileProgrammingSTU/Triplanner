@@ -4,11 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 public class StorageFragmentAdapter extends FragmentPagerAdapter {
     public static int PAGE_POSITION = 3;
 
-    public final StorageFragmentMypost myPost = StorageFragmentMypost.newInstance();
+    public final StorageFragmentMyPost myPost = StorageFragmentMyPost.newInstance();
     public final StorageFragmentMyplan myPlan = StorageFragmentMyplan.newInstance();
     public final StorageFragmentLikes Likes = StorageFragmentLikes.newInstance();
 

@@ -70,10 +70,10 @@ public class PostItem {
     public void setImages(HashMap<String, String> listImgurl) { this.images = listImgurl; }
 
     public String getThumbnail() {
-        return thumbnail;
+        return thumbNail;
     }
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnail(String thumbNail) {
+        this.thumbNail = thumbNail;
     }
 
     public String getContent() {
@@ -82,9 +82,5 @@ public class PostItem {
 
     public void setContent(String Content) {
         this.content = Content;
-    }
-
-    public void setThumbnail(String thumbNail) {
-        this.thumbNail = thumbNail;
     }
 }
