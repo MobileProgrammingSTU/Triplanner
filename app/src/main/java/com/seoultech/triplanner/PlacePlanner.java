@@ -24,6 +24,7 @@ import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PlacePlanner extends AppCompatActivity {
 
@@ -36,6 +37,9 @@ public class PlacePlanner extends AppCompatActivity {
 
     TextView textView;
     Button btnAttraction, btnRestaurant, btnCafe;
+    
+    Bundle bundle;
+    String typeRegion; // Region Place 에서 클릭한 지역 정보
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -68,6 +72,11 @@ public class PlacePlanner extends AppCompatActivity {
         //리스트뷰에 어댑터 적용
         bannerListView.setAdapter(adapter);
 
+        // Region Place 에서 클릭한 지역 정보 받아오기
+        bundle = getIntent().getExtras();
+        typeRegion = bundle.getString("regionType"); // 클릭한 지역 정보
+        //Toast.makeText(this.getApplicationContext(),typeRegion, Toast.LENGTH_SHORT).show();
+
         //SelectedPlanner로 데이터를 보내기위해 인텐트 선언
         PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
 
@@ -90,7 +99,9 @@ public class PlacePlanner extends AppCompatActivity {
                             PostItem post = dataSnapshot.getValue(PostItem.class);
                             for (String pid : arrayLikesID) {
                                 if (post.getPid().equals(pid))
-                                    placeDataList.add(post);
+                                    // 장소 타입 매칭하기
+                                    if (Objects.equals(post.getTypeRegion(), typeRegion))
+                                        placeDataList.add(post);
                             }
                         }
                         adapter.notifyDataSetChanged();
