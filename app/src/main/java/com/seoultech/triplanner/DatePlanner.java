@@ -220,6 +220,7 @@ public class DatePlanner extends AppCompatActivity {
         }
     }
 
+    //달(월)이 다른날은 날짜 색 연하게
     public class OtherDaysDecorator implements DayViewDecorator {
         private Context context;
         private MaterialCalendarView calendarView;
