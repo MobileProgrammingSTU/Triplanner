@@ -171,7 +171,6 @@ public class PostWriteFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-
                 }
                 else if (position == 1) {
                     postItem.setTypeRegion("N");
@@ -255,7 +254,7 @@ public class PostWriteFragment extends Fragment {
                 "https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/img_planner_place_restaurant_1.jpg?alt=media&token=6a6ead11-30f7-4f76-b181-2fd62421d95e");
 
         postItem.setImages(hashmap);
-        postItem.setThumbnail("testThumbNail");
+        postItem.setThumbnail("https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/img_planner_place_restaurant_1.jpg?alt=media&token=6a6ead11-30f7-4f76-b181-2fd62421d95e");
 
         edt_Title.addTextChangedListener(new TextWatcher() {
             @Override
