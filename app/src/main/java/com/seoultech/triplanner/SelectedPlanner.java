@@ -1,6 +1,8 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.seoultech.triplanner.Model.CustomTimePickerDialog;
 import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PlanItem;
 import com.seoultech.triplanner.Model.PostItem;
+import com.seoultech.triplanner.Model.TimePickerDialogClickListener;
 
 import org.threeten.bp.LocalDate;
 
@@ -111,12 +115,28 @@ public class SelectedPlanner extends AppCompatActivity {
         placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
         adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남
 
-        //배너를 클릭하면 지워짐(이후에 delete 버튼 만들어서 역할 이전시킬 예정)
+        //배너를 클릭
         bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.removeItem(position); // 리스트 뷰에서 지우기
-                PlaceIntent.daySelectedPlace.remove(position); // static 리스트 지우기
+                CustomTimePickerDialog timePicker = new CustomTimePickerDialog(SelectedPlanner.this, new TimePickerDialogClickListener() {
+                    @Override
+                    public void onPositiveClick(int h, int m) {
+                        String pickedTime = h + ":" + m;
+                        Toast.makeText(getApplicationContext(), pickedTime, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                });
+                timePicker.setHour(0);
+                timePicker.setMinute(0);
+                timePicker.setCanceledOnTouchOutside(true);
+                timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //timePicker.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                timePicker.show();
             }
         });
 

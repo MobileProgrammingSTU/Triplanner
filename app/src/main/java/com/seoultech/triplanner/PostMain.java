@@ -2,7 +2,6 @@ package com.seoultech.triplanner;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,10 +52,17 @@ public class PostMain extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseRef;
 
+    int colBlue, colRed, colYellow, colGreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_post);
+
+        colBlue = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandBlue);
+        colRed = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandRed);
+        colGreen = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandGreen);
+        colYellow = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandYellow);
 
         mDatabase = FirebaseDatabase.getInstance();
         mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
@@ -107,15 +113,15 @@ public class PostMain extends AppCompatActivity {
                     // place 타입 설정
                     if(fbTypePlace.contains("cafe") || fbTypePlace.contains("카페")) {
                         typePlace.setText("카 페");
-                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2BD993")));
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colGreen));
                     }
                     else if(fbTypePlace.contains("rest") || fbTypePlace.contains("맛집")) {
                         typePlace.setText("맛 집");
-                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colRed));
                     }
                     else if(fbTypePlace.contains("att") || fbTypePlace.contains("명소")) {
                         typePlace.setText("명 소");
-                        typePlace.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFD37A")));
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colYellow));
                     }
                     else{
                         typePlace.setText("기 타");
@@ -124,11 +130,11 @@ public class PostMain extends AppCompatActivity {
                     // region 타입 설정
                     if(fbTypeRegion.contains("N") || fbTypeRegion.contains("북부")) {
                         typeRegion.setText("북 부");
-                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#5B4FBB")));
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(colBlue));
                     }
                     else if(fbTypeRegion.contains("S") || fbTypeRegion.contains("남부")) {
                         typeRegion.setText("남 부");
-                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F26C73")));
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(colRed));
                     }
                     else{
                         typePlace.setText("기 타");
