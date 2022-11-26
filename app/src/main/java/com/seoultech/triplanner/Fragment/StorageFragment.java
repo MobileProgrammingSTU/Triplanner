@@ -32,6 +32,9 @@ public class StorageFragment extends Fragment {
             if (moveFragmentMainActivity.equals("storage_plan")) {
                 viewPagerStorageFragment.setCurrentItem(1); // 내플랜으로 이동
             }
+            else if (moveFragmentMainActivity.equals("storage_MyPost")) {
+                viewPagerStorageFragment.setCurrentItem(0); // 내가 쓴 게시글로 이동
+            }
         }
 
         return view;

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationBarView;
 import com.seoultech.triplanner.Fragment.HomeFragment;
 import com.seoultech.triplanner.Fragment.MyPageFragment;
-import com.seoultech.triplanner.Fragment.PostWriteFragment;
 import com.seoultech.triplanner.Fragment.StorageFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_postWrite:
-                            selectedFragment = new PostWriteFragment();
+                            selectedFragment = null;
+                            startActivity(new Intent(MainActivity.this, PostWriteActivity.class));
                             break;
                         case R.id.nav_planner:
                             selectedFragment = null;

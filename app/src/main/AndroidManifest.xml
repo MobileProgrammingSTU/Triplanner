@@ -24,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--activity android:name=".LoginActivity"/-->
         <activity android:name=".MainActivity"/>
         <activity android:name=".RegisterActivity"/>
+        <activity android:name=".PostWriteActivity"/>
         <activity android:name=".DatePlanner"/>
         <activity android:name=".PlacePlanner"/>
         <activity android:name=".PostMain"/>
