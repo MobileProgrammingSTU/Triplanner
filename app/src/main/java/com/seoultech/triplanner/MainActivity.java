@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.setOnItemSelectedListener(new navigationItemSelectedListener());
 
         moveFragmentMainActivity = getIntent().getStringExtra("moveFragment");
-        if (moveFragmentMainActivity != null) {
+        if (moveFragmentMainActivity != null) { // 다른 액티비티에서 날라온 프래그먼트 이동 정보가 있을 경우
             if (moveFragmentMainActivity.contains("storage")) { // 인텐트 정보가 "storage_XXXX"
                 navigationBarView.setSelectedItemId(R.id.nav_storage);
             }
