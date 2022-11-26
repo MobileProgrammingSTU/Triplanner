@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentTransaction;
 public class StorageFragmentAdapter extends FragmentPagerAdapter {
     public static int PAGE_POSITION = 3;
 
-    public final StorageFragmentMyPost myPost = StorageFragmentMyPost.newInstance();
-    public final StorageFragmentMyplan myPlan = StorageFragmentMyplan.newInstance();
-    public final StorageFragmentLikes Likes = StorageFragmentLikes.newInstance();
+//    public final StorageFragmentMyPost myPost = StorageFragmentMyPost.newInstance();
+//    public final StorageFragmentMyplan myPlan = StorageFragmentMyplan.newInstance();
+//    public final StorageFragmentLikes Likes = StorageFragmentLikes.newInstance();
 
     public StorageFragmentAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -23,13 +23,13 @@ public class StorageFragmentAdapter extends FragmentPagerAdapter {
         switch (position){
             //1번째 탭
             case 0:
-                return myPost;
+                return StorageFragmentMyPost.newInstance();
             //2번째 탭
             case 1:
-                return myPlan;
+                return StorageFragmentMyplan.newInstance();
             //3번째 탭
             case 2:
-                return Likes;
+                return StorageFragmentLikes.newInstance();
             default:
                 return null;
         }

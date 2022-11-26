@@ -22,6 +22,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 import com.seoultech.triplanner.Model.PlaceIntent;
@@ -36,6 +37,7 @@ public class DatePlanner extends AppCompatActivity {
     ImageButton btnBack;
 
     MaterialCalendarView calendarView;
+    OtherDaysDecorator otherMonthDateDec;
 
     TextView textViewSelectedDate;
     ImageButton btnReset;
@@ -87,39 +89,15 @@ public class DatePlanner extends AppCompatActivity {
                 .setCalendarDisplayMode(CalendarMode.MONTHS).commit();
 
         // 데코레이션 적용 : 날짜선택 스타일, 최대최소 날짜 제한
-        calendarView.addDecorators(new DayDecorator(this), new MinMaxDecorator(startDate, endDate));
+        otherMonthDateDec = new OtherDaysDecorator(getApplicationContext(), calendarView);
+        calendarView.addDecorators(otherMonthDateDec, new DayDecorator(this), new MinMaxDecorator(startDate, endDate));
 
-        // 하루 선택 or 시작 날짜 선택
-        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+
+        // 월이 바뀌면
+        calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                dateStart = date.getDate();
-                dateEnd = date.getDate();
-
-                textViewSelectedDate.setText(dateStart.toString().replace("-", "."));
-
-                // 여행 기간 날짜 수 제한
-                LocalDate StartDate = dateStart.minusDays(selectDaysLimit-1);
-                LocalDate EndDate = dateEnd.plusDays(selectDaysLimit-1);
-                calendarView.addDecorators(new MinMaxDecorator(CalendarDay.from(StartDate), CalendarDay.from(EndDate)));
-
-                Toast.makeText(getApplicationContext(),"여행 기간은 최대 7일 입니다!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        // 종료 날짜 선택
-        calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
-            @Override
-            public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
-                dateStart = dates.get(0).getDate();
-                dateEnd = dates.get(dates.size() - 1).getDate();
-
-                textViewSelectedDate.setText(dateStart.toString().replace("-", ".") +
-                        "   ~   " + dateEnd.toString().replace("-", "."));
-
-                // 데코레이션 초기화
-                calendarView.removeDecorators();
-                calendarView.addDecorators(new DayDecorator(getApplicationContext()),
-                        new MinMaxDecorator(startDate, endDate));
+            public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                calendarView.addDecorator(otherMonthDateDec);
             }
         });
 
@@ -134,7 +112,41 @@ public class DatePlanner extends AppCompatActivity {
                 textViewSelectedDate.setText("-");
                 // 데코레이션 초기화
                 calendarView.removeDecorators();
-                calendarView.addDecorators(new DayDecorator(getApplicationContext()), new MinMaxDecorator(startDate, endDate));
+                calendarView.addDecorators(otherMonthDateDec,
+                        new DayDecorator(getApplicationContext()), new MinMaxDecorator(startDate, endDate));
+            }
+        });
+        // 하루 선택 or 시작 날짜 선택
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                dateStart = date.getDate();
+                dateEnd = date.getDate();
+
+                textViewSelectedDate.setText(dateStart.toString().replace("-", "."));
+
+                // 여행 기간 날짜 수 제한
+                LocalDate StartDate = dateStart.minusDays(selectDaysLimit-1);
+                LocalDate EndDate = dateEnd.plusDays(selectDaysLimit-1);
+                calendarView.addDecorators(new MinMaxDecorator(CalendarDay.from(StartDate), CalendarDay.from(EndDate)));
+
+                // Toast.makeText(getApplicationContext(),"여행 기간은 최대 7일 입니다!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // 종료 날짜 선택
+        calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
+            @Override
+            public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
+                dateStart = dates.get(0).getDate();
+                dateEnd = dates.get(dates.size() - 1).getDate();
+
+                textViewSelectedDate.setText(dateStart.toString().replace("-", ".") +
+                        "   ~   " + dateEnd.toString().replace("-", "."));
+
+                // 데코레이션 초기화
+                calendarView.removeDecorators();
+                calendarView.addDecorators(otherMonthDateDec, new DayDecorator(getApplicationContext()),
+                        new MinMaxDecorator(startDate, endDate));
             }
         });
 
@@ -205,6 +217,33 @@ public class DatePlanner extends AppCompatActivity {
         public void decorate(DayViewFacade view) {
             view.addSpan(new ForegroundColorSpan(Color.parseColor("#000000")));
             view.setDaysDisabled(true);
+        }
+    }
+
+    //달(월)이 다른날은 날짜 색 연하게
+    public class OtherDaysDecorator implements DayViewDecorator {
+        private Context context;
+        private MaterialCalendarView calendarView;
+
+        public OtherDaysDecorator(Context context, MaterialCalendarView calendarView) {
+            this.context = context;
+            this.calendarView = calendarView;
+        }
+
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            LocalDate otherDate = day.getDate();
+            LocalDate selectedDate = calendarView.getCurrentDate().getDate();
+
+            return otherDate.getYear() != selectedDate.getYear() ||
+                    (otherDate.getYear() == selectedDate.getYear() &&
+                    otherDate.getMonth() != selectedDate.getMonth());
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.parseColor("#4B4B4B")));
         }
     }
 }
