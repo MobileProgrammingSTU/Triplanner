@@ -1,5 +1,6 @@
 package com.seoultech.triplanner;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -147,6 +148,10 @@ public class PlacePlanner extends AppCompatActivity {
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // selected, place 넘어서 뒤로가면 Map 플랜데이터 초기화
+                PlaceIntent.placeIntent = new Intent();
+                PlaceIntent.daySelectedPlace.clear();
+                PlaceIntent.savedPlacesMap.clear();
                 finish();
             }
         });

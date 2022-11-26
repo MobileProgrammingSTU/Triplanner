@@ -66,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:background="@drawable/planner_date_calendar_view_bg">
@@ -91,30 +93,36 @@
                     android:textColorHint="@color/colorFontLight"
                     android:textColor="@color/colorFontNormal"
                     android:textSize="18sp"/>
-                <Spinner
-                    android:id="@+id/spinner_Region"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/convert_spinner_arrow"
-                    android:popupBackground="@drawable/convert_spinner_arrow"
-                    android:spinnerMode="dropdown"/>
-                <Spinner
-                    android:id="@+id/spinner_Place"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/convert_spinner_arrow"
-                    android:popupBackground="@drawable/planner_date_calendar_view_bg"
-                    android:spinnerMode="dropdown"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <Spinner
+                        android:id="@+id/spinner_Region"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/convert_spinner_arrow"
+                        android:popupBackground="@drawable/convert_spinner_arrow"
+                        android:spinnerMode="dropdown"/>
+                    <Spinner
+                        android:id="@+id/spinner_Place"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/convert_spinner_arrow"
+                        android:popupBackground="@drawable/planner_date_calendar_view_bg"
+                        android:spinnerMode="dropdown"/>
+                </LinearLayout>
+
                 <EditText
                     android:id="@+id/edt_content"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:paddingStart="10dp"
+                    android:padding="10dp"
                     android:background="@android:color/transparent"
                     android:hint="문구 입력..."
                     android:textColorHint="@color/colorFontLight"

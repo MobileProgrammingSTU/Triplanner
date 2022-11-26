@@ -90,7 +90,7 @@ public class SelectedPlanner extends AppCompatActivity {
         LocalDate dateStart = PlaceIntent.savedDates.get("dateStart");
         LocalDate dateEnd = PlaceIntent.savedDates.get("dateEnd");
         fbPlanItem.setFbDateStart(dateStart.toString()); // 20XX-MM-dd
-        fbPlanItem.setFbDateStart(dateEnd.toString());
+        fbPlanItem.setFbDateEnd(dateEnd.toString());
 
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();

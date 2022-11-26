@@ -112,6 +112,7 @@ public class RegionPlanner extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegionPlanner.this, PlacePlanner.class);
                 PlaceIntent.intentRegionType = new String();
+                
                 if (regionA.isSelected()) {
                     PlaceIntent.intentRegionType = "N";
                     //intent.putExtra("regionType", "N");

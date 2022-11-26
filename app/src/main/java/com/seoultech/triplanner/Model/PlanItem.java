@@ -27,10 +27,10 @@ public class PlanItem {
         this.fbDateStart = dateStart;
     }
 
-    public String getDateEnd() {
+    public String getFbDateEnd() {
         return fbDateEnd;
     }
-    public void setDateEnd(String dateEnd) {
+    public void setFbDateEnd(String dateEnd) {
         this.fbDateEnd = dateEnd;
     }
 
