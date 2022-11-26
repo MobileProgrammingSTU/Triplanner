@@ -4,32 +4,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlanItem {
-    private int dateStart;
-    private int dateEnd;
-    private HashMap<String, ArrayList<PostItem>> placesByDay;
+    private String fbPlanID;
+    private String fbDateStart; // LocalDate -> String : 20XX-MM-dd
+    private String fbDateEnd;
+    private HashMap<String, ArrayList<PostItem>> fbPlacesByDay;
 
     public PlanItem() {
-        placesByDay = new HashMap<>();
+        fbPlacesByDay = new HashMap<>();
     }
 
-    public int getDateStart() {
-        return dateStart;
+    public String getFbPlanID() {
+        return fbPlanID;
     }
-    public void setDateStart(int dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public int getDateEnd() {
-        return dateEnd;
-    }
-    public void setDateEnd(int dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setFbPlanID(String planID) {
+        this.fbPlanID = planID;
     }
 
-    public HashMap<String, ArrayList<PostItem>> getPlacesByDay() {
-        return placesByDay;
+    public String getFbDateStart() {
+        return fbDateStart;
     }
-    public void setPlacesByDay(HashMap<String, ArrayList<PostItem>> placesByDay) {
-        this.placesByDay = placesByDay;
+    public void setFbDateStart(String dateStart) {
+        this.fbDateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return fbDateEnd;
+    }
+    public void setDateEnd(String dateEnd) {
+        this.fbDateEnd = dateEnd;
+    }
+
+    public HashMap<String, ArrayList<PostItem>> getFbPlacesByDay() {
+        return fbPlacesByDay;
+    }
+    public void setFbPlacesByDay(HashMap<String, ArrayList<PostItem>> placesByDay) {
+        this.fbPlacesByDay = placesByDay;
     }
 }

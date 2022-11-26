@@ -74,7 +74,8 @@ public class PlacePlanner extends AppCompatActivity {
 
         // Region Place 에서 클릭한 지역 정보 받아오기
         bundle = getIntent().getExtras();
-        typeRegion = bundle.getString("regionType"); // 클릭한 지역 정보
+        typeRegion = PlaceIntent.intentRegionType;
+        //typeRegion = bundle.getString("regionType"); // 클릭한 지역 정보
         //Toast.makeText(this.getApplicationContext(),typeRegion, Toast.LENGTH_SHORT).show();
 
         //SelectedPlanner로 데이터를 보내기위해 인텐트 선언
@@ -122,9 +123,11 @@ public class PlacePlanner extends AppCompatActivity {
 
                         //아이템 정보를 번들에 묶음
                         Bundle extras = new Bundle();
+                        extras.putString("pid", item.getPid());
                         extras.putString("img", item.getThumbnail());
                         extras.putString("title", item.getTitle());
                         extras.putString("type", item.getTypePlace());
+                        // 이후 수정 사항 : 이렇게 따로 보내지 말고 PostItem 객체를 인텐트로 넘기는 방법 찾기
 
                         //번들을 보냄
                         PlaceIntent.placeIntent.putExtras(extras);

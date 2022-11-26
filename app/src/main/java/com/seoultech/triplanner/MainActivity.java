@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     static HomeFragment homeFragment = new HomeFragment();
     static StorageFragment storageFragment = new StorageFragment();
 
+    public static String moveFragmentMainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,14 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new navigationItemSelectedListener());
 
-        loadFragment(new HomeFragment());
+        moveFragmentMainActivity = getIntent().getStringExtra("moveFragment");
+        if (moveFragmentMainActivity != null) {
+            if (moveFragmentMainActivity.contains("storage")) { // 인텐트 정보가 "storage_XXXX"
+                navigationBarView.setSelectedItemId(R.id.nav_storage);
+            }
+        }
+        else
+            loadFragment(new HomeFragment());
 
     }
 
@@ -79,4 +89,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+    }
 }

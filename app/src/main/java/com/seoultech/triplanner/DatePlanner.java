@@ -43,6 +43,9 @@ public class DatePlanner extends AppCompatActivity {
     int startYear, startMonth, startDay;
     int endYear, endMonth, endDay = 0;
 
+    // 날짜(연월일) 정보, 오로지 데이터 전송용
+    LocalDate dateStart, dateEnd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,9 @@ public class DatePlanner extends AppCompatActivity {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                dateStart = date.getDate();
+                dateEnd = date.getDate();
+
                 startYear = date.getYear();
                 startMonth = date.getMonth();
                 startDay = date.getDay();
@@ -110,6 +116,9 @@ public class DatePlanner extends AppCompatActivity {
         calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
             @Override
             public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
+                dateStart = dates.get(0).getDate();
+                dateEnd = dates.get(dates.size() - 1).getDate();
+
                 startYear = dates.get(0).getYear();
                 startMonth = dates.get(0).getMonth();
                 startDay = dates.get(0).getDay();
@@ -133,6 +142,9 @@ public class DatePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 calendarView.clearSelection();
+
+                dateStart = LocalDate.now(); // 현재 날짜로 초기화
+                dateEnd = LocalDate.now();
 
                 startYear = 0;
                 startMonth = 0;
@@ -160,6 +172,10 @@ public class DatePlanner extends AppCompatActivity {
                     // 여기서 시작 일자와 끝 일자를 저장한다.
                     PlaceIntent.savedDateMap.put("startDay", startDay - (startDay - 1));
                     PlaceIntent.savedDateMap.put("endDay", endDay - (startDay - 1));
+
+                    // 이후에 DB 업로드할 날짜 정보 저장
+                    PlaceIntent.savedDates.put("dateStart", dateStart);
+                    PlaceIntent.savedDates.put("dateEnd", dateEnd);
 
                     Intent intent = new Intent(DatePlanner.this, RegionPlanner.class);
                     startActivity(intent);  // Activity 이동
