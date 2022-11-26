@@ -1,5 +1,6 @@
 package com.seoultech.triplanner;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PlacePlanner extends AppCompatActivity {
 
@@ -36,6 +38,9 @@ public class PlacePlanner extends AppCompatActivity {
 
     TextView textView;
     Button btnAttraction, btnRestaurant, btnCafe;
+    
+    Bundle bundle;
+    String typeRegion; // Region Place 에서 클릭한 지역 정보
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -68,6 +73,12 @@ public class PlacePlanner extends AppCompatActivity {
         //리스트뷰에 어댑터 적용
         bannerListView.setAdapter(adapter);
 
+        // Region Place 에서 클릭한 지역 정보 받아오기
+        bundle = getIntent().getExtras();
+        typeRegion = PlaceIntent.intentRegionType;
+        //typeRegion = bundle.getString("regionType"); // 클릭한 지역 정보
+        //Toast.makeText(this.getApplicationContext(),typeRegion, Toast.LENGTH_SHORT).show();
+
         //SelectedPlanner로 데이터를 보내기위해 인텐트 선언
         PlaceIntent.placeIntent.setClass(PlacePlanner.this, SelectedPlanner.class);
 
@@ -90,7 +101,9 @@ public class PlacePlanner extends AppCompatActivity {
                             PostItem post = dataSnapshot.getValue(PostItem.class);
                             for (String pid : arrayLikesID) {
                                 if (post.getPid().equals(pid))
-                                    placeDataList.add(post);
+                                    // 장소 타입 매칭하기
+                                    if (Objects.equals(post.getTypeRegion(), typeRegion))
+                                        placeDataList.add(post);
                             }
                         }
                         adapter.notifyDataSetChanged();
@@ -111,9 +124,11 @@ public class PlacePlanner extends AppCompatActivity {
 
                         //아이템 정보를 번들에 묶음
                         Bundle extras = new Bundle();
+                        extras.putString("pid", item.getPid());
                         extras.putString("img", item.getThumbnail());
                         extras.putString("title", item.getTitle());
                         extras.putString("type", item.getTypePlace());
+                        // 이후 수정 사항 : 이렇게 따로 보내지 말고 PostItem 객체를 인텐트로 넘기는 방법 찾기
 
                         //번들을 보냄
                         PlaceIntent.placeIntent.putExtras(extras);
@@ -133,6 +148,10 @@ public class PlacePlanner extends AppCompatActivity {
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // selected, place 넘어서 뒤로가면 Map 플랜데이터 초기화
+                PlaceIntent.placeIntent = new Intent();
+                PlaceIntent.daySelectedPlace.clear();
+                PlaceIntent.savedPlacesMap.clear();
                 finish();
             }
         });

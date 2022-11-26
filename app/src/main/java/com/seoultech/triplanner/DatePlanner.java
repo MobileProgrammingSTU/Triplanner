@@ -27,6 +27,7 @@ import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormat
 import com.seoultech.triplanner.Model.PlaceIntent;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.Calendar;
 import java.util.List;
@@ -40,8 +41,11 @@ public class DatePlanner extends AppCompatActivity {
     ImageButton btnReset;
     Button btnNext;
 
-    int startYear, startMonth, startDay;
-    int endYear, endMonth, endDay = 0;
+    int startDay, endDay;
+    int datePeriod; // 날짜(date) 차이, 총 일수
+
+    // 날짜(연월일) 정보, 오로지 데이터 전송용
+    LocalDate dateStart, dateEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,18 +93,14 @@ public class DatePlanner extends AppCompatActivity {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                startYear = date.getYear();
-                startMonth = date.getMonth();
-                startDay = date.getDay();
+                dateStart = date.getDate();
+                dateEnd = date.getDate();
 
-                endYear = date.getYear();
-                endMonth = date.getMonth();
-                endDay = date.getDay();
-                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay);
+                textViewSelectedDate.setText(dateStart.toString().replace("-", "."));
 
                 // 여행 기간 날짜 수 제한
-                LocalDate StartDate = date.getDate().minusDays(selectDaysLimit-1);
-                LocalDate EndDate = date.getDate().plusDays(selectDaysLimit-1);
+                LocalDate StartDate = dateStart.minusDays(selectDaysLimit-1);
+                LocalDate EndDate = dateEnd.plusDays(selectDaysLimit-1);
                 calendarView.addDecorators(new MinMaxDecorator(CalendarDay.from(StartDate), CalendarDay.from(EndDate)));
 
                 Toast.makeText(getApplicationContext(),"여행 기간은 최대 7일 입니다!", Toast.LENGTH_SHORT).show();
@@ -110,17 +110,11 @@ public class DatePlanner extends AppCompatActivity {
         calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
             @Override
             public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
-                startYear = dates.get(0).getYear();
-                startMonth = dates.get(0).getMonth();
-                startDay = dates.get(0).getDay();
-                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay);
+                dateStart = dates.get(0).getDate();
+                dateEnd = dates.get(dates.size() - 1).getDate();
 
-                endYear = dates.get(dates.size() - 1).getYear();
-                endMonth = dates.get(dates.size() - 1).getMonth();
-                endDay = dates.get(dates.size() - 1).getDay();
-
-                textViewSelectedDate.setText(startYear+"."+startMonth+"."+startDay + "   ~   "
-                        + endYear+"."+endMonth+"."+endDay);
+                textViewSelectedDate.setText(dateStart.toString().replace("-", ".") +
+                        "   ~   " + dateEnd.toString().replace("-", "."));
 
                 // 데코레이션 초기화
                 calendarView.removeDecorators();
@@ -134,12 +128,8 @@ public class DatePlanner extends AppCompatActivity {
             public void onClick(View view) {
                 calendarView.clearSelection();
 
-                startYear = 0;
-                startMonth = 0;
-                startDay = 0;
-                endYear = 0;
-                endMonth = 0;
-                endDay = 0;
+                dateStart = LocalDate.now(); // 현재 날짜로 초기화
+                dateEnd = LocalDate.now();
 
                 textViewSelectedDate.setText("-");
                 // 데코레이션 초기화
@@ -158,8 +148,17 @@ public class DatePlanner extends AppCompatActivity {
                 }
                 else {
                     // 여기서 시작 일자와 끝 일자를 저장한다.
-                    PlaceIntent.savedDateMap.put("startDay", startDay - (startDay - 1));
-                    PlaceIntent.savedDateMap.put("endDay", endDay - (startDay - 1));
+                    // 오류 발생 (해결) : 단순히 day로 값을 설정하면 월을 넘기면서 날짜를 지정 못함
+                    datePeriod = (int) ChronoUnit.DAYS.between(dateStart, dateEnd);
+                    startDay = 1; // 시작 날수는 1로 설정 (1일차)
+                    endDay = datePeriod + 1;
+
+                    PlaceIntent.savedDateMap.put("startDay", startDay);
+                    PlaceIntent.savedDateMap.put("endDay", endDay);
+
+                    // 이후에 DB 업로드할 날짜 정보 저장
+                    PlaceIntent.savedDates.put("dateStart", dateStart);
+                    PlaceIntent.savedDates.put("dateEnd", dateEnd);
 
                     Intent intent = new Intent(DatePlanner.this, RegionPlanner.class);
                     startActivity(intent);  // Activity 이동

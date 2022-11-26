@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.seoultech.triplanner.Model.PlaceIntent;
+
 public class RegionPlanner extends AppCompatActivity {
 
     ImageButton btnBack;
@@ -109,12 +111,16 @@ public class RegionPlanner extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegionPlanner.this, PlacePlanner.class);
+                PlaceIntent.intentRegionType = new String();
+                
                 if (regionA.isSelected()) {
-                    intent.putExtra("regionType", "N");
+                    PlaceIntent.intentRegionType = "N";
+                    //intent.putExtra("regionType", "N");
                     startActivity(intent);
                 }
                 else if (regionB.isSelected()) {
-                    intent.putExtra("regionType", "S");
+                    PlaceIntent.intentRegionType = "S";
+                    //intent.putExtra("regionType", "S");
                     startActivity(intent);
                 }
                 else {
