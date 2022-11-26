@@ -1,7 +1,6 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.seoultech.triplanner.Model.PlaceIntent;
-import com.seoultech.triplanner.Model.PostItem;
+import com.seoultech.triplanner.Model.PlanItem;
 
 import java.util.ArrayList;
 
@@ -32,51 +31,43 @@ import java.util.ArrayList;
         기본값은 false 이며, 사용을 원할경우 useBtnDelete() 인자를 true 입력하면 됩니다.
 */
 
-public class bannerPostAdapter extends BaseAdapter{
-    public final static String ATT = "att";
-    public final static String REST = "rest";
-    public final static String CAFE = "cafe";
+public class bannerPlanAdapter extends BaseAdapter{
 
     public Context mContext;
     private LayoutInflater inflater;
     private int layout;
 
+    int colBlue;
     int colRed;
-    int colYellow;
-    int colGreen;
 
     // 데이터 리스트
-    private ArrayList<PostItem> bannerList = new ArrayList<PostItem>();
-
-    //필터리스트
-    private ArrayList<PostItem> filteredItemList = bannerList;
+    private ArrayList<PlanItem> bannerList = new ArrayList<PlanItem>();
 
     private Boolean btnDeleteFlag = false;
 
-    public bannerPostAdapter(Context context, int layout, ArrayList<PostItem> dataArray, Boolean filterFlag) {
+    public bannerPlanAdapter(Context context, int layout, ArrayList<PlanItem> dataArray, Boolean filterFlag) {
         if (filterFlag) //필터 사용 여부
             this.bannerList = dataArray;
         else
-            this.filteredItemList = dataArray;
+            this.bannerList = dataArray;
         this.mContext = context;
         this.inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layout = layout;
 
+        colBlue = ContextCompat.getColor(mContext, R.color.colorBrandBlue);
         colRed = ContextCompat.getColor(mContext, R.color.colorBrandRed);
-        colYellow = ContextCompat.getColor(mContext, R.color.colorBrandYellow);
-        colGreen = ContextCompat.getColor(mContext, R.color.colorBrandGreen);
     }
 
     // Adapter에 사용되는 데이터의 개수를 리턴
     @Override
     public int getCount() {
-        return filteredItemList.size();
+        return bannerList.size();
     }
 
     // 지정한 위치(position)에 있는 데이터 리턴 : 필수 구현
     @Override
     public Object getItem(int position) {
-        return filteredItemList.get(position);
+        return bannerList.get(position);
     }
 
     // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴
@@ -96,32 +87,17 @@ public class bannerPostAdapter extends BaseAdapter{
         }
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        PostItem bannerItem = filteredItemList.get(position);
+        PlanItem bannerItem = bannerList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getTitle());
+        bannerTitle.setText(bannerItem.getFbDateStart());
 
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
-        Glide.with(mContext).load(bannerItem.getThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
+        Glide.with(mContext).load(bannerItem.getFbThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        String type = bannerItem.getTypePlace();
-        if(type.contains("cafe") || type.contains("카페")) {
-            bannerTag.setText("카 페");
-            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colGreen));
-        }
-        else if(type.contains("rest") || type.contains("맛집")) {
-            bannerTag.setText("맛 집");
-            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colRed));
-        }
-        else if(type.contains("att") || type.contains("명소")) {
-            bannerTag.setText("명 소");
-            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colYellow));
-        }
-        else{
-            bannerTag.setText("기 타");
-        }
+        bannerTag.setVisibility(convertView.GONE);
 
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
@@ -144,32 +120,12 @@ public class bannerPostAdapter extends BaseAdapter{
 
     // 아이템 삭제
     public void removeItem(int position) {
-        filteredItemList.remove(position);
+        bannerList.remove(position);
         this.notifyDataSetChanged(); // 데이터 변경사항이 어댑터에 적용, 리스트뷰에 나타남
     }
 
     // 삭제 버튼을 사용할지 결정(default : false)
     public void useBtnDelete(Boolean flag) {
         this.btnDeleteFlag = flag;
-    }
-
-    //필터 : 타입에 해당하는 아이템(배너)을 리스트에 추가합니다
-    public void addFilterType(String type) {
-        for (PostItem item : bannerList) {
-            if(item.getTypePlace().equals(type)) {
-                filteredItemList.add(0, item);
-            }
-        }
-        this.notifyDataSetChanged();
-    }
-
-    //필터 : 타입에 해당하는 아이템(배너)을 리스트에서 제거합니다
-    public void removeFilterType(String type) {
-        for (PostItem item : bannerList) {
-            if(item.getTypePlace().equals(type)) {
-                filteredItemList.remove(item);
-            }
-        }
-        notifyDataSetChanged();
     }
 }

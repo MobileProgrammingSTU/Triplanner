@@ -2,7 +2,6 @@ package com.seoultech.triplanner;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,10 +46,16 @@ public class PlacePlanner extends AppCompatActivity {
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
     private DatabaseReference mDatabaseRef;
 
+    int colBlue;
+    int colBG1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planner_place);
+
+        colBlue = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandBlue);
+        colBG1 = ContextCompat.getColor(getApplicationContext(), R.color.colorGrayBG1);
 
         // Database
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
@@ -167,11 +173,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnAttraction.isSelected()){
-                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
+                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(colBG1));
                     adapter.removeFilterType(bannerPostAdapter.ATT); // (type:att)를 리스트에서 제거
                 }
                 else {
-                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
+                    btnAttraction.setBackgroundTintList(ColorStateList.valueOf(colBlue));
                     adapter.addFilterType(bannerPostAdapter.ATT); // (type:att)를 리스트에 띄움
                 }
                 btnAttraction.setSelected(!btnAttraction.isSelected());
@@ -182,11 +188,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnRestaurant.isSelected()){
-                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
+                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(colBG1));
                     adapter.removeFilterType(bannerPostAdapter.REST); // (type:rest)를 리스트에서 제거
                 }
                 else {
-                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
+                    btnRestaurant.setBackgroundTintList(ColorStateList.valueOf(colBlue));
                     adapter.addFilterType(bannerPostAdapter.REST); // (type:rest)를 리스트에 띄움
                 }
                 btnRestaurant.setSelected(!btnRestaurant.isSelected());
@@ -197,11 +203,11 @@ public class PlacePlanner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(btnCafe.isSelected()){
-                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1d1d1d")));
+                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(colBG1));
                     adapter.removeFilterType(bannerPostAdapter.CAFE); // (type:cafe)를 리스트에서 제거
                 }
                 else {
-                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DD5B4FBB")));
+                    btnCafe.setBackgroundTintList(ColorStateList.valueOf(colBlue));
                     adapter.addFilterType(bannerPostAdapter.CAFE); // (type:cafe)를 리스트에 띄움
                 }
                 btnCafe.setSelected(!btnCafe.isSelected());

@@ -89,8 +89,8 @@ public class SelectedPlanner extends AppCompatActivity {
         // DB 업로드할 시작, 종료 날짜 정보
         LocalDate dateStart = PlaceIntent.savedDates.get("dateStart");
         LocalDate dateEnd = PlaceIntent.savedDates.get("dateEnd");
-        fbPlanItem.setFbDateStart(dateStart.toString()); // 20XX-MM-dd
-        fbPlanItem.setFbDateEnd(dateEnd.toString());
+        fbPlanItem.setFbDateStart(dateStart.toString().replace("-",".")); // 20XX-MM-dd -> 20XX.MM.dd
+        fbPlanItem.setFbDateEnd(dateEnd.toString().replace("-","."));
 
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();
@@ -155,19 +155,22 @@ public class SelectedPlanner extends AppCompatActivity {
                             PlaceIntent.placeIntent = new Intent();
                             PlaceIntent.daySelectedPlace.clear();
 
+                            // PlanItem에 모든 정보 적용(set)
+                            String newRandomKey = dbRefPlans.push().getKey(); // 랜덤 키 생성
+                            fbPlanItem.setFbPlanID(newRandomKey + "_" + fbPlanItem.getFbPlacesByDay().size()+"d_" +
+                                    fbPlanItem.getFbDateStart()); // planID : 랜덤키+여행일수+최초여행시작날
+                            fbPlanItem.setFbPlacesByDay(PlaceIntent.savedPlacesMap);
+                            fbPlanItem.setFbThumbnail(fbPlanItem.getFbPlacesByDay().get("day1").get(0).getThumbnail());
+
+                            // fbPlanItem 데이터베이스에 업로드
+                            dbRefPlans.child(newRandomKey).setValue(fbPlanItem);
+
                             // finish
                             //Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
                             // 스토리지의 내플랜으로 이동할 intent 정보
                             Intent intentHome = new Intent(SelectedPlanner.this, MainActivity.class);
                             intentHome.putExtra("moveFragment", "storage_plan");
                             startActivity(intentHome);
-
-                            // PlanItem DB 에 업로드
-                            fbPlanItem.setFbPlacesByDay(PlaceIntent.savedPlacesMap);
-                            String newRandomKey = dbRefPlans.push().getKey(); // 랜덤 키 생성
-                            fbPlanItem.setFbPlanID(newRandomKey + "_" + fbPlanItem.getFbPlacesByDay().size()+"d_" +
-                                    fbPlanItem.getFbDateStart()); // planID : 랜덤키+여행일수+최초여행시작날
-                            dbRefPlans.child(newRandomKey).setValue(fbPlanItem);
                         }
                     }
                     else {
