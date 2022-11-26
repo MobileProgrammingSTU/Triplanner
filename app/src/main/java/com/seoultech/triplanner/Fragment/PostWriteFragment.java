@@ -1,7 +1,6 @@
 package com.seoultech.triplanner.Fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,11 +56,19 @@ public class PostWriteFragment extends Fragment {
     Boolean inputTitle, inputSubtitle, inputRegion,
             inputPlace, inputContent;
 
+    int colFontLight;
+    int colFontEmp;
+    int colBlue;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_postwrite, container, false);
+
+        colFontLight = ContextCompat.getColor(getContext(), R.color.colorFontLight);
+        colFontEmp = ContextCompat.getColor(getContext(), R.color.colorFontEmphasis);
+        colBlue = ContextCompat.getColor(getContext(), R.color.colorBrandBlue);
 
         img_camera = (ImageView) view.findViewById(R.id.img_camera);
         edt_Title = (EditText) view.findViewById(R.id.edt_Title);
@@ -84,7 +92,7 @@ public class PostWriteFragment extends Fragment {
                 TextView textView = (TextView) view;
 
                 if(position == 0)
-                    textView.setTextColor(Color.parseColor("#4B4B4B"));
+                    textView.setTextColor(colFontLight);
 
                 return view;
             }
@@ -102,7 +110,7 @@ public class PostWriteFragment extends Fragment {
                 View mView = super.getDropDownView(position, convertView, parent);
                 TextView mTextView = (TextView) mView;
                 if (position == 0) {
-                    mTextView.setTextColor(Color.parseColor("#4B4B4B"));
+                    mTextView.setTextColor(colFontLight);
                 }
 
                 return mView;
@@ -118,7 +126,7 @@ public class PostWriteFragment extends Fragment {
                 TextView textView = (TextView) view;
 
                 if(position == 0)
-                    textView.setTextColor(Color.parseColor("#4B4B4B"));
+                    textView.setTextColor(colFontLight);
 
                 return view;
             }
@@ -136,7 +144,7 @@ public class PostWriteFragment extends Fragment {
                 View mView = super.getDropDownView(position, convertView, parent);
                 TextView mTextView = (TextView) mView;
                 if (position == 0) {
-                    mTextView.setTextColor(Color.parseColor("#4B4B4B"));
+                    mTextView.setTextColor(colFontLight);
                 }
 
                 return mView;
@@ -338,9 +346,9 @@ public class PostWriteFragment extends Fragment {
     // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
     public void isAllInputComplete() {
         if (inputTitle && inputSubtitle && inputRegion && inputPlace && inputContent ) {
-            btn_write.setBackgroundColor(Color.parseColor("#5B4FBB"));
+            btn_write.setBackgroundColor(colBlue);
             btn_write.setEnabled(true);
-            btn_write.setTextColor(Color.parseColor("#e1e1e1"));
+            btn_write.setTextColor(colFontEmp);
         }
     }
 

@@ -7,6 +7,7 @@ public class PlanItem {
     private String fbPlanID;
     private String fbDateStart; // LocalDate -> String : 20XX-MM-dd
     private String fbDateEnd;
+    private String fbThumbnail;
     private HashMap<String, ArrayList<PostItem>> fbPlacesByDay;
 
     public PlanItem() {
@@ -39,5 +40,12 @@ public class PlanItem {
     }
     public void setFbPlacesByDay(HashMap<String, ArrayList<PostItem>> placesByDay) {
         this.fbPlacesByDay = placesByDay;
+    }
+
+    public String getFbThumbnail() {
+        return fbThumbnail;
+    }
+    public void setFbThumbnail(String fbThumbnail) {
+        this.fbThumbnail = fbThumbnail;
     }
 }
