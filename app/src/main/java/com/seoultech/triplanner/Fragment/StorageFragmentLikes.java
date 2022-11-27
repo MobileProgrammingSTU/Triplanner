@@ -41,12 +41,6 @@ public class StorageFragmentLikes extends Fragment {
 
     }
 
-    public static StorageFragmentLikes newInstance() {
-        StorageFragmentLikes storageFragment = new StorageFragmentLikes();
-        Bundle bundle = new Bundle();
-        return storageFragment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

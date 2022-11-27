@@ -210,7 +210,7 @@ public class DatePlanner extends AppCompatActivity {
         @Override
         public boolean shouldDecorate(CalendarDay day) {
             return (day.getDate().isAfter(dayMax.getDate()))
-                || (day.getDate().isBefore(dayMin.getDate()));
+                    || (day.getDate().isBefore(dayMin.getDate()));
         }
 
         @Override
