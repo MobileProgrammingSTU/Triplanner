@@ -1,16 +1,20 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,6 +44,7 @@ public class PostWriteActivity extends AppCompatActivity {
     EditText edt_Title, edt_subTitle, edt_content;
     Spinner spinner_Region, spinner_Place;
     Button btn_write;
+    ImageButton btnBack;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -54,9 +59,7 @@ public class PostWriteActivity extends AppCompatActivity {
     Boolean inputTitle, inputSubtitle, inputRegion,
             inputPlace, inputContent;
 
-    int colFontLight;
-    int colFontEmp;
-    int colBlue;
+    int colFontLight, colFontEmp, colBlue, colBG2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,12 +69,14 @@ public class PostWriteActivity extends AppCompatActivity {
         colFontLight = ContextCompat.getColor(this, R.color.colorFontLight);
         colFontEmp = ContextCompat.getColor(this, R.color.colorFontEmphasis);
         colBlue = ContextCompat.getColor(this, R.color.colorBrandBlue);
+        colBG2 = ContextCompat.getColor(this, R.color.colorGrayBG2);
 
         img_camera = (ImageView) findViewById(R.id.img_camera);
         edt_Title = (EditText) findViewById(R.id.edt_Title);
         edt_subTitle = (EditText)findViewById(R.id.edt_subTitle);
         edt_content = (EditText) findViewById(R.id.edt_content);
         btn_write = (Button) findViewById(R.id.btn_write);
+        btnBack = (ImageButton) findViewById(R.id.imgBtnBack); // 뒤로가기 버튼
 
         spinner_Region = (Spinner) findViewById(R.id.spinner_Region);
         spinner_Place = (Spinner) findViewById(R.id.spinner_Place);
@@ -258,7 +263,7 @@ public class PostWriteActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                inputTitle = true;
+                inputTitle = editable.length() > 0;
                 isAllInputComplete();
             }
         });
@@ -275,7 +280,7 @@ public class PostWriteActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                inputSubtitle = true;
+                inputSubtitle = editable.length() > 0;
                 isAllInputComplete();
             }
         });
@@ -292,8 +297,15 @@ public class PostWriteActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                inputContent = true;
+                inputContent = editable.length() > 0;
                 isAllInputComplete();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -301,18 +313,17 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (edt_content.getText().length() == 0 || edt_Title.getText().length() == 0 ||
-                        edt_subTitle.getText().length() == 0) {
-
-                    btn_write.setBackgroundColor(Color.BLACK);
-                    btn_write.setBackgroundColor(Color.TRANSPARENT);
-                    btn_write.setEnabled(false);
-                    btn_write.setTextColor(colFontLight);
-
-                    Toast.makeText(getApplicationContext(), "입력되지 않는 부분이 있습니다!",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (edt_content.getText().length() == 0 || edt_Title.getText().length() == 0 ||
+//                        edt_subTitle.getText().length() == 0) {
+//
+//                    btn_write.setBackgroundTintList(ColorStateList.valueOf(colBG2));
+//                    btn_write.setEnabled(false);
+//                    btn_write.setTextColor(colFontLight);
+//
+//                    Toast.makeText(getApplicationContext(), "입력되지 않는 부분이 있습니다!",
+//                            Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 // 데이터 처리 후 pid column 값 설정
                 String s = list.get(list.size() - 1);
@@ -343,10 +354,32 @@ public class PostWriteActivity extends AppCompatActivity {
     // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
     public void isAllInputComplete() {
         if (inputTitle && inputSubtitle && inputRegion && inputPlace && inputContent ) {
-            btn_write.setBackgroundColor(colBlue);
+            btn_write.setBackgroundTintList(ColorStateList.valueOf(colBlue));
             btn_write.setEnabled(true);
             btn_write.setTextColor(colFontEmp);
         }
+        else {
+            btn_write.setBackgroundTintList(ColorStateList.valueOf(colBG2));
+            btn_write.setEnabled(false);
+            btn_write.setTextColor(colFontLight);
+        }
     }
 
+    // editText 눌렀을 때 밖에 다른곳 누르면 해제되고 키보드 내림
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }
