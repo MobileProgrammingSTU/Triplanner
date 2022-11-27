@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PlanItem;
 
 import java.util.ArrayList;
@@ -103,13 +102,6 @@ public class bannerPlanAdapter extends BaseAdapter{
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
         if(btnDeleteFlag) {
             btnDelete.setVisibility(convertView.VISIBLE);
-            btnDelete.setOnClickListener(new Button.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeItem(pos); // 리스트 뷰에서 지우기
-                    PlaceIntent.daySelectedPlace.remove(pos); // static 리스트 지우기
-                }
-            });
         }
         else {
             btnDelete.setVisibility(convertView.GONE);
