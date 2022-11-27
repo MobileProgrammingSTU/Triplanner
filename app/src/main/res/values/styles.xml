@@ -7,12 +7,22 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <!--font-->
+        <item name="android:textViewStyle">@style/fontTextView</item>
+        <item name="android:buttonStyle">@style/fontButton</item>
+        <item name="android:checkboxStyle">@style/fontCheckbox</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
         <!--액션바(타이틀바) 제거-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="tabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanumgothic</item>
     </style>
 
 </resources>

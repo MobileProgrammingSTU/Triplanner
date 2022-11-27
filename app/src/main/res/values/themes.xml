@@ -2,22 +2,35 @@
 <resources>
     <!-- 달력 안의 숫자들에 적용되는 스타일 -->
     <style name="customCvDateText">
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textColor">@color/colorFontNormal</item>
     </style>
 
     <!-- 달력 안의 요일들에 적용되는 스타일 -->
     <style name="customCvWeekDayText">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorFontNormal</item>
     </style>
 
     <!-- 연, 월을 표시하는 헤더에 적용되는 스타일 -->
     <style name="customCvHeaderText">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorFontEmphasis</item>
     </style>
 
     <!-- 선택된 날짜들에 적용되는 스타일 -->
     <style name="customCvSelectedDateText">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorFontEmphasis</item>
+    </style>
+
+    <!-- 타임 피커 스타일 -->
+    <style name="CustomTimePicker">
+        <item name="android:textColorPrimary">@color/colorFontNormal</item><!-- text color -->
+        <item name="colorControlNormal">@color/colorFontLight</item><!-- divider color -->
+        <item name="android:textSize">18sp</item>
+        <item name="android:windowTitleSize">16sp</item>
+        <item name="android:fontFamily">@font/nanumgothic</item>
     </style>
 </resources>

@@ -1,40 +1,66 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Set;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.seoultech.triplanner.Model.CustomTimePickerDialog;
+import com.seoultech.triplanner.Model.PlaceIntent;
+import com.seoultech.triplanner.Model.PlanItem;
+import com.seoultech.triplanner.Model.PostItem;
+import com.seoultech.triplanner.Model.TimePickerDialogClickListener;
+
+import org.threeten.bp.LocalDate;
+
+import java.util.ArrayList;
 
 public class SelectedPlanner extends AppCompatActivity {
 
-    ImageView imgBtnBack;
+    ListView bannerListView;
+    bannerPostAdapter adapter;
+    ArrayList<PostItem> placeDataList; // 리스트뷰의 data 리스트
 
+    ImageView imgBtnBack;
     TextView textView;
-    RelativeLayout att1, cafe1, rest1;
-    Button cafeDelete1, attDelete1, restDelete1;
-    ImageButton imgBtnAddPlace;
-    Button btnNext;
+    Button btnAdd, btnNext;
 
     Bundle bundle;
+    String pidData, imgData, titleData, typeData;
+    int startDay, endDay;
+
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabaseRef;
+
+    PlanItem fbPlanItem; // Firebase 업로드할 데이터
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planner_selected);
 
-        imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack);
+        bannerListView = (ListView) findViewById(R.id.selectedList);
+        placeDataList = new ArrayList<>();
+        adapter = new bannerPostAdapter(this, R.layout.place_selected_banner_item, placeDataList, false);
+        adapter.useBtnDelete(true);
+        bannerListView.setAdapter(adapter);
 
+        textView = (TextView) findViewById(R.id.textView); // 일차수 출력 text
+        imgBtnBack = (ImageView) findViewById(R.id.imgBtnBack); // 뒤로가기 버튼
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,85 +68,80 @@ public class SelectedPlanner extends AppCompatActivity {
             }
         });
 
-        textView = (TextView) findViewById(R.id.textView);
+        btnAdd = (Button) findViewById(R.id.btnAdd); // 장소 추가 버튼
+        btnNext = (Button) findViewById(R.id.btnNext); // 다음 버튼
 
-        att1 = (RelativeLayout) findViewById(R.id.att1);
-        cafe1 = (RelativeLayout) findViewById(R.id.cafe1);
-        rest1 = (RelativeLayout) findViewById(R.id.rest1);
-
-        cafeDelete1 = (Button) findViewById(R.id.cafeDelete1);
-        attDelete1 = (Button) findViewById(R.id.attDelete1);
-        restDelete1 =(Button) findViewById(R.id.restDelete1);
-
-        imgBtnAddPlace = (ImageButton) findViewById(R.id.imgBtnAddPlace);
-        btnNext = (Button) findViewById(R.id.btnNext);
+        mDatabaseRef = mDatabase.getReference("Triplanner");
+        DatabaseReference dbRefPlans = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Plans");
+        fbPlanItem = new PlanItem(); // 업로드할 PlanItem 정보
 
         // PlacePlanner.java 에서 putExtra 로 담은 내용을 bundle 에 담는다.
         bundle = getIntent().getExtras();
-        System.out.println("bundle size is : " + bundle.size());
 
         // 1일차, 2일차, ...
         Integer day = PlaceIntent.savedDateMap.get("startDay");
-        textView.setText(Integer.toString(day) + "일차 활동 선택 내역");
+        textView.setText(Integer.toString(day) + "일차 장소 선택 내역");
 
-        PlaceIntent.removedPlaceList = new LinkedHashMap<>();
+        //날짜 정보
+        startDay = PlaceIntent.savedDateMap.get("startDay");
+        endDay = PlaceIntent.savedDateMap.get("endDay");
+        // 마지막 일차에는 다음버튼이 완료로 텍스트가 나타남
+        if (endDay - startDay < 1) {
+            btnNext.setText("완료");
+        }
+
+        // DB 업로드할 시작, 종료 날짜 정보
+        LocalDate dateStart = PlaceIntent.savedDates.get("dateStart");
+        LocalDate dateEnd = PlaceIntent.savedDates.get("dateEnd");
+        fbPlanItem.setFbDateStart(dateStart.toString().replace("-",".")); // 20XX-MM-dd -> 20XX.MM.dd
+        fbPlanItem.setFbDateEnd(dateEnd.toString().replace("-","."));
+
+        //PlacePlanner 에서 클릭으로 보낸 data를 받는다
+        Intent intent = getIntent();
+        PostItem addItem = new PostItem();
+
+        pidData = intent.getStringExtra("pid");
+        imgData = intent.getStringExtra("img");
+        titleData = intent.getStringExtra("title");
+        typeData = intent.getStringExtra("type");
+        addItem.setThumbnail(imgData);
+        addItem.setTitle(titleData);
+        addItem.setTypePlace(typeData);
+        addItem.setPid(pidData);
+
+        //static ArrayList에 인텐트로 받아온 데이터 누적하기
+        PlaceIntent.daySelectedPlace.add(addItem);
+
+        placeDataList.addAll(PlaceIntent.daySelectedPlace); // 리스트뷰의 리스트에 누적 정보 모두 추가
+        adapter.notifyDataSetChanged(); // 어댑터에 데이터 변경사항 적용, 리스트뷰에 나타남
+
+        //배너를 클릭
+        bannerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CustomTimePickerDialog timePicker = new CustomTimePickerDialog(SelectedPlanner.this, new TimePickerDialogClickListener() {
+                    @Override
+                    public void onPositiveClick(int h, int m) {
+                        String pickedTime = h + ":" + m;
+                        Toast.makeText(getApplicationContext(), pickedTime, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                });
+                timePicker.setHour(0);
+                timePicker.setMinute(0);
+                timePicker.setCanceledOnTouchOutside(true);
+                timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //timePicker.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                timePicker.show();
+            }
+        });
 
         if (bundle != null) {
-            final Set<String> keySet = bundle.keySet();   // intent 객체로 받아온 전체 keySet
-
-            for (String s : keySet) {
-                PlaceIntent.removedPlaceList.put(s, true);
-            }
-
-            for (String s : keySet) {
-                // s값: att1_key, cafe1_key, rest1_key
-
-                switch (s) {
-                    case "att1_key":
-                        att1.setVisibility(View.VISIBLE);
-                        attDelete1.setVisibility(View.VISIBLE);
-                        break;
-                    case "rest1_key":
-                        rest1.setVisibility(View.VISIBLE);
-                        restDelete1.setVisibility(View.VISIBLE);
-                        break;
-                    case "cafe1_key":
-                        cafe1.setVisibility(View.VISIBLE);
-                        cafeDelete1.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-
-            // Delete button 을 누르면 data 제거
-            cafeDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                   cafe1.setVisibility(View.GONE);
-
-                   // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("cafe1_key", false);
-                }
-            });
-            attDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    att1.setVisibility(View.GONE);
-
-                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("att1_key", false);
-                }
-            });
-            restDelete1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    rest1.setVisibility(View.GONE);
-
-                    // 여기서 bundle 객체의 데이터를 제거한다.
-                    PlaceIntent.removedPlaceList.put("rest1_key", false);
-                }
-            });
-
-            imgBtnAddPlace.setOnClickListener(new View.OnClickListener() {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
@@ -130,31 +151,57 @@ public class SelectedPlanner extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int startDay = PlaceIntent.savedDateMap.get("startDay");
-                    int endDay = PlaceIntent.savedDateMap.get("endDay");
+                    if (!placeDataList.isEmpty()) {
+                        ArrayList<PostItem> list = new ArrayList<PostItem>();
+                        list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
 
-                    // 각 일차마다 저장된 값을 Place.savedPlacesMap 에 넣어준다.
-                    LinkedList<String> list = new LinkedList<>();
-                    for (String s : keySet) {
-                        list.add(s);
-                    }
-                    PlaceIntent.savedPlacesMap.put(startDay, list);
+                        PlaceIntent.savedPlacesMap.put("day" + String.valueOf(startDay), list); // 총 저장소에 담기
 
-                    if (startDay < endDay) {
+                        if (startDay < endDay) {
+                            // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
+                            PlaceIntent.savedDateMap.put("startDay", startDay + 1);
 
-                        // 여기서 PlacePlanner 의 날짜 값을 +1 증가시킴
-                        PlaceIntent.savedDateMap.put("startDay", startDay + 1);
+                            // 날짜가 변경될 때 마다 해당 날짜에 맞는 새로운 Intent 객체를 생성한다.
+                            PlaceIntent.placeIntent = new Intent();
+                            // 일차별 사용하는 리스트도 새롭게 비워준다
+                            PlaceIntent.daySelectedPlace.clear();
 
-                        Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
-                        startActivity(intentBack);
+                            // 다음날
+                            Intent intentBack = new Intent(SelectedPlanner.this, PlacePlanner.class);
+                            startActivity(intentBack);
+                        }
+                        else {
+                            // 모두 초기화
+                            PlaceIntent.placeIntent = new Intent();
+                            PlaceIntent.daySelectedPlace.clear();
+
+                            // PlanItem에 모든 정보 적용(set)
+                            String newRandomKey = dbRefPlans.push().getKey(); // 랜덤 키 생성
+                            fbPlanItem.setFbPlanID(newRandomKey + "_" + fbPlanItem.getFbPlacesByDay().size()+"d_" +
+                                    fbPlanItem.getFbDateStart()); // planID : 랜덤키+여행일수+최초여행시작날
+                            fbPlanItem.setFbPlacesByDay(PlaceIntent.savedPlacesMap);
+                            fbPlanItem.setFbThumbnail(fbPlanItem.getFbPlacesByDay().get("day1").get(0).getThumbnail());
+
+                            // fbPlanItem 데이터베이스에 업로드
+                            dbRefPlans.child(newRandomKey).setValue(fbPlanItem);
+
+                            // finish
+                            //Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
+                            // 스토리지의 내플랜으로 이동할 intent 정보
+                            Intent intentHome = new Intent(SelectedPlanner.this, MainActivity.class);
+                            intentHome.putExtra("moveFragment", "storage_plan");
+                            startActivity(intentHome);
+                        }
                     }
                     else {
-                        Intent intentFinish = new Intent(SelectedPlanner.this, FinishPlanner.class);
-                        startActivity(intentFinish);
+                        Toast.makeText(getApplicationContext(),
+                                "방문할 장소를 추가해주세요!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
         }
     }
+
+
 }

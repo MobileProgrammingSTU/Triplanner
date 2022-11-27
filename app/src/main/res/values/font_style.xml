@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="fontTextView" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/nanumgothic</item>
+        <item name="android:letterSpacing">-0.1</item>
+    </style>
+
+    <style name="fontButton" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:fontFamily">@font/nanumgothic</item>
+    </style>
+
+    <style name="fontCheckbox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:fontFamily">@font/nanumgothic</item>
+    </style>
+</resources>

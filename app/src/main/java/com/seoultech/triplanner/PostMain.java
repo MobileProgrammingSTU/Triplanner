@@ -1,40 +1,158 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-public class PostMain extends AppCompatActivity {
-    ImageButton btnBack;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.seoultech.triplanner.Model.PostItem;
 
-    ImageButton btnSave, btnBookmark;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PostMain extends AppCompatActivity {
+    RelativeLayout menu;
+    ImageButton btnBack;
+    ImageView btnSave, btnLike;
+
+    TextView title, subtitle, publisher, content;
+    Button location;
+    Button typeRegion, typePlace;
+
+    String postId;
 
     private ViewPager2 sliderViewPager;
     private LinearLayout layoutIndicator;
 
-    private Integer[] images = {
-            R.drawable.img_activity_main_cafe_1, R.drawable.img_activity_main_cafe_1_bw
-    };
+    private ArrayList<String> images = new ArrayList<String>(); // imgUrl 리스트
+
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseRef;
+
+    int colBlue, colRed, colYellow, colGreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_post);
 
-        btnBack = findViewById(R.id.imgBtnBack);
+        colBlue = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandBlue);
+        colRed = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandRed);
+        colGreen = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandGreen);
+        colYellow = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandYellow);
 
-        btnSave = findViewById(R.id.postBtnSave);
-        btnBookmark = findViewById(R.id.postBtnBookmark);
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = mDatabase.getReference("Triplanner");    // DB table connect
 
+        title = findViewById(R.id.postTitle);
+        subtitle = findViewById(R.id.postSubtitle);
+        publisher = findViewById(R.id.postPublisher);
+        location = findViewById(R.id.postLocation);
+        typeRegion = findViewById(R.id.postRegionType);
+        typePlace = findViewById(R.id.postPlaceType);
+        content = findViewById(R.id.postContent);
+
+        menu = findViewById(R.id.layoutMenu);
+        btnBack = findViewById(R.id.btnBack);
+        btnSave = findViewById(R.id.save);
+        btnLike = findViewById(R.id.like);
+
+        menu.bringToFront();
+
+        // 홈에서 클릭한 포스트의 pid 받아오기
+        Intent intent = getIntent();
+        postId = intent.getStringExtra("pid");
+        // 찾아서하면 오류가 발생하여 url 리스트를 intent 로 받음
+        images = intent.getStringArrayListExtra("images");
+
+        // Firebase 에서 pid로 찾아 data 받아와서 매칭
+        Query val = mDatabaseRef.child("Post2").orderByChild("pid").equalTo(postId);
+        val.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    PostItem fbPost = postSnapshot.getValue(PostItem.class);
+                    String fbTitle = fbPost.getTitle();
+                    String fbSubtitle = fbPost.getSubtitle();
+                    String fbPublisher = fbPost.getPublisher();
+                    String fbContent = fbPost.getContent().replace("\\n", "\n");
+
+                    String fbTypeRegion = fbPost.getTypeRegion();
+                    String fbTypePlace = fbPost.getTypePlace();
+
+                    HashMap<String, String> fbImages = fbPost.getImages();
+
+                    title.setText(fbTitle);
+                    subtitle.setText(fbSubtitle);
+                    publisher.setText(fbPublisher + " 님");
+                    content.setText(fbContent);
+
+                    // place 타입 설정
+                    if(fbTypePlace.contains("cafe") || fbTypePlace.contains("카페")) {
+                        typePlace.setText("카 페");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colGreen));
+                    }
+                    else if(fbTypePlace.contains("rest") || fbTypePlace.contains("맛집")) {
+                        typePlace.setText("맛 집");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colRed));
+                    }
+                    else if(fbTypePlace.contains("att") || fbTypePlace.contains("명소")) {
+                        typePlace.setText("명 소");
+                        typePlace.setBackgroundTintList(ColorStateList.valueOf(colYellow));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
+                    // region 타입 설정
+                    if(fbTypeRegion.contains("N") || fbTypeRegion.contains("북부")) {
+                        typeRegion.setText("북 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    }
+                    else if(fbTypeRegion.contains("S") || fbTypeRegion.contains("남부")) {
+                        typeRegion.setText("남 부");
+                        typeRegion.setBackgroundTintList(ColorStateList.valueOf(colRed));
+                    }
+                    else{
+                        typePlace.setText("기 타");
+                    }
+
+                    // 슬라이드 인디케이터
+                    setupIndicators(images.size());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("getFirebaseDatabase", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+
+
+        // 이미지 좌/우 슬라이드
         sliderViewPager = findViewById(R.id.sliderViewPager);
         layoutIndicator = findViewById(R.id.layoutIndicators);
         sliderViewPager.setOffscreenPageLimit(3);
@@ -46,13 +164,12 @@ public class PostMain extends AppCompatActivity {
                 setCurrentIndicator(position);
             }
         });
-        setupIndicators(images.length);
 
+        //뒤로가기 버튼
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostMain.this, MainActivity.class);
-                startActivity(intent); // 홈으로 이동
+                finish();
             }
         });
 
@@ -70,18 +187,21 @@ public class PostMain extends AppCompatActivity {
                 btnSave.setSelected(!btnSave.isSelected());
             }
         });
-        //북마크 버튼 클릭
-        btnBookmark.setOnClickListener(new View.OnClickListener() {
+
+        isLiked(postId, btnLike);
+        //하트 버튼 클릭
+        btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(btnBookmark.isSelected()) {
-                    btnBookmark.setImageResource(R.drawable.ic_bookmark);
+                if(btnLike.getTag().equals("like")) {
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
+                            .child(postId).setValue(true);
+                    Toast.makeText(getApplicationContext(), "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    btnBookmark.setImageResource(R.drawable.ic_bookmark_selected);
-                    Toast.makeText(getApplicationContext(),"게시물을 보관함에 저장했습니다", Toast.LENGTH_SHORT).show();
+                    mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).child("Likes")
+                            .child(postId).removeValue();
                 }
-                btnBookmark.setSelected(!btnBookmark.isSelected());
             }
         });
 
@@ -121,5 +241,31 @@ public class PostMain extends AppCompatActivity {
                 ));
             }
         }
+    }
+
+    private void isLiked(String postid, ImageView imageView) {
+
+        //FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = mDatabaseRef.child("UserAccount").child(fbCurrentUserUID)
+                .child("Likes").child(postid);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //if (snapshot.child(firebaseUser.getUid()).exists()) {
+                if (snapshot.exists()) {
+                    imageView.setImageResource(R.drawable.ic_heart_filled);
+                    imageView.setTag("liked");
+                } else {
+                    imageView.setImageResource(R.drawable.ic_heart);
+                    imageView.setTag("like");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.seoultech.triplanner.Model.PlaceIntent;
+
 public class RegionPlanner extends AppCompatActivity {
 
     ImageButton btnBack;
@@ -37,8 +39,7 @@ public class RegionPlanner extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegionPlanner.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -63,7 +64,7 @@ public class RegionPlanner extends AppCompatActivity {
                     regionA_down.setImageResource(R.drawable.img_region_a_down_selected);
                     regionA_down.setScaleX((float) 1.2);
                     regionA_down.setScaleY((float) 1.2);
-                    regionA_down.setTranslationY((float) 62);
+                    regionA_down.setTranslationY((float) 61);
                     regionAText.setVisibility(android.view.View.VISIBLE);
 
                     regionB.setSelected(true);
@@ -109,8 +110,17 @@ public class RegionPlanner extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(regionA.isSelected() || regionB.isSelected()) {
-                    Intent intent = new Intent(RegionPlanner.this, DatePlanner.class);
+                Intent intent = new Intent(RegionPlanner.this, PlacePlanner.class);
+                PlaceIntent.intentRegionType = new String();
+                
+                if (regionA.isSelected()) {
+                    PlaceIntent.intentRegionType = "N";
+                    //intent.putExtra("regionType", "N");
+                    startActivity(intent);
+                }
+                else if (regionB.isSelected()) {
+                    PlaceIntent.intentRegionType = "S";
+                    //intent.putExtra("regionType", "S");
                     startActivity(intent);
                 }
                 else {
