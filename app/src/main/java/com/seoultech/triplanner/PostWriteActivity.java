@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class PostWriteActivity extends AppCompatActivity {
     EditText edt_Title, edt_subTitle, edt_content;
     Spinner spinner_Region, spinner_Place;
     Button btn_write;
+    ImageButton btnBack;
 
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private final String fbCurrentUserUID = mFirebaseAuth.getUid();
@@ -74,6 +76,7 @@ public class PostWriteActivity extends AppCompatActivity {
         edt_subTitle = (EditText)findViewById(R.id.edt_subTitle);
         edt_content = (EditText) findViewById(R.id.edt_content);
         btn_write = (Button) findViewById(R.id.btn_write);
+        btnBack = (ImageButton) findViewById(R.id.imgBtnBack); // 뒤로가기 버튼
 
         spinner_Region = (Spinner) findViewById(R.id.spinner_Region);
         spinner_Place = (Spinner) findViewById(R.id.spinner_Place);
@@ -296,6 +299,13 @@ public class PostWriteActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 inputContent = editable.length() > 0;
                 isAllInputComplete();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
