@@ -1,10 +1,10 @@
-package com.seoultech.triplanner.Fragment;
+package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,16 +27,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.seoultech.triplanner.MainActivity;
 import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
-import com.seoultech.triplanner.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PostWriteFragment extends Fragment {
+public class PostWriteActivity extends AppCompatActivity {
 
     ImageView img_camera;
     EditText edt_Title, edt_subTitle, edt_content;
@@ -61,30 +59,29 @@ public class PostWriteFragment extends Fragment {
     int colBlue;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_postwrite);
 
-        View view = inflater.inflate(R.layout.fragment_postwrite, container, false);
+        colFontLight = ContextCompat.getColor(this, R.color.colorFontLight);
+        colFontEmp = ContextCompat.getColor(this, R.color.colorFontEmphasis);
+        colBlue = ContextCompat.getColor(this, R.color.colorBrandBlue);
 
-        colFontLight = ContextCompat.getColor(getContext(), R.color.colorFontLight);
-        colFontEmp = ContextCompat.getColor(getContext(), R.color.colorFontEmphasis);
-        colBlue = ContextCompat.getColor(getContext(), R.color.colorBrandBlue);
+        img_camera = (ImageView) findViewById(R.id.img_camera);
+        edt_Title = (EditText) findViewById(R.id.edt_Title);
+        edt_subTitle = (EditText)findViewById(R.id.edt_subTitle);
+        edt_content = (EditText) findViewById(R.id.edt_content);
+        btn_write = (Button) findViewById(R.id.btn_write);
 
-        img_camera = (ImageView) view.findViewById(R.id.img_camera);
-        edt_Title = (EditText) view.findViewById(R.id.edt_Title);
-        edt_subTitle = (EditText) view.findViewById(R.id.edt_subTitle);
-        edt_content = (EditText) view.findViewById(R.id.edt_content);
-        btn_write = (Button) view.findViewById(R.id.btn_write);
-
-        spinner_Region = (Spinner) view.findViewById(R.id.spinner_Region);
-        spinner_Place = (Spinner) view.findViewById(R.id.spinner_Place);
+        spinner_Region = (Spinner) findViewById(R.id.spinner_Region);
+        spinner_Place = (Spinner) findViewById(R.id.spinner_Place);
 
         inputTitle = false;
         inputSubtitle = false;
         inputRegion = false;inputPlace = false;
         inputContent = false;
 
-        ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(this,
                 R.layout.writepost_spinner_item, Region) {
             @Override // 0번째 아이템 색 바꾸기
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -118,7 +115,7 @@ public class PostWriteFragment extends Fragment {
         };
         spinner_Region.setAdapter(regionAdapter);
 
-        ArrayAdapter<String> placeAdapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> placeAdapter = new ArrayAdapter<String>(this,
                 R.layout.writepost_spinner_item, Place) {
             @Override // 0번째 아이템 색 바꾸기
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -155,14 +152,6 @@ public class PostWriteFragment extends Fragment {
         // 여기서 먼저 mDatabaseRef 선언
         mDatabaseRef = mDatabase.getReference("Triplanner");
 
-        return view;
-    }
-
-    /*
-    아래 메소드에서, postItem 에 담길 data 들을 넣는다.
-     */
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         postItem = new PostItem();
 
         List<String> list = new ArrayList<>();
@@ -312,9 +301,18 @@ public class PostWriteFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                for (String s : list) {
-//                    System.out.println(s);
-//                }
+                if (edt_content.getText().length() == 0 || edt_Title.getText().length() == 0 ||
+                        edt_subTitle.getText().length() == 0) {
+
+                    btn_write.setBackgroundColor(Color.BLACK);
+                    btn_write.setBackgroundColor(Color.TRANSPARENT);
+                    btn_write.setEnabled(false);
+                    btn_write.setTextColor(colFontLight);
+
+                    Toast.makeText(getApplicationContext(), "입력되지 않는 부분이 있습니다!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // 데이터 처리 후 pid column 값 설정
                 String s = list.get(list.size() - 1);
@@ -331,12 +329,12 @@ public class PostWriteFragment extends Fragment {
                 String fbTableName = s.charAt(0) + Integer.toString(num + 1);
                 mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);
 
-                Toast.makeText(getActivity(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
-                // 글 작성이 완료되면, MainActivity 로 화면 이동
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                // 글 작성이 완료되면, 우선 MainActivity 로 화면 이동
+                Intent intentHome = new Intent(PostWriteActivity.this, MainActivity.class);
+                intentHome.putExtra("moveFragment", "storage_MyPost");
+                startActivity(intentHome);
 
             }
         });

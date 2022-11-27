@@ -40,12 +40,6 @@ public class StorageFragmentMyPost extends Fragment {
 
     public StorageFragmentMyPost () {}
 
-    public static StorageFragmentMyPost newInstance() {
-        StorageFragmentMyPost storageFragment = new StorageFragmentMyPost();
-        Bundle bundle = new Bundle();
-        return storageFragment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

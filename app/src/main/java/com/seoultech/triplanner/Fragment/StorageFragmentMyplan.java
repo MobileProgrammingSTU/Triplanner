@@ -34,12 +34,6 @@ public class StorageFragmentMyplan extends Fragment {
 
     public StorageFragmentMyplan() {}
 
-    public static StorageFragmentMyplan newInstance() {
-        StorageFragmentMyplan storageFragment = new StorageFragmentMyplan();
-        Bundle bundle = new Bundle();
-        return storageFragment;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
