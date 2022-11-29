@@ -1,6 +1,7 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.seoultech.triplanner.Model.PlanItem;
 
 import java.util.ArrayList;
@@ -30,7 +34,7 @@ import java.util.ArrayList;
         기본값은 false 이며, 사용을 원할경우 useBtnDelete() 인자를 true 입력하면 됩니다.
 */
 
-public class bannerPlanAdapter extends BaseAdapter{
+public class bannerPlanAdapter extends BaseAdapter {
 
     public Context mContext;
     private LayoutInflater inflater;
@@ -43,6 +47,11 @@ public class bannerPlanAdapter extends BaseAdapter{
     private ArrayList<PlanItem> bannerList = new ArrayList<PlanItem>();
 
     private Boolean btnDeleteFlag = false;
+
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabaseRef;
 
     public bannerPlanAdapter(Context context, int layout, ArrayList<PlanItem> dataArray, Boolean filterFlag) {
         if (filterFlag) //필터 사용 여부
@@ -80,6 +89,10 @@ public class bannerPlanAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
 
+        mDatabaseRef = mDatabase.getReference("Triplanner");
+        DatabaseReference dbRefUserPlans = mDatabaseRef
+                .child("UserAccount").child(fbCurrentUserUID).child("Plans");
+
         // LayoutInflater를 통해 place_banner_item 메모리에 객체화
         if(convertView == null) {
             convertView = inflater.inflate(layout, parent, false);
@@ -102,6 +115,18 @@ public class bannerPlanAdapter extends BaseAdapter{
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
         if(btnDeleteFlag) {
             btnDelete.setVisibility(convertView.VISIBLE);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String itemPlanID = bannerItem.getFbPlanID();
+                    String findKey = itemPlanID.substring(0, itemPlanID.length()-14);
+                    dbRefUserPlans.child(findKey).removeValue();
+
+                    Intent returnIntent = new Intent(mContext, MainActivity.class);
+                    returnIntent.putExtra("moveFragment", "storage_plan");
+                    mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
+                }
+            });
         }
         else {
             btnDelete.setVisibility(convertView.GONE);
