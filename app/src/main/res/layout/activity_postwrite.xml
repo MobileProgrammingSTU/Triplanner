@@ -51,8 +51,14 @@
                 <ImageView
                     android:id="@+id/img_camera"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    app:srcCompat="@drawable/camera"/>
+                    android:layout_height="200dp"
+                    app:srcCompat="@drawable/camera" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pw_RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,17 +114,18 @@
                             android:popupBackground="@drawable/planner_date_calendar_view_bg"
                             android:spinnerMode="dropdown"/>
                     </LinearLayout>
+
                     <EditText
                         android:id="@+id/edt_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:padding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="문구 입력..."
-                        android:textColorHint="@color/colorFontLight"
+                        android:padding="10dp"
                         android:textColor="@color/colorFontNormal"
-                        android:textSize="18sp"/>
+                        android:textColorHint="@color/colorFontLight"
+                        android:textSize="21sp" />
                 </LinearLayout>
 
             </LinearLayout>

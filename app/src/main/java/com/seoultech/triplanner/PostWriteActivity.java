@@ -1,11 +1,16 @@
 package com.seoultech.triplanner;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +29,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
 
@@ -39,6 +52,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PostWriteActivity extends AppCompatActivity {
+
+    private final int GALLERY_CODE = 10;    // 갤러리에 접근하기 위해 선언한 임의의 코드 번호
+    private final String TAG = "PostWriteActivity";
 
     ImageView img_camera;
     EditText edt_Title, edt_subTitle, edt_content;
@@ -53,13 +69,22 @@ public class PostWriteActivity extends AppCompatActivity {
 
     final String [] Region = {"지역을 선택하세요", "북부", "남부"}; // 0번째 추가
     final String [] Place = {"장소 타입을 선택하세요", "카페", "명소", "맛집"}; // 0번째 추가
-    final String imgStr = "imgurl";
     PostItem postItem;
 
     Boolean inputTitle, inputSubtitle, inputRegion,
             inputPlace, inputContent;
 
     int colFontLight, colFontEmp, colBlue, colBG2;
+
+    // 아래는 이미지 부분
+    ArrayList<Uri> imgUriList = new ArrayList<>();   // 이미지의 uri를 담을 ArrayList 객체
+    RecyclerView pw_recyclerView;
+    MultiImageAdapter multiImageAdapter;        // RecyclerView 에 적용시킬 Adapter
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+    final String imgStr = "imgurl";
+    private static int imgCount = 1;
+
+    //LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,8 +108,24 @@ public class PostWriteActivity extends AppCompatActivity {
 
         inputTitle = false;
         inputSubtitle = false;
-        inputRegion = false;inputPlace = false;
+        inputRegion = false;
+        inputPlace = false;
         inputContent = false;
+
+        // 갤러리로 이동
+        img_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent imgGetIntent = new Intent(Intent.ACTION_PICK);
+                //imgGetIntent.setType("image/*");
+                //imgGetIntent.setAction(Intent.ACTION_GET_CONTENT);
+                imgGetIntent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                imgGetIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);   // 다중 이미지를 가져오도록 설정
+                imgGetIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(imgGetIntent, GALLERY_CODE);
+            }
+        });
+        pw_recyclerView = findViewById(R.id.pw_RecyclerView);
 
         ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(this,
                 R.layout.writepost_spinner_item, Region) {
@@ -119,6 +160,7 @@ public class PostWriteActivity extends AppCompatActivity {
             }
         };
         spinner_Region.setAdapter(regionAdapter);
+        //linearLayoutManager = new LinearLayoutManager(this);
 
         ArrayAdapter<String> placeAdapter = new ArrayAdapter<String>(this,
                 R.layout.writepost_spinner_item, Place) {
@@ -154,7 +196,7 @@ public class PostWriteActivity extends AppCompatActivity {
         };
         spinner_Place.setAdapter(placeAdapter);
 
-        // 여기서 먼저 mDatabaseRef 선언
+        // database 불러옴
         mDatabaseRef = mDatabase.getReference("Triplanner");
 
         postItem = new PostItem();
@@ -243,12 +285,14 @@ public class PostWriteActivity extends AppCompatActivity {
                 }
         );
 
+        /* 추후 제거 예정
         HashMap<String, String> hashmap = new HashMap<>();
         hashmap.put("imgurl1",
-                "https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/img_planner_place_restaurant_1.jpg?alt=media&token=6a6ead11-30f7-4f76-b181-2fd62421d95e");
+                "https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/test.jpeg?alt=media&token=9e789800-9fe2-4960-a1a8-3e3f8768816f");
 
         postItem.setImages(hashmap);
-        postItem.setThumbnail("https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/img_planner_place_restaurant_1.jpg?alt=media&token=6a6ead11-30f7-4f76-b181-2fd62421d95e");
+        postItem.setThumbnail("https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/test.jpeg?alt=media&token=9e789800-9fe2-4960-a1a8-3e3f8768816f");
+         */
 
         edt_Title.addTextChangedListener(new TextWatcher() {
             @Override
@@ -313,18 +357,6 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                if (edt_content.getText().length() == 0 || edt_Title.getText().length() == 0 ||
-//                        edt_subTitle.getText().length() == 0) {
-//
-//                    btn_write.setBackgroundTintList(ColorStateList.valueOf(colBG2));
-//                    btn_write.setEnabled(false);
-//                    btn_write.setTextColor(colFontLight);
-//
-//                    Toast.makeText(getApplicationContext(), "입력되지 않는 부분이 있습니다!",
-//                            Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
                 // 데이터 처리 후 pid column 값 설정
                 String s = list.get(list.size() - 1);
                 int num = Character.getNumericValue(s.charAt(1));
@@ -336,19 +368,88 @@ public class PostWriteActivity extends AppCompatActivity {
                 postItem.setSubtitle(edt_subTitle.getText().toString());
                 postItem.setContent(edt_content.getText().toString());
 
+                // 이미지 처리
+                postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
+                HashMap<String, String> imgListMap = new HashMap<>();
+                for (int i = 0; i < imgUriList.size(); i++) {
+                    imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
+                }
+                postItem.setImages(imgListMap); // 이미지 배열 담기
+
                 // db table 이름 설정
                 String fbTableName = s.charAt(0) + Integer.toString(num + 1);
-                mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);
+                mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);  // db에 값 넣기
 
+                uploadToFirebase(imgUriList);
+
+                // 글 작성이 완료되면, Storage > MyPost 로 이동
                 Toast.makeText(getApplicationContext(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
-                // 글 작성이 완료되면, 우선 MainActivity 로 화면 이동
                 Intent intentHome = new Intent(PostWriteActivity.this, MainActivity.class);
                 intentHome.putExtra("moveFragment", "storage_MyPost");
                 startActivity(intentHome);
 
             }
         });
+    }
+
+    // 이미지 처리는 여기서 해야함
+    // 앨범에서 액티비티로 돌아온 후 실행되는 메서드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //linearLayoutManager = new LinearLayoutManager(this);
+
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (data == null) {     // 이미지를 하나도 선택하지 않은 경우
+            Toast.makeText(getApplicationContext(), "이미지를 하나 이상 선택해 주세요!",
+                            Toast.LENGTH_SHORT).show();
+        }
+        else {  // 이미지를 최소 하나 이상 선택한 경우
+            if (data.getClipData() == null) {   // 이미지를 하나만 선택한 경우
+                Log.e("single choice: ", String.valueOf(data.getData()));
+                Uri imageUri = data.getData();
+                imgUriList.add(imageUri);
+
+                multiImageAdapter = new MultiImageAdapter(imgUriList, getApplicationContext());
+                pw_recyclerView.setAdapter(multiImageAdapter);
+                pw_recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                        LinearLayoutManager.HORIZONTAL, false));
+                //pw_recyclerView.setLayoutManager(linearLayoutManager);
+
+            }
+            else {  // 이미지를 여러 장 선택한 경우
+                ClipData clipData = data.getClipData();
+                Log.e("clipData", String.valueOf(clipData.getItemCount()));
+
+                if (clipData.getItemCount() >= 5) {  // 선택한 이미지가 5장 이상인 경우
+                    Toast.makeText(getApplicationContext(), "사진은 4장까지 선택 가능합니다.",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {  // 선택한 이미지가 4장 이하 인 경우
+                    Log.e("MultiImageActivity", "multiple choice");
+
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        Uri imageUri = clipData.getItemAt(i).getUri();  // 선택한 이미지들의 uri 를 가져온다.
+                        try {
+                            imgUriList.add(imageUri);
+                        } catch (Exception e) {
+                            Log.e("MultiImageActivity", "File Select Error!", e);
+                        }
+                    }
+
+                    multiImageAdapter = new MultiImageAdapter(imgUriList, getApplicationContext());
+                    pw_recyclerView.setAdapter(multiImageAdapter);
+                    pw_recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                            LinearLayoutManager.HORIZONTAL, false));
+                    //pw_recyclerView.setLayoutManager(linearLayoutManager);
+                }
+
+            }
+        }
     }
 
     // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
@@ -382,4 +483,35 @@ public class PostWriteActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
+    public void uploadToFirebase(ArrayList<Uri> arrayList) {
+        UploadTask uploadTask;
+        for (int i = 0; i < arrayList.size(); i++) {
+
+            String fileName = imgStr + imgCount + ".jpeg";
+            StorageReference imgRef = mStorageRef.child(fileName);
+
+            uploadTask = imgRef.putFile(arrayList.get(i));
+            final Boolean[] imgUploadSucceed = {true};  // 아래 익명 클래스에서 사용하기 위해 final 배열로 선언
+            if (imgUploadSucceed[0]) {
+                imgCount += 1;
+            }
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("Image Upload ", "Failed");
+                    imgUploadSucceed[0] = false;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.e("Image Upload ", "Succeed");
+                    imgUploadSucceed[0] = true;
+                }
+            });
+        }
+    }
+
+    // 파일타입 가져오기
 }
