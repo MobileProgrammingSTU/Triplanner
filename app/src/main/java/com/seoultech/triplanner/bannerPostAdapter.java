@@ -1,6 +1,7 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
     모든 포스트(장소) 배너의 리스트뷰에 적용할 adapter 입니다.
@@ -146,30 +149,36 @@ public class bannerPostAdapter extends BaseAdapter{
             btnDelete.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String itemID = bannerItem.getPid();
-
-                    dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+                    AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
+                    //dAlert.setTitle("포스트 삭제");
+                    dAlert.setMessage("정말로 삭제하시겠습니까?");
+                    dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snap : snapshot.getChildren()) {
-                                PostItem post = snap.getValue(PostItem.class);
-                                if (post.getPid().equals(itemID)) {
-                                    String itemKey = snap.getKey();
-                                    dbRefPost.child(itemKey).removeValue();
-                                    break;
+                        public void onClick(DialogInterface dialog, int which) {
+                            String itemID = bannerItem.getPid();
+
+                            dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snap : snapshot.getChildren()) {
+                                        PostItem post = snap.getValue(PostItem.class);
+                                        if (post.getPid().equals(itemID)) {
+                                            String itemKey = snap.getKey();
+                                            dbRefPost.child(itemKey).removeValue();
+                                            break;
+                                        }
+                                    }
                                 }
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
+                                }
+                            });
                         }
                     });
-
-//                    Intent returnIntent = new Intent(mContext, MainActivity.class);
-//                    returnIntent.putExtra("moveFragment", "storage_plan");
-//                    mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
+                    dAlert.setNegativeButton("아니오", null);
+                    dAlert.show();
                 }
             });
         }

@@ -1,6 +1,7 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.seoultech.triplanner.Model.PlanItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
     모든 포스트(장소) 배너의 리스트뷰에 적용할 adapter 입니다.
@@ -126,14 +129,24 @@ public class bannerPlanAdapter extends BaseAdapter {
             btnDelete.setVisibility(convertView.VISIBLE);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    String itemPlanID = bannerItem.getFbPlanID();
-                    String findKey = itemPlanID.substring(0, itemPlanID.length()-14);
-                    dbRefUserPlans.child(findKey).removeValue(); // DB 에서 삭제
+                public void onClick (View view){
+                    AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
+                    //dAlert.setTitle("플랜 삭제");
+                    dAlert.setMessage("정말로 삭제하시겠습니까?");
+                    dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick (DialogInterface dialog,int which) {
+                            String itemPlanID = bannerItem.getFbPlanID();
+                            String findKey = itemPlanID.substring(0, itemPlanID.length() - 14);
+                            dbRefUserPlans.child(findKey).removeValue(); // DB 에서 삭제
 
-                    Intent returnIntent = new Intent(mContext, MainActivity.class);
-                    returnIntent.putExtra("moveFragment", "storage_plan");
-                    mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
+                            Intent returnIntent = new Intent(mContext, MainActivity.class);
+                            returnIntent.putExtra("moveFragment", "storage_plan");
+                            mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
+                        }
+                    });
+                    dAlert.setNegativeButton("아니오", null);
+                    dAlert.show();
                 }
             });
         }
