@@ -192,6 +192,7 @@ public class SelectedPlanner extends AppCompatActivity {
                             fbPlanItem.setFbPlanID(newRandomKey + "_" + fbPlanItem.getFbPlacesByDay().size()+"d_" +
                                     fbPlanItem.getFbDateStart()); // planID : 랜덤키+여행일수+최초여행시작날
                             fbPlanItem.setFbPlacesByDay(PlaceIntent.savedPlacesMap);
+                            fbPlanItem.setFbPlanType(PlaceIntent.intentRegionType); // 플랜타입 : 지역타입
                             fbPlanItem.setFbThumbnail(fbPlanItem.getFbPlacesByDay().get("day1").get(0).getThumbnail());
 
                             // fbPlanItem 데이터베이스에 업로드

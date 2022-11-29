@@ -157,7 +157,7 @@ public class PlacePlanner extends AppCompatActivity {
                 // selected, place 넘어서 뒤로가면 Map 플랜데이터 초기화
                 PlaceIntent.placeIntent = new Intent();
                 PlaceIntent.daySelectedPlace.clear();
-                PlaceIntent.savedPlacesMap.clear();
+                //PlaceIntent.savedPlacesMap.clear();
                 finish();
             }
         });

@@ -2,6 +2,7 @@ package com.seoultech.triplanner;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,15 @@ public class bannerPlanAdapter extends BaseAdapter {
         Glide.with(mContext).load(bannerItem.getFbThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        bannerTag.setVisibility(convertView.GONE);
+        String planType = bannerItem.getFbPlanType();
+        if (planType.equals("N")) {
+            bannerTag.setText("북 부");
+            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+        }
+        else if (planType.equals("S")) {
+            bannerTag.setText("남 부");
+            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colRed));
+        }
 
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
