@@ -11,10 +11,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.seoultech.triplanner.Model.PlaceIntent;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
@@ -51,6 +57,12 @@ public class bannerPostAdapter extends BaseAdapter{
     //필터리스트
     private ArrayList<PostItem> filteredItemList = bannerList;
 
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabaseRef;
+
+    // 삭제 버튼 사용여부 플래그
     private Boolean btnDeleteFlag = false;
 
     public bannerPostAdapter(Context context, int layout, ArrayList<PostItem> dataArray, Boolean filterFlag) {
@@ -89,6 +101,10 @@ public class bannerPostAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
+
+        // DB 레퍼런스 가져오기
+        mDatabaseRef = mDatabase.getReference("Triplanner");
+        DatabaseReference dbRefPost = mDatabaseRef.child("Post2");
 
         // LayoutInflater를 통해 place_banner_item 메모리에 객체화
         if(convertView == null) {
@@ -130,8 +146,30 @@ public class bannerPostAdapter extends BaseAdapter{
             btnDelete.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeItem(pos); // 리스트 뷰에서 지우기
-                    PlaceIntent.daySelectedPlace.remove(pos); // static 리스트 지우기
+                    String itemID = bannerItem.getPid();
+
+                    dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snap : snapshot.getChildren()) {
+                                PostItem post = snap.getValue(PostItem.class);
+                                if (post.getPid().equals(itemID)) {
+                                    String itemKey = snap.getKey();
+                                    dbRefPost.child(itemKey).removeValue();
+                                    break;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+//                    Intent returnIntent = new Intent(mContext, MainActivity.class);
+//                    returnIntent.putExtra("moveFragment", "storage_plan");
+//                    mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
                 }
             });
         }

@@ -313,18 +313,6 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                if (edt_content.getText().length() == 0 || edt_Title.getText().length() == 0 ||
-//                        edt_subTitle.getText().length() == 0) {
-//
-//                    btn_write.setBackgroundTintList(ColorStateList.valueOf(colBG2));
-//                    btn_write.setEnabled(false);
-//                    btn_write.setTextColor(colFontLight);
-//
-//                    Toast.makeText(getApplicationContext(), "입력되지 않는 부분이 있습니다!",
-//                            Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
                 // 데이터 처리 후 pid column 값 설정
                 String s = list.get(list.size() - 1);
                 int num = Character.getNumericValue(s.charAt(1));
