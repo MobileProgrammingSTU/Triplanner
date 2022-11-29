@@ -103,7 +103,7 @@ public class bannerPlanAdapter extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getFbDateStart());
+        bannerTitle.setText(bannerItem.getFbPlanTitle());
 
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
         Glide.with(mContext).load(bannerItem.getFbThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
@@ -120,7 +120,7 @@ public class bannerPlanAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     String itemPlanID = bannerItem.getFbPlanID();
                     String findKey = itemPlanID.substring(0, itemPlanID.length()-14);
-                    dbRefUserPlans.child(findKey).removeValue();
+                    dbRefUserPlans.child(findKey).removeValue(); // DB 에서 삭제
 
                     Intent returnIntent = new Intent(mContext, MainActivity.class);
                     returnIntent.putExtra("moveFragment", "storage_plan");
