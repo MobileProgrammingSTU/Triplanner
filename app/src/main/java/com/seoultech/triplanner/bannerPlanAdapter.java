@@ -1,6 +1,9 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +13,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.seoultech.triplanner.Model.PlanItem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /*
     모든 포스트(장소) 배너의 리스트뷰에 적용할 adapter 입니다.
@@ -30,7 +38,7 @@ import java.util.ArrayList;
         기본값은 false 이며, 사용을 원할경우 useBtnDelete() 인자를 true 입력하면 됩니다.
 */
 
-public class bannerPlanAdapter extends BaseAdapter{
+public class bannerPlanAdapter extends BaseAdapter {
 
     public Context mContext;
     private LayoutInflater inflater;
@@ -43,6 +51,11 @@ public class bannerPlanAdapter extends BaseAdapter{
     private ArrayList<PlanItem> bannerList = new ArrayList<PlanItem>();
 
     private Boolean btnDeleteFlag = false;
+
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    private final String fbCurrentUserUID = mFirebaseAuth.getUid();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabaseRef;
 
     public bannerPlanAdapter(Context context, int layout, ArrayList<PlanItem> dataArray, Boolean filterFlag) {
         if (filterFlag) //필터 사용 여부
@@ -80,6 +93,10 @@ public class bannerPlanAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
 
+        mDatabaseRef = mDatabase.getReference("Triplanner");
+        DatabaseReference dbRefUserPlans = mDatabaseRef
+                .child("UserAccount").child(fbCurrentUserUID).child("Plans");
+
         // LayoutInflater를 통해 place_banner_item 메모리에 객체화
         if(convertView == null) {
             convertView = inflater.inflate(layout, parent, false);
@@ -90,18 +107,48 @@ public class bannerPlanAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
-        bannerTitle.setText(bannerItem.getFbDateStart());
+        bannerTitle.setText(bannerItem.getFbPlanTitle());
 
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
         Glide.with(mContext).load(bannerItem.getFbThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);
 
         Button bannerTag = (Button) convertView.findViewById(R.id.bannerTag);
-        bannerTag.setVisibility(convertView.GONE);
+        String planType = bannerItem.getFbPlanType();
+        if (planType.equals("N")) {
+            bannerTag.setText("북 부");
+            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+        }
+        else if (planType.equals("S")) {
+            bannerTag.setText("남 부");
+            bannerTag.setBackgroundTintList(ColorStateList.valueOf(colRed));
+        }
 
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.btnDelete);
         btnDelete.setFocusable(false); // 이걸해야 리스트뷰의 아이템 클릭, 이미지버튼 클릭 둘다 가능해진다
         if(btnDeleteFlag) {
             btnDelete.setVisibility(convertView.VISIBLE);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view){
+                    AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
+                    //dAlert.setTitle("플랜 삭제");
+                    dAlert.setMessage("정말로 삭제하시겠습니까?");
+                    dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick (DialogInterface dialog,int which) {
+                            String itemPlanID = bannerItem.getFbPlanID();
+                            String findKey = itemPlanID.substring(0, itemPlanID.length() - 14);
+                            dbRefUserPlans.child(findKey).removeValue(); // DB 에서 삭제
+
+                            Intent returnIntent = new Intent(mContext, MainActivity.class);
+                            returnIntent.putExtra("moveFragment", "storage_plan");
+                            mContext.startActivity(returnIntent); // MainActivity-저장소-내플랜으로 이동
+                        }
+                    });
+                    dAlert.setNegativeButton("아니오", null);
+                    dAlert.show();
+                }
+            });
         }
         else {
             btnDelete.setVisibility(convertView.GONE);

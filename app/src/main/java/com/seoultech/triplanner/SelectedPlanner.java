@@ -24,6 +24,7 @@ import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.TimePickerDialogClickListener;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.ArrayList;
 
@@ -93,8 +94,15 @@ public class SelectedPlanner extends AppCompatActivity {
         // DB 업로드할 시작, 종료 날짜 정보
         LocalDate dateStart = PlaceIntent.savedDates.get("dateStart");
         LocalDate dateEnd = PlaceIntent.savedDates.get("dateEnd");
-        fbPlanItem.setFbDateStart(dateStart.toString().replace("-",".")); // 20XX-MM-dd -> 20XX.MM.dd
+        String start = dateStart.toString().replace("-",".");
+        int days = (int) ChronoUnit.DAYS.between(dateStart, dateEnd);
+        fbPlanItem.setFbDateStart(start); // 20XX-MM-dd -> 20XX.MM.dd
         fbPlanItem.setFbDateEnd(dateEnd.toString().replace("-","."));
+        if (days != 0)
+            fbPlanItem.setFbPlanTitle(start.substring(2) + " "
+                    + days+"박" + (days+1)+"일" + " 여행"); // 플랜 제목 설정
+        else
+            fbPlanItem.setFbPlanTitle(start.substring(2) + " 당일치기 여행");
 
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();
@@ -122,8 +130,13 @@ public class SelectedPlanner extends AppCompatActivity {
                 CustomTimePickerDialog timePicker = new CustomTimePickerDialog(SelectedPlanner.this, new TimePickerDialogClickListener() {
                     @Override
                     public void onPositiveClick(int h, int m) {
-                        String pickedTime = h + ":" + m;
-                        Toast.makeText(getApplicationContext(), pickedTime, Toast.LENGTH_SHORT).show();
+                        String pickedTime;
+                        if (m != 0) // 0분이 아니면
+                            pickedTime = h + "시 " + m + " 분";
+                        else
+                            pickedTime = h + "시";
+                        // 장소 아이템(PostItem)에 시간값 저장(플랜 아이템 아님)
+                        PlaceIntent.daySelectedPlace.get(position).setPlanTime(pickedTime);
                     }
 
                     @Override
@@ -135,7 +148,6 @@ public class SelectedPlanner extends AppCompatActivity {
                 timePicker.setMinute(0);
                 timePicker.setCanceledOnTouchOutside(true);
                 timePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                //timePicker.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                 timePicker.show();
             }
         });
@@ -180,6 +192,7 @@ public class SelectedPlanner extends AppCompatActivity {
                             fbPlanItem.setFbPlanID(newRandomKey + "_" + fbPlanItem.getFbPlacesByDay().size()+"d_" +
                                     fbPlanItem.getFbDateStart()); // planID : 랜덤키+여행일수+최초여행시작날
                             fbPlanItem.setFbPlacesByDay(PlaceIntent.savedPlacesMap);
+                            fbPlanItem.setFbPlanType(PlaceIntent.intentRegionType); // 플랜타입 : 지역타입
                             fbPlanItem.setFbThumbnail(fbPlanItem.getFbPlacesByDay().get("day1").get(0).getThumbnail());
 
                             // fbPlanItem 데이터베이스에 업로드

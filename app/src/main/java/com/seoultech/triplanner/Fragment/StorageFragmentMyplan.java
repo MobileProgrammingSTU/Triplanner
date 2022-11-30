@@ -41,6 +41,7 @@ public class StorageFragmentMyplan extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listPlan);
         adapter = new bannerPlanAdapter(getContext(), R.layout.place_selected_banner_item, listMyPlan, false);
+        adapter.useBtnDelete(true);
         listView.setAdapter(adapter);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
