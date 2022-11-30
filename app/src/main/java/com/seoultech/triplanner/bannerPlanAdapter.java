@@ -108,6 +108,12 @@ public class bannerPlanAdapter extends BaseAdapter {
         // 아이템 내 각 위젯에 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
         bannerTitle.setText(bannerItem.getFbPlanTitle());
+        //bannerTitle.setPaintFlags(bannerTitle.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG); // Bold
+
+        TextView bannerSubtitle = (TextView) convertView.findViewById(R.id.bannerSubtitle);
+        bannerSubtitle.setVisibility(View.VISIBLE);
+        bannerSubtitle.setText(bannerItem.getFbDateStart().substring(2) +
+                " ~ " + bannerItem.getFbDateEnd().substring(2));
 
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
         Glide.with(mContext).load(bannerItem.getFbThumbnail()).placeholder(R.drawable.noimg).into(bannerImg);

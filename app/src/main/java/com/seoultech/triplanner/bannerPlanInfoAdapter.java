@@ -53,6 +53,7 @@ public class bannerPlanInfoAdapter extends BaseAdapter {
         ArrayList<PostItem> itemPlacesByDay = bannerList.get(position);
 
         TextView title = (TextView) convertView.findViewById(R.id.planDay);
+
         TextView places = (TextView) convertView.findViewById(R.id.planPlace);
         TextView hours = (TextView) convertView.findViewById(R.id.planHour);
         TextView minutes = (TextView) convertView.findViewById(R.id.planMin);
