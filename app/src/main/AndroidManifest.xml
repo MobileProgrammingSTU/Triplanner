@@ -30,9 +30,10 @@
         <activity android:name=".DatePlanner"/>
         <activity android:name=".PlacePlanner"/>
         <activity android:name=".PostMain"/>
+        <activity android:name=".PlanMain"/>
         <activity android:name=".RegionPlanner"/>
         <activity android:name=".SelectedPlanner"/>
-        <activity android:name=".FinishPlanner"/>
+        <!--activity android:name=".FinishPlanner"-->
     </application>
 
 </manifest>

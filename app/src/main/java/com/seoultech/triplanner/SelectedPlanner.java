@@ -132,7 +132,7 @@ public class SelectedPlanner extends AppCompatActivity {
                     public void onPositiveClick(int h, int m) {
                         String pickedTime;
                         if (m != 0) // 0분이 아니면
-                            pickedTime = h + "시 " + m + " 분";
+                            pickedTime = h + "시 " + m + "분";
                         else
                             pickedTime = h + "시";
                         // 장소 아이템(PostItem)에 시간값 저장(플랜 아이템 아님)
