@@ -1,6 +1,5 @@
 package com.seoultech.triplanner;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -32,7 +31,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,15 +74,15 @@ public class PostWriteActivity extends AppCompatActivity {
 
     int colFontLight, colFontEmp, colBlue, colBG2;
 
-    // 아래는 이미지 부분
+    // 이미지 부분
     ArrayList<Uri> imgUriList = new ArrayList<>();   // 이미지의 uri를 담을 ArrayList 객체
     RecyclerView pw_recyclerView;
     MultiImageAdapter multiImageAdapter;        // RecyclerView 에 적용시킬 Adapter
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
     final String imgStr = "imgurl";
     private static int imgCount = 1;
-
-    //LinearLayoutManager linearLayoutManager;
+    public ArrayList<String> fbImgList = new ArrayList<>();   // fb Storage 에 업로드된 이미지 파일명을 담을 배열
+    public static String staticPid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,8 +115,6 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent imgGetIntent = new Intent(Intent.ACTION_PICK);
-                //imgGetIntent.setType("image/*");
-                //imgGetIntent.setAction(Intent.ACTION_GET_CONTENT);
                 imgGetIntent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 imgGetIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);   // 다중 이미지를 가져오도록 설정
                 imgGetIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -134,7 +130,7 @@ public class PostWriteActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) view;
 
-                if(position == 0)
+                if (position == 0)
                     textView.setTextColor(colFontLight);
 
                 return view;
@@ -160,7 +156,6 @@ public class PostWriteActivity extends AppCompatActivity {
             }
         };
         spinner_Region.setAdapter(regionAdapter);
-        //linearLayoutManager = new LinearLayoutManager(this);
 
         ArrayAdapter<String> placeAdapter = new ArrayAdapter<String>(this,
                 R.layout.writepost_spinner_item, Place) {
@@ -200,7 +195,6 @@ public class PostWriteActivity extends AppCompatActivity {
         mDatabaseRef = mDatabase.getReference("Triplanner");
 
         postItem = new PostItem();
-
         List<String> list = new ArrayList<>();
 
         spinner_Region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -285,15 +279,6 @@ public class PostWriteActivity extends AppCompatActivity {
                 }
         );
 
-        /* 추후 제거 예정
-        HashMap<String, String> hashmap = new HashMap<>();
-        hashmap.put("imgurl1",
-                "https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/test.jpeg?alt=media&token=9e789800-9fe2-4960-a1a8-3e3f8768816f");
-
-        postItem.setImages(hashmap);
-        postItem.setThumbnail("https://firebasestorage.googleapis.com/v0/b/triplanner-c5df2.appspot.com/o/test.jpeg?alt=media&token=9e789800-9fe2-4960-a1a8-3e3f8768816f");
-         */
-
         edt_Title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -360,7 +345,8 @@ public class PostWriteActivity extends AppCompatActivity {
                 // 데이터 처리 후 pid column 값 설정
                 String s = list.get(list.size() - 1);
                 int num = Character.getNumericValue(s.charAt(1));
-                postItem.setPid("post" + Integer.toString(num + 1));
+                staticPid = "post" + Integer.toString(num + 1);
+                postItem.setPid(staticPid);
 
                 // 이 내역들을 여기서 받는 이유는, btn_write.setOnClickListener 밖에서 받을 시 db 에 값이 저장되지 않는다.
                 // 아마 "Fragment 생명 주기" 개념과 연관이 있지 않을까 추측.
@@ -368,19 +354,28 @@ public class PostWriteActivity extends AppCompatActivity {
                 postItem.setSubtitle(edt_subTitle.getText().toString());
                 postItem.setContent(edt_content.getText().toString());
 
-                // 이미지 처리
-                postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
+                uploadToFirebase(imgUriList);
+
+//                for (int i = 0; i < fbImgList.size(); i++) {
+//                    System.out.println("test : " + fbImgList.get(i));
+//                }
+
+                ArrayList<String> arrayList  = getFbStorageURL(fbImgList);
+                fbImgList = null;   // static 변수이므로 null로 초기화 시켜줘야 함
+
+                // 이거를 Intent로 MainActivity로 넘겨서, 거기서 처리하자
+                postItem.setThumbnail(arrayList.get(0));   // 첫 번째 이미지는 썸네일
                 HashMap<String, String> imgListMap = new HashMap<>();
-                for (int i = 0; i < imgUriList.size(); i++) {
-                    imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
+                for (int i = 0; i < arrayList.size(); i++) {
+                    imgListMap.put(imgStr + (i + 1), arrayList.get(i).toString());
                 }
                 postItem.setImages(imgListMap); // 이미지 배열 담기
 
                 // db table 이름 설정
                 String fbTableName = s.charAt(0) + Integer.toString(num + 1);
-                mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);  // db에 값 넣기
 
-                uploadToFirebase(imgUriList);
+                // db에 값 넣기
+                mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);
 
                 // 글 작성이 완료되면, Storage > MyPost 로 이동
                 Toast.makeText(getApplicationContext(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
@@ -398,11 +393,10 @@ public class PostWriteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //linearLayoutManager = new LinearLayoutManager(this);
 
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
+//        if (resultCode != Activity.RESULT_OK) {
+//            return;
+//        }
 
         if (data == null) {     // 이미지를 하나도 선택하지 않은 경우
             Toast.makeText(getApplicationContext(), "이미지를 하나 이상 선택해 주세요!",
@@ -418,7 +412,6 @@ public class PostWriteActivity extends AppCompatActivity {
                 pw_recyclerView.setAdapter(multiImageAdapter);
                 pw_recyclerView.setLayoutManager(new LinearLayoutManager(this,
                         LinearLayoutManager.HORIZONTAL, false));
-                //pw_recyclerView.setLayoutManager(linearLayoutManager);
 
             }
             else {  // 이미지를 여러 장 선택한 경우
@@ -445,11 +438,11 @@ public class PostWriteActivity extends AppCompatActivity {
                     pw_recyclerView.setAdapter(multiImageAdapter);
                     pw_recyclerView.setLayoutManager(new LinearLayoutManager(this,
                             LinearLayoutManager.HORIZONTAL, false));
-                    //pw_recyclerView.setLayoutManager(linearLayoutManager);
                 }
 
             }
         }
+
     }
 
     // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
@@ -484,15 +477,17 @@ public class PostWriteActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+    // Firebase Storage 에 이미지 파일 업로드
     public void uploadToFirebase(ArrayList<Uri> arrayList) {
         UploadTask uploadTask;
+        final Boolean[] imgUploadSucceed = {true};  // 아래 익명 클래스에서 사용하기 위해 final 배열로 선언
+
         for (int i = 0; i < arrayList.size(); i++) {
 
             String fileName = imgStr + imgCount + ".jpeg";
             StorageReference imgRef = mStorageRef.child(fileName);
 
             uploadTask = imgRef.putFile(arrayList.get(i));
-            final Boolean[] imgUploadSucceed = {true};  // 아래 익명 클래스에서 사용하기 위해 final 배열로 선언
             if (imgUploadSucceed[0]) {
                 imgCount += 1;
             }
@@ -510,8 +505,44 @@ public class PostWriteActivity extends AppCompatActivity {
                     imgUploadSucceed[0] = true;
                 }
             });
+
+            fbImgList.add(fileName);    // 여기서 파일 이름을 담는다.
         }
     }
 
-    // 파일타입 가져오기
+    // 이미지 처리: Firebase 에 접근해서 Storage URL 정보 가지고 온다.
+    // 문제: 이미지 업로드보다 이미지 url을 가져오는 것이 더 빨리 실행된다.
+    public ArrayList<String> getFbStorageURL(ArrayList<String> arrayList) {
+
+        ArrayList<String> urlList = new ArrayList<>();
+
+        /* test 코드. 잘 작동함
+        mStorageRef.child("att_2-2.jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                System.out.println(uri+ ": uri");
+                System.out.println(uri+ ": uri");
+                System.out.println(uri+ ": uri");
+            }
+        }); */
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                mStorageRef.child(arrayList.get(i)).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        urlList.add(uri.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any errors
+                    }
+                });
+            } catch(Exception e) {
+                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            }
+        }
+        return urlList;
+    }
+
 }
