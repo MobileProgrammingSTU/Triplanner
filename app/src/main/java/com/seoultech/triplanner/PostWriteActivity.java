@@ -51,8 +51,7 @@ import java.util.List;
 
 public class PostWriteActivity extends AppCompatActivity {
 
-    private final int GALLERY_CODE = 10;    // 갤러리에 접근하기 위해 선언한 임의의 코드 번호
-    private final String TAG = "PostWriteActivity";
+    private final int GALLERY_CODE = 10;    // 갤러리에 접근하기 위해 선언한 임의의 코드 번
 
     ImageView img_camera;
     EditText edt_Title, edt_subTitle, edt_content;
@@ -75,14 +74,15 @@ public class PostWriteActivity extends AppCompatActivity {
     int colFontLight, colFontEmp, colBlue, colBG2;
 
     // 이미지 부분
-    ArrayList<Uri> imgUriList = new ArrayList<>();   // 이미지의 uri를 담을 ArrayList 객체
     RecyclerView pw_recyclerView;
     MultiImageAdapter multiImageAdapter;        // RecyclerView 에 적용시킬 Adapter
+
+    ArrayList<Uri> imgUriList = new ArrayList<>();   // 갤러리에서 불러오는 이미지의 uri 를 담을 ArrayList 객체
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+    public static String staticPid;     // static 변수. Post2 게시글의 pid 를 저장한다.
     final String imgStr = "imgurl";
     private static int imgCount = 1;
-    public ArrayList<String> fbImgList = new ArrayList<>();   // fb Storage 에 업로드된 이미지 파일명을 담을 배열
-    public static String staticPid;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,8 +194,11 @@ public class PostWriteActivity extends AppCompatActivity {
         // database 불러옴
         mDatabaseRef = mDatabase.getReference("Triplanner");
 
+        // db 에 담을 객체 생성
         postItem = new PostItem();
-        List<String> list = new ArrayList<>();
+
+        // Post2 내에서 게시글의 개수를 알기 위해 사용하는 ArrayList
+        List<String> fbcountPList = new ArrayList<>();
 
         spinner_Region.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -253,7 +256,7 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    list.add(dataSnapshot.getKey());
+                    fbcountPList.add(dataSnapshot.getKey());
                 }
             }
 
@@ -342,8 +345,8 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // 데이터 처리 후 pid column 값 설정
-                String s = list.get(list.size() - 1);
+                // 데이터 처리 후 게시글의 pid 값 설정
+                String s = fbcountPList.get(fbcountPList.size() - 1);
                 int num = Character.getNumericValue(s.charAt(1));
                 staticPid = "post" + Integer.toString(num + 1);
                 postItem.setPid(staticPid);
@@ -354,22 +357,21 @@ public class PostWriteActivity extends AppCompatActivity {
                 postItem.setSubtitle(edt_subTitle.getText().toString());
                 postItem.setContent(edt_content.getText().toString());
 
-                uploadToFirebase(imgUriList);
+                // 여기서 Firebase Storage 에 갤러리 이미지들을 업로드 이후, return 값으로
+                // Firebase Storage 의 파일 이름들을 ArrayList 에 받는다.
+                ArrayList<String> fbImgList = uploadToFirebase(imgUriList);
 
-//                for (int i = 0; i < fbImgList.size(); i++) {
-//                    System.out.println("test : " + fbImgList.get(i));
-//                }
+                //ArrayList<String> fbImgUrl = getFbStorageURL(fbImgList);
 
-                ArrayList<String> arrayList  = getFbStorageURL(fbImgList);
-                fbImgList = null;   // static 변수이므로 null로 초기화 시켜줘야 함
-
-                // 이거를 Intent로 MainActivity로 넘겨서, 거기서 처리하자
-                postItem.setThumbnail(arrayList.get(0));   // 첫 번째 이미지는 썸네일
-                HashMap<String, String> imgListMap = new HashMap<>();
-                for (int i = 0; i < arrayList.size(); i++) {
-                    imgListMap.put(imgStr + (i + 1), arrayList.get(i).toString());
+                // 이미지를 첨부하지 않은 경우 검사
+                if (imgUriList.size() != 0) {
+                    postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
+                    HashMap<String, String> imgListMap = new HashMap<>();
+                    for (int i = 0; i < imgUriList.size(); i++) {
+                        imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
+                    }
+                    postItem.setImages(imgListMap); // 이미지 배열 담기
                 }
-                postItem.setImages(imgListMap); // 이미지 배열 담기
 
                 // db table 이름 설정
                 String fbTableName = s.charAt(0) + Integer.toString(num + 1);
@@ -381,7 +383,10 @@ public class PostWriteActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "글 작성이 완료되었습니다", Toast.LENGTH_SHORT).show();
 
                 Intent intentHome = new Intent(PostWriteActivity.this, MainActivity.class);
+                intentHome.addCategory(Intent.ACTION_OPEN_DOCUMENT);
                 intentHome.putExtra("moveFragment", "storage_MyPost");
+                //intentHome.putExtra("fbImgList", fbImgList);    // 파일 이름이 담긴 파일 보내기
+                //intentHome.putExtra("postId", fbTableName);     // 게시글 Number 보내기
                 startActivity(intentHome);
 
             }
@@ -393,10 +398,6 @@ public class PostWriteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
 
         if (data == null) {     // 이미지를 하나도 선택하지 않은 경우
             Toast.makeText(getApplicationContext(), "이미지를 하나 이상 선택해 주세요!",
@@ -478,9 +479,10 @@ public class PostWriteActivity extends AppCompatActivity {
     }
 
     // Firebase Storage 에 이미지 파일 업로드
-    public void uploadToFirebase(ArrayList<Uri> arrayList) {
+    public ArrayList<String> uploadToFirebase(ArrayList<Uri> arrayList) {
         UploadTask uploadTask;
         final Boolean[] imgUploadSucceed = {true};  // 아래 익명 클래스에서 사용하기 위해 final 배열로 선언
+        ArrayList<String> arrList = new ArrayList<>();
 
         for (int i = 0; i < arrayList.size(); i++) {
 
@@ -506,11 +508,13 @@ public class PostWriteActivity extends AppCompatActivity {
                 }
             });
 
-            fbImgList.add(fileName);    // 여기서 파일 이름을 담는다.
+            arrList.add(fileName);    // 여기서 Firebase Storage 에 업로드되는 파일의 이름을 담는다.(추후 URL 을 가져오기 위해)
         }
+
+        return arrList;
     }
 
-    // 이미지 처리: Firebase 에 접근해서 Storage URL 정보 가지고 온다.
+    // 이미지 처리: Firebase Storage 에 접근해서 각 이미지 별로 URL 정보 가지고 온다.
     // 문제: 이미지 업로드보다 이미지 url을 가져오는 것이 더 빨리 실행된다.
     public ArrayList<String> getFbStorageURL(ArrayList<String> arrayList) {
 
@@ -544,5 +548,6 @@ public class PostWriteActivity extends AppCompatActivity {
         }
         return urlList;
     }
+
 
 }
