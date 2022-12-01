@@ -17,7 +17,7 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:foreground="?attr/selectableItemBackground"
-            android:alpha="0.6"/>
+            android:alpha="0.5"/>
         <TextView
             android:id="@+id/bannerTitle"
             android:layout_width="wrap_content"
@@ -28,6 +28,18 @@
             android:textSize="28sp"
             android:textFontWeight="500"
             android:textColor="@color/colorFontEmphasis"/>
+        <TextView
+            android:id="@+id/bannerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bannerTitle"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:text="20.11.11"
+            android:textSize="20sp"
+            android:textFontWeight="500"
+            android:textColor="@color/colorFontNormal"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/bannerTag"
             android:layout_width="60dp"

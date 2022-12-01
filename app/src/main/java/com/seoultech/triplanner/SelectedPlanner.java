@@ -58,6 +58,7 @@ public class SelectedPlanner extends AppCompatActivity {
         placeDataList = new ArrayList<>();
         adapter = new bannerPostAdapter(this, R.layout.place_selected_banner_item, placeDataList, false);
         adapter.useBtnDelete(true);
+        adapter.isDeleteList(true);
         bannerListView.setAdapter(adapter);
 
         textView = (TextView) findViewById(R.id.textView); // 일차수 출력 text
@@ -94,15 +95,13 @@ public class SelectedPlanner extends AppCompatActivity {
         // DB 업로드할 시작, 종료 날짜 정보
         LocalDate dateStart = PlaceIntent.savedDates.get("dateStart");
         LocalDate dateEnd = PlaceIntent.savedDates.get("dateEnd");
-        String start = dateStart.toString().replace("-",".");
         int days = (int) ChronoUnit.DAYS.between(dateStart, dateEnd);
-        fbPlanItem.setFbDateStart(start); // 20XX-MM-dd -> 20XX.MM.dd
+        fbPlanItem.setFbDateStart(dateStart.toString().replace("-",".")); // 20XX-MM-dd -> 20XX.MM.dd
         fbPlanItem.setFbDateEnd(dateEnd.toString().replace("-","."));
         if (days != 0)
-            fbPlanItem.setFbPlanTitle(start.substring(2) + " "
-                    + days+"박" + (days+1)+"일" + " 여행"); // 플랜 제목 설정
+            fbPlanItem.setFbPlanTitle(days+"박" + (days+1)+"일" + " 여행"); // 플랜 제목 설정
         else
-            fbPlanItem.setFbPlanTitle(start.substring(2) + " 당일치기 여행");
+            fbPlanItem.setFbPlanTitle(" 당일치기 여행");
 
         //PlacePlanner 에서 클릭으로 보낸 data를 받는다
         Intent intent = getIntent();
@@ -132,7 +131,7 @@ public class SelectedPlanner extends AppCompatActivity {
                     public void onPositiveClick(int h, int m) {
                         String pickedTime;
                         if (m != 0) // 0분이 아니면
-                            pickedTime = h + "시 " + m + " 분";
+                            pickedTime = h + "시 " + m + "분";
                         else
                             pickedTime = h + "시";
                         // 장소 아이템(PostItem)에 시간값 저장(플랜 아이템 아님)
@@ -163,7 +162,7 @@ public class SelectedPlanner extends AppCompatActivity {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!placeDataList.isEmpty()) {
+                    if (!placeDataList.isEmpty() && checkAllTimeSet()) {
                         ArrayList<PostItem> list = new ArrayList<PostItem>();
                         list.addAll(PlaceIntent.daySelectedPlace); // 리스트에 나타난 장소를 모두 담기
 
@@ -206,6 +205,10 @@ public class SelectedPlanner extends AppCompatActivity {
                             startActivity(intentHome);
                         }
                     }
+                    else if (!checkAllTimeSet()) {
+                        Toast.makeText(getApplicationContext(),
+                                "장소를 클릭해 시간을 설정해주세요!", Toast.LENGTH_SHORT).show();
+                    }
                     else {
                         Toast.makeText(getApplicationContext(),
                                 "방문할 장소를 추가해주세요!", Toast.LENGTH_SHORT).show();
@@ -214,6 +217,15 @@ public class SelectedPlanner extends AppCompatActivity {
             });
 
         }
+    }
+
+    // 모든 장소에 시간 설정하면 true, 하나라도 아니면 flase
+    private Boolean checkAllTimeSet() {
+        for (PostItem item : PlaceIntent.daySelectedPlace) {
+            if (item.getPlanTime() == null)
+                return false;
+        }
+        return true;
     }
 
 

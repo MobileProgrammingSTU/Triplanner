@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
@@ -67,6 +68,8 @@ public class bannerPostAdapter extends BaseAdapter{
 
     // 삭제 버튼 사용여부 플래그
     private Boolean btnDeleteFlag = false;
+    // 버튼 클릭시 DB 에서 삭제하는 거면 false
+    private Boolean isNotDBDelete = false;
 
     public bannerPostAdapter(Context context, int layout, ArrayList<PostItem> dataArray, Boolean filterFlag) {
         if (filterFlag) //필터 사용 여부
@@ -119,6 +122,7 @@ public class bannerPostAdapter extends BaseAdapter{
 
         // 아이템 내 각 위젯에 데이터 반영
         TextView bannerTitle = (TextView) convertView.findViewById(R.id.bannerTitle);
+        //bannerTitle.setPaintFlags(bannerTitle.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG); // Bold
         bannerTitle.setText(bannerItem.getTitle());
 
         ImageView bannerImg = (ImageView) convertView.findViewById(R.id.bannerImg);
@@ -149,36 +153,42 @@ public class bannerPostAdapter extends BaseAdapter{
             btnDelete.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
-                    //dAlert.setTitle("포스트 삭제");
-                    dAlert.setMessage("정말로 삭제하시겠습니까?");
-                    dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String itemID = bannerItem.getPid();
+                    if (!isNotDBDelete) {
+                        AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
+                        //dAlert.setTitle("포스트 삭제");
+                        dAlert.setMessage("정말로 삭제하시겠습니까?");
+                        dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String itemID = bannerItem.getPid();
 
-                            dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for (DataSnapshot snap : snapshot.getChildren()) {
-                                        PostItem post = snap.getValue(PostItem.class);
-                                        if (post.getPid().equals(itemID)) {
-                                            String itemKey = snap.getKey();
-                                            dbRefPost.child(itemKey).removeValue();
-                                            break;
+                                dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot snap : snapshot.getChildren()) {
+                                            PostItem post = snap.getValue(PostItem.class);
+                                            if (post.getPid().equals(itemID)) {
+                                                String itemKey = snap.getKey();
+                                                dbRefPost.child(itemKey).removeValue();
+                                                break;
+                                            }
                                         }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
-                        }
-                    });
-                    dAlert.setNegativeButton("아니오", null);
-                    dAlert.show();
+                                    }
+                                });
+                            }
+                        });
+                        dAlert.setNegativeButton("아니오", null);
+                        dAlert.show();
+                    }
+                    else {
+                        // DB 데이터 삭제 말고 그냥 리스트뷰에서 삭제 (SelectPlanner 사용)
+                        removeItem(position);
+                    }
                 }
             });
         }
@@ -192,12 +202,18 @@ public class bannerPostAdapter extends BaseAdapter{
     // 아이템 삭제
     public void removeItem(int position) {
         filteredItemList.remove(position);
+        PlaceIntent.daySelectedPlace.remove(position);
         this.notifyDataSetChanged(); // 데이터 변경사항이 어댑터에 적용, 리스트뷰에 나타남
     }
 
     // 삭제 버튼을 사용할지 결정(default : false)
     public void useBtnDelete(Boolean flag) {
-        this.btnDeleteFlag = flag;
+        btnDeleteFlag = flag;
+    }
+
+    // DB아닌 그냥 리스트뷰에서 없애는건지 확인
+    public void isDeleteList(Boolean flag) {
+        isNotDBDelete = flag;
     }
 
     //필터 : 타입에 해당하는 아이템(배너)을 리스트에 추가합니다

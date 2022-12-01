@@ -113,6 +113,7 @@ public class RegionPlanner extends AppCompatActivity {
                 Intent intent = new Intent(RegionPlanner.this, PlacePlanner.class);
                 PlaceIntent.intentRegionType = new String(); // 초기화
                 PlaceIntent.savedPlacesMap.clear();
+                PlaceIntent.savedDateMap.put("startDay", 1);
                 
                 if (regionA.isSelected()) {
                     PlaceIntent.intentRegionType = "N";
