@@ -54,6 +54,7 @@ public class MultiImageAdapter extends RecyclerView.Adapter<MultiImageAdapter.Vi
 
         Glide.with(mContext)
                 .load(image_uri)
+                .placeholder(R.drawable.camera)
                 .into(holder.mul_image);
     }
 
