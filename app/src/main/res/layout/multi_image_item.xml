@@ -4,9 +4,10 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/mul_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="center"
-        android:layout_marginHorizontal="5dp"/>
+        android:layout_width="380dp"
+        android:layout_height="360dp"
+        android:scaleType="centerCrop"
+        android:layout_marginHorizontal="5dp"
+        android:src="@drawable/camera"/>
 
 </LinearLayout>

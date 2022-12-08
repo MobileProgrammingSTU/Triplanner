@@ -1,7 +1,8 @@
 package com.seoultech.triplanner.Fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.seoultech.triplanner.LoginActivity;
+import com.seoultech.triplanner.Model.CustomNormalDialog;
 import com.seoultech.triplanner.Model.UserAccount;
 import com.seoultech.triplanner.R;
 
@@ -114,14 +115,15 @@ public class MyPageFragment extends Fragment {
     회원탈퇴 전 AlertDialog 창을 띄워서 다시 한 번 묻는다.
      */
     private void showQuitDialog() {
+        CustomNormalDialog dlg = new CustomNormalDialog(getContext(),
+                new View.OnClickListener() { // 취소 버튼
+                    @Override
+                    public void onClick(View view) {
 
-        AlertDialog.Builder dlg = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-        dlg.setTitle("회원 탈퇴");
-        dlg.setMessage("정말로 탈퇴하시겠습니까?");
-        dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    }
+                }, new View.OnClickListener() { // 확인 버튼
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View view) {
                 // Firebase Authentication 에서는 제거되나, Realtime db 에서는 제거되지 않음.
                 Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).delete();
 
@@ -136,8 +138,34 @@ public class MyPageFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        dlg.setNegativeButton("아니오", null);
+        dlg.setTitle("회원 탈퇴");
+        dlg.setMessage("정말로 탈퇴하시겠습니까?");
+        dlg.setCanceledOnTouchOutside(true);
+        dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dlg.show();
+//        AlertDialog.Builder dlg = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+//        dlg.setTitle("회원 탈퇴");
+//        dlg.setMessage("정말로 탈퇴하시겠습니까?");
+//        dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                // Firebase Authentication 에서는 제거되나, Realtime db 에서는 제거되지 않음.
+//                Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).delete();
+//
+//                // Realtime db 에서도 제거
+//                assert fbCurrentUserUID != null;
+//                mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).removeValue();
+//
+//                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
+//                        "정상적으로 탈퇴 되었습니다.", Toast.LENGTH_SHORT).show();
+//
+//                Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        dlg.setNegativeButton("아니오", null);
+//        dlg.show();
     }
 
 }

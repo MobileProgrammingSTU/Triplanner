@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/planner_date_calendar_view_bg"
+    android:backgroundTint="@color/colorGrayBG2"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -18,7 +19,7 @@
             android:layout_marginTop="24dp"
             android:layout_gravity="center"
             android:text="시간을 설정하세요"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:textColor="@color/colorFontNormal"/>
         <TimePicker
             android:id="@+id/dialog_timePicker"

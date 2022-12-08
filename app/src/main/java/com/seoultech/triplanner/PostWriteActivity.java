@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +52,7 @@ public class PostWriteActivity extends AppCompatActivity {
 
     private final int GALLERY_CODE = 10;    // 갤러리에 접근하기 위해 선언한 임의의 코드 번
 
-    ImageView img_camera;
+    Button btn_addImg;
     EditText edt_Title, edt_subTitle, edt_content;
     Spinner spinner_Region, spinner_Place;
     Button btn_write;
@@ -94,7 +93,7 @@ public class PostWriteActivity extends AppCompatActivity {
         colBlue = ContextCompat.getColor(this, R.color.colorBrandBlue);
         colBG2 = ContextCompat.getColor(this, R.color.colorGrayBG2);
 
-        img_camera = (ImageView) findViewById(R.id.img_camera);
+        btn_addImg = (Button) findViewById(R.id.btn_addImg);
         edt_Title = (EditText) findViewById(R.id.edt_Title);
         edt_subTitle = (EditText) findViewById(R.id.edt_subTitle);
         edt_content = (EditText) findViewById(R.id.edt_content);
@@ -111,7 +110,7 @@ public class PostWriteActivity extends AppCompatActivity {
         inputContent = false;
 
         // 갤러리로 이동
-        img_camera.setOnClickListener(new View.OnClickListener() {
+        btn_addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent imgGetIntent = new Intent(Intent.ACTION_PICK);
