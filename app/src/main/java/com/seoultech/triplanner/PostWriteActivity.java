@@ -64,8 +64,8 @@ public class PostWriteActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabaseRef;
 
-    final String [] Region = {"지역을 선택하세요", "북부", "남부"}; // 0번째 추가
-    final String [] Place = {"장소 타입을 선택하세요", "카페", "명소", "맛집"}; // 0번째 추가
+    final String[] Region = {"지역을 선택하세요", "북부", "남부"}; // 0번째 추가
+    final String[] Place = {"장소 타입을 선택하세요", "카페", "명소", "맛집"}; // 0번째 추가
     PostItem postItem;
 
     Boolean inputTitle, inputSubtitle, inputRegion,
@@ -80,7 +80,7 @@ public class PostWriteActivity extends AppCompatActivity {
     ArrayList<Uri> imgUriList = new ArrayList<>();   // 갤러리에서 불러오는 이미지의 uri 를 담을 ArrayList 객체
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
     public static String staticPid;     // static 변수. Post2 게시글의 pid 를 저장한다.
-    final String imgStr = "imgurl";
+    final String imgStr = "test_imgurl";
     private static int imgCount = 1;
 
 
@@ -96,7 +96,7 @@ public class PostWriteActivity extends AppCompatActivity {
 
         img_camera = (ImageView) findViewById(R.id.img_camera);
         edt_Title = (EditText) findViewById(R.id.edt_Title);
-        edt_subTitle = (EditText)findViewById(R.id.edt_subTitle);
+        edt_subTitle = (EditText) findViewById(R.id.edt_subTitle);
         edt_content = (EditText) findViewById(R.id.edt_content);
         btn_write = (Button) findViewById(R.id.btn_write);
         btnBack = (ImageButton) findViewById(R.id.imgBtnBack); // 뒤로가기 버튼
@@ -164,7 +164,7 @@ public class PostWriteActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) view;
 
-                if(position == 0)
+                if (position == 0)
                     textView.setTextColor(colFontLight);
 
                 return view;
@@ -204,12 +204,10 @@ public class PostWriteActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                }
-                else if (position == 1) {
+                } else if (position == 1) {
                     postItem.setTypeRegion("N");
                     inputRegion = true;
-                }
-                else {
+                } else {
                     postItem.setTypeRegion("S");
                     inputRegion = true;
                 }
@@ -228,16 +226,13 @@ public class PostWriteActivity extends AppCompatActivity {
                 //((TextView)adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 if (position == 0) {
 
-                }
-                else if (position == 1){
+                } else if (position == 1) {
                     postItem.setTypePlace("cafe");
                     inputPlace = true;
-                }
-                else if (position == 2){
+                } else if (position == 2) {
                     postItem.setTypePlace("att");
                     inputPlace = true;
-                }
-                else {
+                } else {
                     postItem.setTypePlace("rest");
                     inputPlace = true;
                 }
@@ -255,7 +250,7 @@ public class PostWriteActivity extends AppCompatActivity {
         mDatabaseRef.child("Post2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     fbcountPList.add(dataSnapshot.getKey());
                 }
             }
@@ -364,11 +359,19 @@ public class PostWriteActivity extends AppCompatActivity {
                 //ArrayList<String> fbImgUrl = getFbStorageURL(fbImgList);
 
                 // 이미지를 첨부하지 않은 경우 검사
+//                if (imgUriList.size() != 0) {
+//                    postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
+//                    HashMap<String, String> imgListMap = new HashMap<>();
+//                    for (int i = 0; i < imgUriList.size(); i++) {
+//                        imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
+//                    }
+//                    postItem.setImages(imgListMap); // 이미지 배열 담기
+//                }
                 if (imgUriList.size() != 0) {
-                    postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
+                    postItem.setThumbnail(fbImgList.get(0).toString());   // 첫 번째 이미지는 썸네일
                     HashMap<String, String> imgListMap = new HashMap<>();
-                    for (int i = 0; i < imgUriList.size(); i++) {
-                        imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
+                    for (int i = 0; i < fbImgList.size(); i++) {
+                        imgListMap.put(imgStr + (i + 1), fbImgList.get(i).toString());
                     }
                     postItem.setImages(imgListMap); // 이미지 배열 담기
                 }
@@ -401,9 +404,8 @@ public class PostWriteActivity extends AppCompatActivity {
 
         if (data == null) {     // 이미지를 하나도 선택하지 않은 경우
             Toast.makeText(getApplicationContext(), "이미지를 하나 이상 선택해 주세요!",
-                            Toast.LENGTH_SHORT).show();
-        }
-        else {  // 이미지를 최소 하나 이상 선택한 경우
+                    Toast.LENGTH_SHORT).show();
+        } else {  // 이미지를 최소 하나 이상 선택한 경우
             if (data.getClipData() == null) {   // 이미지를 하나만 선택한 경우
                 Log.e("single choice: ", String.valueOf(data.getData()));
                 Uri imageUri = data.getData();
@@ -414,16 +416,14 @@ public class PostWriteActivity extends AppCompatActivity {
                 pw_recyclerView.setLayoutManager(new LinearLayoutManager(this,
                         LinearLayoutManager.HORIZONTAL, false));
 
-            }
-            else {  // 이미지를 여러 장 선택한 경우
+            } else {  // 이미지를 여러 장 선택한 경우
                 ClipData clipData = data.getClipData();
                 Log.e("clipData", String.valueOf(clipData.getItemCount()));
 
                 if (clipData.getItemCount() >= 5) {  // 선택한 이미지가 5장 이상인 경우
                     Toast.makeText(getApplicationContext(), "사진은 4장까지 선택 가능합니다.",
                             Toast.LENGTH_LONG).show();
-                }
-                else {  // 선택한 이미지가 4장 이하 인 경우
+                } else {  // 선택한 이미지가 4장 이하 인 경우
                     Log.e("MultiImageActivity", "multiple choice");
 
                     for (int i = 0; i < clipData.getItemCount(); i++) {
@@ -448,12 +448,11 @@ public class PostWriteActivity extends AppCompatActivity {
 
     // 모두 입력하였는지 확인하기 : 모두 입력해야 동작
     public void isAllInputComplete() {
-        if (inputTitle && inputSubtitle && inputRegion && inputPlace && inputContent ) {
+        if (inputTitle && inputSubtitle && inputRegion && inputPlace && inputContent) {
             btn_write.setBackgroundTintList(ColorStateList.valueOf(colBlue));
             btn_write.setEnabled(true);
             btn_write.setTextColor(colFontEmp);
-        }
-        else {
+        } else {
             btn_write.setBackgroundTintList(ColorStateList.valueOf(colBG2));
             btn_write.setEnabled(false);
             btn_write.setTextColor(colFontLight);
@@ -508,7 +507,12 @@ public class PostWriteActivity extends AppCompatActivity {
                 }
             });
 
-            arrList.add(fileName);    // 여기서 Firebase Storage 에 업로드되는 파일의 이름을 담는다.(추후 URL 을 가져오기 위해)
+            // 경로 직접 설정
+            String pathName = "https://firebasestorage.googleapis.com/v0/b" +
+                    "/triplanner-c5df2.appspot.com" + "/o/" +
+                    fileName + "?alt=media";
+
+            arrList.add(pathName);    // 여기서 Firebase Storage 에 업로드되는 파일의 이름을 담는다.(추후 URL 을 가져오기 위해)
         }
 
         return arrList;
@@ -519,35 +523,23 @@ public class PostWriteActivity extends AppCompatActivity {
     public ArrayList<String> getFbStorageURL(ArrayList<String> arrayList) {
 
         ArrayList<String> urlList = new ArrayList<>();
-
-        /* test 코드. 잘 작동함
-        mStorageRef.child("att_2-2.jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                System.out.println(uri+ ": uri");
-                System.out.println(uri+ ": uri");
-                System.out.println(uri+ ": uri");
-            }
-        }); */
+        /* 딜레이 문제로 작동안됨
         for (int i = 0; i < arrayList.size(); i++) {
-            try {
-                mStorageRef.child(arrayList.get(i)).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        urlList.add(uri.toString());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-            } catch(Exception e) {
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-            }
-        }
+            mStorageRef.child(arrayList.get(i)).
+                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            System.out.println(uri.toString());
+                            urlList.add(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }*/
+
         return urlList;
     }
-
-
 }
