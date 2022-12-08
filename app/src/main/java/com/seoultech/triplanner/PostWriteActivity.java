@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -265,6 +266,7 @@ public class PostWriteActivity extends AppCompatActivity {
             }
         });
 
+
         // 현재 접속 중인 user 의 FbName 을 db 에서 읽어오기 위해 작성(글 작성자의 fbName)
         mDatabaseRef.child("UserAccount").child(fbCurrentUserUID).addValueEventListener(
                 new ValueEventListener() {
@@ -371,9 +373,12 @@ public class PostWriteActivity extends AppCompatActivity {
                 }
 
                 // db table 이름 설정
-                String fbTableName = s.charAt(0) + Integer.toString(num + 1);
+                // SSAID 방식 사용
+                String fbTableName = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+                fbTableName = fbTableName.substring(5) + "_" +  postItem.getPublisher();
 
-                // db에 값 넣기
+                        // db에 값 넣기
                 mDatabaseRef.child("Post2").child(fbTableName).setValue(postItem);
 
                 // 글 작성이 완료되면, Storage > MyPost 로 이동
@@ -487,7 +492,7 @@ public class PostWriteActivity extends AppCompatActivity {
             String fileName = imgStr + num + "_" + getTime + ".jpeg";
             StorageReference imgRef = mStorageRef.child(fileName);
             if (imgUploadSucceed[0]) {
-                num += 1;
+                num += 1;   // 파일 번호를 하나씩 증가시킨다.
             }
 
             uploadTask = imgRef.putFile(arrayList.get(i));
