@@ -1,8 +1,11 @@
 package com.seoultech.triplanner;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,10 +32,16 @@ public class LoginActivity extends AppCompatActivity {
     EditText et_login_Email, et_login_PW;       // 로그인 입력필드
     Button btn_login, btn_reg;
 
+    boolean isEmailFilled, isPwFilled;
+    int colBlue, colFont;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        colBlue = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandBlue);
+        colFont = ContextCompat.getColor(getApplicationContext(), R.color.colorFontEmphasis);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
@@ -40,6 +50,38 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_reg = (Button) findViewById(R.id.btn_reg);
+
+        // editText 채워졌는지 확인
+        et_login_Email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isEmailFilled = editable.length() > 0;
+                if(isEmailFilled && isPwFilled) {
+                    btn_login.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    btn_login.setEnabled(true);
+                    btn_login.setTextColor(colFont);
+                }
+            }
+        });
+        et_login_PW.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isPwFilled = editable.length() > 5;
+                if(isPwFilled && isEmailFilled) {
+                    btn_login.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    btn_login.setEnabled(true);
+                    btn_login.setTextColor(colFont);
+                }
+            }
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

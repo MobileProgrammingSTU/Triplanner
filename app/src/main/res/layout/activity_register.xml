@@ -25,8 +25,9 @@
         android:hint="닉네임을 입력하세요"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:textColor="@color/colorFontNormal"
-        android:textSize="18sp" />
+        android:textColorHint="@color/colorFontLight"
+        android:textSize="18sp"
+        android:textColor="@color/colorFontNormal"/>
 
     <EditText
         android:id="@+id/et_reg_Email"
@@ -37,8 +38,9 @@
         android:hint="이메일을 입력하세요"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:textColor="@color/colorFontNormal"
-        android:textSize="18sp" />
+        android:textColorHint="@color/colorFontLight"
+        android:textSize="18sp"
+        android:textColor="@color/colorFontNormal"/>
 
     <EditText
         android:id="@+id/et_reg_PW"
@@ -50,8 +52,9 @@
         android:hint="비밀번호를 입력하세요"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:textColor="@color/colorFontNormal"
-        android:textSize="18sp" />
+        android:textColorHint="@color/colorFontLight"
+        android:textSize="18sp"
+        android:textColor="@color/colorFontNormal"/>
 
     <Button
         android:id="@+id/btn_register"
@@ -59,10 +62,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:layout_marginTop="32dp"
-        android:clickable="false"
+        android:enabled="false"
         android:text="등록"
         android:textSize="18sp"
-        android:textColor="@color/colorFontEmphasis"/>
+        android:textColor="@color/colorFontLight"/>
 
     <TextView
         android:id="@+id/txt_login"
