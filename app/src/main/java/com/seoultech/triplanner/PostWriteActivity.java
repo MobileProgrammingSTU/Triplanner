@@ -45,7 +45,9 @@ import com.google.firebase.storage.UploadTask;
 import com.seoultech.triplanner.Model.PostItem;
 import com.seoultech.triplanner.Model.UserAccount;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,8 +82,7 @@ public class PostWriteActivity extends AppCompatActivity {
     ArrayList<Uri> imgUriList = new ArrayList<>();   // 갤러리에서 불러오는 이미지의 uri 를 담을 ArrayList 객체
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
     public static String staticPid;     // static 변수. Post2 게시글의 pid 를 저장한다.
-    final String imgStr = "test_imgurl";
-    private static int imgCount = 1;
+    private String imgStr = "img";
 
 
     @Override
@@ -228,12 +229,15 @@ public class PostWriteActivity extends AppCompatActivity {
 
                 } else if (position == 1) {
                     postItem.setTypePlace("cafe");
+                    imgStr += "_cafe";
                     inputPlace = true;
                 } else if (position == 2) {
                     postItem.setTypePlace("att");
+                    imgStr += "_att";
                     inputPlace = true;
                 } else {
                     postItem.setTypePlace("rest");
+                    imgStr += "_rest";
                     inputPlace = true;
                 }
                 isAllInputComplete();
@@ -356,22 +360,12 @@ public class PostWriteActivity extends AppCompatActivity {
                 // Firebase Storage 의 파일 이름들을 ArrayList 에 받는다.
                 ArrayList<String> fbImgList = uploadToFirebase(imgUriList);
 
-                //ArrayList<String> fbImgUrl = getFbStorageURL(fbImgList);
-
-                // 이미지를 첨부하지 않은 경우 검사
-//                if (imgUriList.size() != 0) {
-//                    postItem.setThumbnail(imgUriList.get(0).toString());   // 첫 번째 이미지는 썸네일
-//                    HashMap<String, String> imgListMap = new HashMap<>();
-//                    for (int i = 0; i < imgUriList.size(); i++) {
-//                        imgListMap.put(imgStr + (i + 1), imgUriList.get(i).toString());
-//                    }
-//                    postItem.setImages(imgListMap); // 이미지 배열 담기
-//                }
+                String imgUrl = "imgurl";
                 if (imgUriList.size() != 0) {
                     postItem.setThumbnail(fbImgList.get(0).toString());   // 첫 번째 이미지는 썸네일
                     HashMap<String, String> imgListMap = new HashMap<>();
                     for (int i = 0; i < fbImgList.size(); i++) {
-                        imgListMap.put(imgStr + (i + 1), fbImgList.get(i).toString());
+                        imgListMap.put(imgUrl + (i + 1), fbImgList.get(i).toString());
                     }
                     postItem.setImages(imgListMap); // 이미지 배열 담기
                 }
@@ -388,10 +382,7 @@ public class PostWriteActivity extends AppCompatActivity {
                 Intent intentHome = new Intent(PostWriteActivity.this, MainActivity.class);
                 intentHome.addCategory(Intent.ACTION_OPEN_DOCUMENT);
                 intentHome.putExtra("moveFragment", "storage_MyPost");
-                //intentHome.putExtra("fbImgList", fbImgList);    // 파일 이름이 담긴 파일 보내기
-                //intentHome.putExtra("postId", fbTableName);     // 게시글 Number 보내기
                 startActivity(intentHome);
-
             }
         });
     }
@@ -483,15 +474,23 @@ public class PostWriteActivity extends AppCompatActivity {
         final Boolean[] imgUploadSucceed = {true};  // 아래 익명 클래스에서 사용하기 위해 final 배열로 선언
         ArrayList<String> arrList = new ArrayList<>();
 
+        int num = 1;
+
         for (int i = 0; i < arrayList.size(); i++) {
 
-            String fileName = imgStr + imgCount + ".jpeg";
+            // 시간 값 받아오기
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+            String getTime = dateFormat.format(date);
+
+            String fileName = imgStr + num + "_" + getTime + ".jpeg";
             StorageReference imgRef = mStorageRef.child(fileName);
+            if (imgUploadSucceed[0]) {
+                num += 1;
+            }
 
             uploadTask = imgRef.putFile(arrayList.get(i));
-            if (imgUploadSucceed[0]) {
-                imgCount += 1;
-            }
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -518,28 +517,4 @@ public class PostWriteActivity extends AppCompatActivity {
         return arrList;
     }
 
-    // 이미지 처리: Firebase Storage 에 접근해서 각 이미지 별로 URL 정보 가지고 온다.
-    // 문제: 이미지 업로드보다 이미지 url을 가져오는 것이 더 빨리 실행된다.
-    public ArrayList<String> getFbStorageURL(ArrayList<String> arrayList) {
-
-        ArrayList<String> urlList = new ArrayList<>();
-        /* 딜레이 문제로 작동안됨
-        for (int i = 0; i < arrayList.size(); i++) {
-            mStorageRef.child(arrayList.get(i)).
-                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            System.out.println(uri.toString());
-                            urlList.add(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }*/
-
-        return urlList;
-    }
 }
