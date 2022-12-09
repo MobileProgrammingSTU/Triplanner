@@ -1,8 +1,9 @@
 package com.seoultech.triplanner;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -23,11 +24,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.seoultech.triplanner.Model.CustomNormalDialog;
+import com.seoultech.triplanner.Model.CustomNormalDialogClickListener;
 import com.seoultech.triplanner.Model.PlaceIntent;
 import com.seoultech.triplanner.Model.PostItem;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /*
     모든 포스트(장소) 배너의 리스트뷰에 적용할 adapter 입니다.
@@ -154,12 +156,10 @@ public class bannerPostAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     if (!isNotDBDelete) {
-                        AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
-                        //dAlert.setTitle("포스트 삭제");
-                        dAlert.setMessage("정말로 삭제하시겠습니까?");
-                        dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        CustomNormalDialog dlg = new CustomNormalDialog(mContext, "",
+                                "정말로 삭제하시겠습니까?", new CustomNormalDialogClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onPositiveClick() {
                                 String itemID = bannerItem.getPid();
 
                                 dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -174,16 +174,54 @@ public class bannerPostAdapter extends BaseAdapter{
                                             }
                                         }
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
 
                                     }
                                 });
+                                Toast.makeText(mContext,
+                                        "포스트가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onNegativeClick() {
+
                             }
                         });
-                        dAlert.setNegativeButton("아니오", null);
-                        dAlert.show();
+                        dlg.setCanceledOnTouchOutside(true);
+                        dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dlg.show();
+
+//                        AlertDialog.Builder dAlert = new AlertDialog.Builder(Objects.requireNonNull(mContext));
+//                        //dAlert.setTitle("포스트 삭제");
+//                        dAlert.setMessage("정말로 삭제하시겠습니까?");
+//                        dAlert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String itemID = bannerItem.getPid();
+//
+//                                dbRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        for (DataSnapshot snap : snapshot.getChildren()) {
+//                                            PostItem post = snap.getValue(PostItem.class);
+//                                            if (post.getPid().equals(itemID)) {
+//                                                String itemKey = snap.getKey();
+//                                                dbRefPost.child(itemKey).removeValue();
+//                                                break;
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
+//                            }
+//                        });
+//                        dAlert.setNegativeButton("아니오", null);
+//                        dAlert.show();
                     }
                     else {
                         // DB 데이터 삭제 말고 그냥 리스트뷰에서 삭제 (SelectPlanner 사용)
