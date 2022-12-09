@@ -13,8 +13,7 @@ import androidx.annotation.NonNull;
 import com.seoultech.triplanner.R;
 
 public class CustomNormalDialog extends Dialog implements DialogInterface {
-    private View.OnClickListener mConfirmClickListener;
-    private View.OnClickListener mCancelClickListener;
+    private CustomNormalDialogClickListener dlgClickListener;
     private String mContent;
     private String mTitle;
     private Context context;
@@ -22,12 +21,14 @@ public class CustomNormalDialog extends Dialog implements DialogInterface {
     TextView title, content;
     Button btnConfirm, btnCancel;
 
-    public CustomNormalDialog(@NonNull Context context, View.OnClickListener cancel, View.OnClickListener confirm) {
+    public CustomNormalDialog(@NonNull Context context, String title, String message, CustomNormalDialogClickListener dlgClickListener) {
         super(context);
 
         this.context = context;
-        this.mCancelClickListener = cancel;
-        this.mConfirmClickListener = confirm;
+        this.dlgClickListener = dlgClickListener;
+
+        this.mTitle = title;
+        this.mContent = message;
     }
 
     @Override
@@ -41,19 +42,23 @@ public class CustomNormalDialog extends Dialog implements DialogInterface {
         btnConfirm = (Button) findViewById(R.id.dlgBtnConfirm);
         btnCancel = (Button) findViewById(R.id.dlgBtnCancel);
 
-        setTitle(mTitle);
-        setMessage(mContent);
-        setClickListener(mCancelClickListener , mConfirmClickListener);
+        if (!this.mTitle.equals("")) {
+            title.setText(this.mTitle);
+            title.setVisibility(View.VISIBLE);
+        }
+        content.setText(mContent);
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dlgClickListener.onPositiveClick();
                 dismiss();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dlgClickListener.onNegativeClick();
                 dismiss();
             }
         });
@@ -68,13 +73,5 @@ public class CustomNormalDialog extends Dialog implements DialogInterface {
         }else {
 
         }
-    }
-
-    public void setTitle(String title){
-        this.mTitle = title;
-    }
-
-    public void setMessage(String content){
-        this.mContent = content;
     }
 }
