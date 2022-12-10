@@ -17,17 +17,34 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:foreground="?attr/selectableItemBackground"
-            android:alpha="0.6"/>
+            android:alpha="0.5"/>
+
         <TextView
             android:id="@+id/bannerTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:text="장소 이름"
-            android:textSize="28sp"
+            android:textColor="@color/colorFontEmphasis"
             android:textFontWeight="500"
-            android:textColor="@color/colorFontEmphasis"/>
+            android:textSize="28sp"
+            android:singleLine="true"/>
+        <TextView
+            android:id="@+id/bannerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bannerTitle"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:text="20.11.11"
+            android:textSize="20sp"
+            android:textFontWeight="500"
+            android:textColor="@color/colorFontNormal"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/bannerTag"
             android:layout_width="60dp"

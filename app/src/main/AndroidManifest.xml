@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.seoultech.triplanner">
+    package="com.seoultech.triplanner"
+    android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 저장 파일에 접근하기 위한 퍼미션 설정 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".LoginActivity"
@@ -30,9 +35,10 @@
         <activity android:name=".DatePlanner"/>
         <activity android:name=".PlacePlanner"/>
         <activity android:name=".PostMain"/>
+        <activity android:name=".PlanMain"/>
         <activity android:name=".RegionPlanner"/>
         <activity android:name=".SelectedPlanner"/>
-        <activity android:name=".FinishPlanner"/>
+        <!--activity android:name=".FinishPlanner"-->
     </application>
 
 </manifest>

@@ -2,10 +2,14 @@ package com.seoultech.triplanner;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextView txt_login;
 
+    boolean isUnameFilled, isEmailFilled, isPwFilled;
+
+    int colBlue, colFont;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         txt_login = (TextView) findViewById(R.id.txt_login);
 
+        colBlue = ContextCompat.getColor(getApplicationContext(), R.color.colorBrandBlue);
+        colFont = ContextCompat.getColor(getApplicationContext(), R.color.colorFontEmphasis);
+
         // 오늘 날짜를 입력받도록
         String strRegDate = new SimpleDateFormat("yyyy년 MM월 dd일").format(new Date());
 
@@ -61,8 +73,55 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        // editText 채워졌는지 확인
+        et_reg_Username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isUnameFilled = editable.length() > 0;
+                if(isUnameFilled && isEmailFilled && isPwFilled) {
+                    btn_register.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    btn_register.setEnabled(true);
+                    btn_register.setTextColor(colFont);
+                }
+            }
+        });
+        et_reg_PW.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isPwFilled = editable.length() > 5;
+                if(isUnameFilled && isEmailFilled && isPwFilled) {
+                    btn_register.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    btn_register.setEnabled(true);
+                    btn_register.setTextColor(colFont);
+                }
+            }
+        });
+        et_reg_Email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isEmailFilled = editable.length() > 0;
+                if(isUnameFilled && isEmailFilled && isPwFilled) {
+                    btn_register.setBackgroundTintList(ColorStateList.valueOf(colBlue));
+                    btn_register.setEnabled(true);
+                    btn_register.setTextColor(colFont);
+                }
+            }
+        });
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -79,8 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "비밀번호는 최소 6자리 이상으로 해주세요!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    btn_register.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#5B4FBB")));
-                    btn_register.setClickable(true);
+
                 }
 
                 // Firebase Auth 인증 처리 절차 진행
@@ -119,4 +177,21 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    // editText 눌렀을 때 밖에 다른곳 누르면 해제되고 키보드 내림
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

@@ -50,6 +50,7 @@ public class StorageFragmentMyPost extends Fragment {
         listMyPost = (ListView) view.findViewById(R.id.listMyPost);
         adapter = new bannerPostAdapter(getContext(), R.layout.place_selected_banner_item,
                 listWritePost, false);
+        adapter.useBtnDelete(true);
         listMyPost.setAdapter(adapter);
 
         // Database

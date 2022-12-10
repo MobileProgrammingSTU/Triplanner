@@ -19,6 +19,7 @@ public class PostItem {
     private HashMap<String, String> images;
     private String content;
     private String thumbNail;
+    private String planTime; // SelectPlanner 에서 설정할 시간
 
     public PostItem() {
         images = new HashMap<>();
@@ -73,5 +74,12 @@ public class PostItem {
     }
     public void setContent(String Content) {
         this.content = Content;
+    }
+
+    public String getPlanTime() {
+        return planTime;
+    }
+    public void setPlanTime(String planTime) {
+        this.planTime = planTime;
     }
 }

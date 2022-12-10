@@ -1,9 +1,11 @@
 package com.seoultech.triplanner.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.seoultech.triplanner.Model.PlanIntent;
 import com.seoultech.triplanner.Model.PlanItem;
+import com.seoultech.triplanner.PlanMain;
 import com.seoultech.triplanner.R;
 import com.seoultech.triplanner.bannerPlanAdapter;
 
@@ -41,6 +45,7 @@ public class StorageFragmentMyplan extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listPlan);
         adapter = new bannerPlanAdapter(getContext(), R.layout.place_selected_banner_item, listMyPlan, false);
+        adapter.useBtnDelete(true);
         listView.setAdapter(adapter);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Triplanner");
@@ -59,6 +64,17 @@ public class StorageFragmentMyplan extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                PlanItem clickedItem = (PlanItem) adapter.getItem(position);
+                Intent intent = new Intent(getContext(), PlanMain.class);
+                PlanIntent.intentPlanItem = clickedItem;
+
+                getContext().startActivity(intent);
             }
         });
 
