@@ -65,8 +65,13 @@ public class bannerPlanInfoAdapter extends BaseAdapter {
             if (i == 0) {
                 txtPlaces += itemPlacesByDay.get(i).getTitle();
                 String time = itemPlacesByDay.get(i).getPlanTime();
+                String[] times = time.split(" ");
                 txtHours += time.split(" ")[0];
-                txtMins += time.split(" ")[1];
+                if (times.length == 1) {
+                    txtMins += "00" + "분";
+                }
+                else
+                    txtMins += time.split(" ")[1];
             }
             else {
                 txtPlaces += "\n" + itemPlacesByDay.get(i).getTitle();
